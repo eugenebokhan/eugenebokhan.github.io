@@ -9,7 +9,7 @@
   <title>Introduction to Metal Compute: Part 4</title>
   <meta name='description' content='iOS Development, Metal'>
 
-  <link rel="canonical" href="https://eugenebokhan.github.io/introduction-to-metal-compute-part-four">
+  <link rel="canonical" href="https://eugenebokhan.io/introduction-to-metal-compute-part-four">
   <link rel="alternate" type="application/rss+xml" title="Eugene&#39;s Blog" href="/feed.xml">
 
   <!-- Fonts -->
@@ -36,7 +36,7 @@
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'G-RT3D9TFR93', 'auto');
+  ga('create', 'G-QDHS4MZ0CQ', 'auto');
   ga('send', 'pageview');
 </script>
   
@@ -93,6 +93,18 @@
                   <li class="nav__item">
                     <a href="/resume/" class="nav__link">Resume</a>
                   </li>
+                  
+                
+              
+                
+                  
+                
+              
+                
+                  
+                
+              
+                
                   
                 
               
@@ -174,6 +186,16 @@
 
             <div class="article__meta">
               <span class="article__date"><time datetime="2021-05-14T15:01:35+03:00">14 May 2021</time></span>
+              
+              <div class="article-tags__box">
+                
+                  <a href="/tag/iOS" class="article__tag">iOS</a>
+                
+                  <a href="/tag/Metal" class="article__tag">Metal</a>
+                
+                  <a href="/tag/Texture" class="article__tag">Texture</a>
+                
+              </div>
               
             </div>
 
@@ -551,7 +573,7 @@ Next, we allocate a chunk of memory where the pixels will be stored. It is align
 <p>Hooray! We’re finally done! From now on, if you have done everything correctly, you can compile and run the application 🎉.</p>
 
 <p style="text-align:center;">
-<img src="/images/introduction-to-metal-compute-part-four/final-app.gif" alt="demo app" width="800" />
+<img src="/images/introduction-to-metal-compute-part-four/final-app.gif" alt="demo app" width="900" />
 </p>
 
 <p>In these four parts, we learned a lot: how to write a kernel, how to make an encoder for it, how to dispatch the work to the GPU and how to convert textures to images and backwards, got familiar with gamma correction, the internals of how pixels are stored in memory and more. But the that’s not all yet. At this moment we are using <code class="language-plaintext highlighter-rouge">UIImage</code> to display the result. In the next part, we will replace it with rendering in <a href="https://developer.apple.com/documentation/quartzcore/cametallayer"><code class="language-plaintext highlighter-rouge">CAMetalLayer</code></a> and start using more Swift-friendly API to work with Metal.</p>
@@ -561,24 +583,24 @@ Next, we allocate a chunk of memory where the pixels will be stored. It is align
     <div class="post__share">
   <ul class="share__list list-reset">
     <li class="share__item">
-      <a class="share__link share__facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://eugenebokhan.github.io/introduction-to-metal-compute-part-four"
+      <a class="share__link share__facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://eugenebokhan.io/introduction-to-metal-compute-part-four"
         onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
         title="Share on Facebook" rel="nofollow"><i class="ion ion-logo-facebook"></i></a>
     </li>
 
     <li class="share__item">
-      <a class="share__link share__twitter" href="https://twitter.com/intent/tweet?text=Introduction%20to%20Metal%20Compute:%20Part%204&url=https://eugenebokhan.github.io/introduction-to-metal-compute-part-four"
+      <a class="share__link share__twitter" href="https://twitter.com/intent/tweet?text=Introduction%20to%20Metal%20Compute:%20Part%204&url=https://eugenebokhan.io/introduction-to-metal-compute-part-four"
         onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
         title="Share on Twitter" rel="nofollow"><i class="ion ion-logo-twitter"></i></a>
     </li>
 
     <li class="share__item">
-      <a class="share__link share__linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https://eugenebokhan.github.io/introduction-to-metal-compute-part-four&title=Introduction%20to%20Metal%20Compute:%20Part%204&summary=&source=Eugene's%20Blog"
+      <a class="share__link share__linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https://eugenebokhan.io/introduction-to-metal-compute-part-four&title=Introduction%20to%20Metal%20Compute:%20Part%204&summary=&source=Eugene's%20Blog"
       onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn" rel="nofollow"><i class="ion ion-logo-linkedin"></i></a>
     </li>
 
     <li class="share__item">
-      <a class="share__link share__pinterest" href="http://pinterest.com/pin/create/button/?url=https://eugenebokhan.github.io/introduction-to-metal-compute-part-four&amp;media=https://eugenebokhan.github.io/images/introduction-to-metal-compute-part-four/icon.png&amp;description=Introduction%20to%20Metal%20Compute:%20Part%204"
+      <a class="share__link share__pinterest" href="http://pinterest.com/pin/create/button/?url=https://eugenebokhan.io/introduction-to-metal-compute-part-four&amp;media=https://eugenebokhan.io/images/introduction-to-metal-compute-part-four/icon.png&amp;description=Introduction%20to%20Metal%20Compute:%20Part%204"
       onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=900,height=500,toolbar=1,resizable=0'); return false;" title="Share on Pinterest"
       rel="nofollow"><i class="ion ion-logo-pinterest"></i></a>
     </li>

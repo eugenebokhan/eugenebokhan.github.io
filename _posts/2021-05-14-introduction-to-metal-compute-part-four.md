@@ -3,7 +3,7 @@ layout: post
 title:  "Introduction to Metal Compute: Part 4"
 date:   2021-05-14 15:01:35 +0300
 image:  '/images/introduction-to-metal-compute-part-four/icon.png'
-tags:
+tags:   iOS Metal Texture
 ---
 
 In this section we will write image to texture conversion and the kernel dispatching code.
@@ -429,7 +429,7 @@ Hooray! We're finally done! From now on, if you have done everything correctly, 
 <img 
 src="{{site.baseurl}}/images/introduction-to-metal-compute-part-four/final-app.gif"
 alt="demo app" 
-width="800"
+width="900"
 />
 </p>
 

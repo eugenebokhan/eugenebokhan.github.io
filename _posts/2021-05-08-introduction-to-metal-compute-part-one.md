@@ -3,7 +3,7 @@ layout: post
 title:  "Introduction to Metal Compute: Part 1"
 date:   2021-05-08 15:01:35 +0300
 image:  '/images/introduction-to-metal-compute-part-one/icon.png'
-tags:
+tags:   iOS Metal
 ---
 
 For a couple of years I've been working as iOS software engineer with a focus on GPGPU using Metal.  It is an interesting sphere of iOS development which still lacks of spread. In a series of articles I'm going to describe how to build a simple image processing metal app.
@@ -66,7 +66,7 @@ In order to learn how to work with metal one needs practice. In this series of a
 <img 
 src="{{site.baseurl}}/images/introduction-to-metal-compute-part-one/demo-app.png"
 alt="demo app" 
-width="700"
+width="900"
 />
 </p>
 

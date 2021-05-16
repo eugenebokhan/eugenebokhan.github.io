@@ -6,10 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Introduction to Metal Compute: Part 3</title>
+  <title>Eugene's Blog</title>
   <meta name='description' content='iOS Development, Metal'>
 
-  <link rel="canonical" href="https://eugenebokhan.io/introduction-to-metal-compute-part-three">
+  <link rel="canonical" href="https://eugenebokhan.io/tag/ios">
   <link rel="alternate" type="application/rss+xml" title="Eugene&#39;s Blog" href="/feed.xml">
 
   <!-- Fonts -->
@@ -174,341 +174,162 @@
     <main class="content" aria-label="Content">
       <!-- begin wrapper-page -->
       <div class="wrapper-page">
-        <!-- begin hero -->
+        <div class="tag">
+  <span class="tag__meta">4 posts tagged</span>
+  <h1 class="tag__title">iOS</h1>
+</div>
 
-<section class="hero hero--post">
-  <div class="container">
-    <div class="row">
-      <div class="col col-12">
-        <div class="hero__inner">
-          <div class="hero__left">
-            
+<div class="container">
+  <div class="row">
+    <div class="col col-12">
+      <div class="contaniner__inner animate">
+        <div class="row">
+          
+            <div class="article col col-4 col-d-6 col-t-12">
+  <div class="article__inner">
+    
+      <div class="image-wrap">
+        <a class="article__image" href="/introduction-to-metal-compute-part-four">
+          <img class="lazy" data-src="/images/introduction-to-metal-compute-part-four/icon.png" alt="Introduction to Metal Compute: Part 4">
+        </a>
+      </div>
+    
+    <div class="article__content">
+      <h2 class="article__title">
+        <a href="/introduction-to-metal-compute-part-four">Introduction to Metal Compute: Part 4</a>
+      </h2>
+      <p class="article__excerpt">
+        In this section we will write image to texture conversion and the kernel dispatching code.
 
-            <div class="article__meta">
-              <span class="article__date"><time datetime="2021-05-10T15:01:35+03:00">10 May 2021</time></span>
-              
-              <div class="article-tags__box">
-                
-                  <a href="/tag/iOS" class="article__tag">iOS</a>
-                
-                  <a href="/tag/Metal" class="article__tag">Metal</a>
-                
-              </div>
-              
-            </div>
+MTLTexture, or There and Back ...
+      </p>
+      <div class="article__meta">
+        <a href="/about/" class="article__author-link">Eugene Bokhan</a>
+        <span class="article__date"><time datetime="2021-05-14T15:01:35+03:00">14 May 2021</time></span>
+        
+        <div class="article-tags__box">
+          
+            <a href="/tag/iOS" class="article__tag">iOS</a>
+          
+            <a href="/tag/Metal" class="article__tag">Metal</a>
+          
+            <a href="/tag/Texture" class="article__tag">Texture</a>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+          
+            <div class="article col col-4 col-d-6 col-t-12">
+  <div class="article__inner">
+    
+      <div class="image-wrap">
+        <a class="article__image" href="/introduction-to-metal-compute-part-three">
+          <img class="lazy" data-src="/images/introduction-to-metal-compute-part-three/icon.png" alt="Introduction to Metal Compute: Part 3">
+        </a>
+      </div>
+    
+    <div class="article__content">
+      <h2 class="article__title">
+        <a href="/introduction-to-metal-compute-part-three">Introduction to Metal Compute: Part 3</a>
+      </h2>
+      <p class="article__excerpt">
+        CPU Side: Encoder
 
-            <h1 class="hero__title">Introduction to Metal Compute: Part 3</h1>
-            <a href="/about/" class="article__author-link"><span>By</span> Eugene Bokhan</a>
+Now it’s time write the CPU side of the metal pipeline. First let’s take a quick brief on how GPU work ...
+      </p>
+      <div class="article__meta">
+        <a href="/about/" class="article__author-link">Eugene Bokhan</a>
+        <span class="article__date"><time datetime="2021-05-10T15:01:35+03:00">10 May 2021</time></span>
+        
+        <div class="article-tags__box">
+          
+            <a href="/tag/iOS" class="article__tag">iOS</a>
+          
+            <a href="/tag/Metal" class="article__tag">Metal</a>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+          
+            <div class="article col col-4 col-d-6 col-t-12">
+  <div class="article__inner">
+    
+      <div class="image-wrap">
+        <a class="article__image" href="/introduction-to-metal-compute-part-two">
+          <img class="lazy" data-src="/images/introduction-to-metal-compute-part-two/icon.png" alt="Introduction to Metal Compute: Part 2">
+        </a>
+      </div>
+    
+    <div class="article__content">
+      <h2 class="article__title">
+        <a href="/introduction-to-metal-compute-part-two">Introduction to Metal Compute: Part 2</a>
+      </h2>
+      <p class="article__excerpt">
+        Starter Project
 
-            
-          </div>
-
-          <div class="hero__right">
-
-            
-            <div class="hero__image">
-              <img class="lazy" data-src="/images/introduction-to-metal-compute-part-three/icon.png" alt="Introduction to Metal Compute: Part 3">
-            </div>
-
-            
-
-          </div>
+First, clone this repository. It contains two folders: starter and final project. Open XCode project in s...
+      </p>
+      <div class="article__meta">
+        <a href="/about/" class="article__author-link">Eugene Bokhan</a>
+        <span class="article__date"><time datetime="2021-05-09T15:01:35+03:00">09 May 2021</time></span>
+        
+        <div class="article-tags__box">
+          
+            <a href="/tag/iOS" class="article__tag">iOS</a>
+          
+            <a href="/tag/Metal" class="article__tag">Metal</a>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+          
+            <div class="article col col-4 col-d-6 col-t-12">
+  <div class="article__inner">
+    
+      <div class="image-wrap">
+        <a class="article__image" href="/introduction-to-metal-compute-part-one">
+          <img class="lazy" data-src="/images/introduction-to-metal-compute-part-one/icon.png" alt="Introduction to Metal Compute: Part 1">
+        </a>
+      </div>
+    
+    <div class="article__content">
+      <h2 class="article__title">
+        <a href="/introduction-to-metal-compute-part-one">Introduction to Metal Compute: Part 1</a>
+      </h2>
+      <p class="article__excerpt">
+        For a couple of years I’ve been working as iOS software engineer with a focus on GPGPU using Metal.  It is an interesting ...
+      </p>
+      <div class="article__meta">
+        <a href="/about/" class="article__author-link">Eugene Bokhan</a>
+        <span class="article__date"><time datetime="2021-05-08T15:01:35+03:00">08 May 2021</time></span>
+        
+        <div class="article-tags__box">
+          
+            <a href="/tag/iOS" class="article__tag">iOS</a>
+          
+            <a href="/tag/Metal" class="article__tag">Metal</a>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+          
         </div>
       </div>
     </div>
   </div>
-</section>
-<!-- end hero -->
-
-<!-- begin post -->
-<div class="container">
-  <article class="post animate">
-
-    <div class="post__content">
-      <h2 id="cpu-side-encoder">CPU Side: Encoder</h2>
-
-<p>Now it’s time write the CPU side of the metal pipeline. First let’s take a quick brief on how GPU work scheduling is organised.</p>
-
-<p>To get the GPU to perform work on your behalf, you need to send commands to it. There are three types of commands: <a href="https://developer.apple.com/documentation/metal/mtlrendercommandencoder"><code class="language-plaintext highlighter-rouge">render</code></a>, <a href="https://developer.apple.com/documentation/metal/mtlcomputecommandencoder"><code class="language-plaintext highlighter-rouge">compute</code></a> and <a href="https://developer.apple.com/documentation/metal/mtlblitcommandencoder"><code class="language-plaintext highlighter-rouge">blit</code></a>. Compute command is what we need to schedule our adjustments shader for execution.</p>
-
-<p>The objects that you operate while creating a command for a GPU are:</p>
-
-<ul>
-  <li><a href="https://developer.apple.com/documentation/metal/mtldevice"><code class="language-plaintext highlighter-rouge">device</code></a> - software interface to a GPU. Device is able to create command queues, shader libraries, pipeline states and allocate resources (heaps, buffers and textures). Created once by calling <a href="https://developer.apple.com/documentation/metal/1433401-mtlcreatesystemdefaultdevice"><code class="language-plaintext highlighter-rouge">MTLCreateSystemDefaultDevice()</code></a>.</li>
-  <li><a href="https://developer.apple.com/documentation/metal/mtllibrary"><code class="language-plaintext highlighter-rouge">library</code></a> - an object that contains compiled shaders. Created once by <code class="language-plaintext highlighter-rouge">device</code> by calling <a href="https://developer.apple.com/documentation/metal/mtldevice/1433380-makedefaultlibrary"><code class="language-plaintext highlighter-rouge">makeDefaultLibrary()</code></a>.</li>
-  <li><a href="https://developer.apple.com/documentation/metal/mtlfunction"><code class="language-plaintext highlighter-rouge">function</code></a> - an object that specifies which shader function a Metal pipeline calls when the GPU executes commands that specify that pipeline. Created once by <code class="language-plaintext highlighter-rouge">library</code> by calling <a href="https://developer.apple.com/documentation/metal/mtllibrary/1515524-makefunction"><code class="language-plaintext highlighter-rouge">makeFunction(name:)</code></a>.</li>
-  <li><a href="https://developer.apple.com/documentation/metal/mtlcomputepipelinestate"><code class="language-plaintext highlighter-rouge">pipeline state</code></a> - an object used to refer to a compiled function. Created once by <code class="language-plaintext highlighter-rouge">device</code> by calling <a href="https://developer.apple.com/documentation/metal/mtldevice/1433395-makecomputepipelinestate"><code class="language-plaintext highlighter-rouge">makeComputePipelineState(function:)</code></a>.</li>
-  <li><a href="https://developer.apple.com/documentation/metal/mtlcommandqueue"><code class="language-plaintext highlighter-rouge">command queue</code></a> - an object that queues an ordered list of command buffers for a device to execute. Created once by device by calling <a href="https://developer.apple.com/documentation/metal/mtldevice/1433388-makecommandqueue"><code class="language-plaintext highlighter-rouge">makeCommandQueue()</code></a>.</li>
-  <li><a href="https://developer.apple.com/documentation/metal/mtlcommandbuffer"><code class="language-plaintext highlighter-rouge">command buffer</code></a> - a lightweight container that stores encoded commands for the GPU to execute. Created by <code class="language-plaintext highlighter-rouge">command queue</code> on each command dispatch by calling <a href="https://developer.apple.com/documentation/metal/mtlcommandqueue/1508686-makecommandbuffer"><code class="language-plaintext highlighter-rouge">makeCommandBuffer()</code></a>.</li>
-  <li><a href="https://developer.apple.com/documentation/metal/mtlcommandencoder"><code class="language-plaintext highlighter-rouge">command encoder</code></a> - a lightweight object used to encode commands in command buffer. Created by <code class="language-plaintext highlighter-rouge">command buffer</code> on each command dispatch by calling <a href="https://developer.apple.com/documentation/metal/mtlcommandbuffer/1443044-makecomputecommandencoder"><code class="language-plaintext highlighter-rouge">makeComputeCommandEncoder()</code></a>.</li>
-</ul>
-
-<p>The hierarchy of creation of the objects is the depicted below:</p>
-
-<p style="text-align:center;">
-<img src="/images/introduction-to-metal-compute-part-three/metal-objects-hierarchy.png" alt="demo app" width="600" />
-</p>
-
-<p>Now let’s make an empty swift file <code class="language-plaintext highlighter-rouge">Adjustments.swift</code>.</p>
-
-<p style="text-align:center;">
-<img src="/images/introduction-to-metal-compute-part-three/new-adjustments-file.png" alt="demo app" width="800" />
-</p>
-
-<h3 id="adjustments">Adjustments</h3>
-
-<p>We are going to create an <code class="language-plaintext highlighter-rouge">Adjustments</code> class which will be responsible for encoding the work to GPU and passing all necessary data to it: temperature and tint in our case. Following Metal’s paradigm of precompilation of the instructions once and quick reuse them in runtime, <code class="language-plaintext highlighter-rouge">Adjustments</code> will store the pipeline state as its property.</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">import</span> <span class="kt">Metal</span>
-
-<span class="kd">final</span> <span class="kd">class</span> <span class="kt">Adjustments</span> <span class="p">{</span>
-
-<span class="p">}</span></code></pre></figure>
-
-<p>Create <code class="language-plaintext highlighter-rouge">temperature</code> and <code class="language-plaintext highlighter-rouge">tint</code> properties. These values will be modified by the UI and then sent to the kernel while encoding.</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">var</span> <span class="nv">temperature</span><span class="p">:</span> <span class="kt">Float</span> <span class="o">=</span> <span class="o">.</span><span class="n">zero</span>
-<span class="k">var</span> <span class="nv">tint</span><span class="p">:</span> <span class="kt">Float</span> <span class="o">=</span> <span class="o">.</span><span class="n">zero</span></code></pre></figure>
-
-<p>Create the dispatch flag and the pipeline state. These values need to be initialised once and stored to use them while encoding.</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">private</span> <span class="k">var</span> <span class="nv">deviceSupportsNonuniformThreadgroups</span><span class="p">:</span> <span class="kt">Bool</span>
-<span class="kd">private</span> <span class="k">let</span> <span class="nv">pipelineState</span><span class="p">:</span> <span class="kt">MTLComputePipelineState</span></code></pre></figure>
-
-<p>The constructor of <code class="language-plaintext highlighter-rouge">Adjustments</code> class takes a metal library as an argument. The library is used further to initialise a function for the pipeline state. As one library can contain multiple functions, it’s a good practice to initialise library once and then reuse it. So we’re going to create and store the library outside of the class.</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="nf">init</span><span class="p">(</span><span class="nv">library</span><span class="p">:</span> <span class="kt">MTLLibrary</span><span class="p">)</span> <span class="k">throws</span> <span class="p">{</span>
-
-<span class="p">}</span></code></pre></figure>
-
-<p>From this point we are going to fill the constructor following step by step instructions.</p>
-
-<h3 id="constructor">Constructor</h3>
-
-<p>Different iPhones have different hardware (including GPU) that supports the different set of features. In order to initialise <code class="language-plaintext highlighter-rouge">deviceSupportsNonuniformThreadgroups</code> property correctly we need to look find such feature in the <a href="https://developer.apple.com/metal/Metal-Feature-Set-Tables.pdf">Metal Feature Set Table</a> and find a corresponding feature set that describes the type of hardware that supports it.</p>
-
-<p style="text-align:center;">
-<img src="/images/introduction-to-metal-compute-part-three/feature-table.png" alt="demo app" width="800" />
-</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">self</span><span class="o">.</span><span class="n">deviceSupportsNonuniformThreadgroups</span> <span class="o">=</span> <span class="n">library</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="nf">supportsFeatureSet</span><span class="p">(</span><span class="o">.</span><span class="n">iOS_GPUFamily4_v1</span><span class="p">)</span></code></pre></figure>
-
-<p>Initialise function constants object and set the <code class="language-plaintext highlighter-rouge">deviceSupportsNonuniformThreadgroups</code> value to it. The index is set to 0, the same as it was declared in the shaders.</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">constantValues</span> <span class="o">=</span> <span class="kt">MTLFunctionConstantValues</span><span class="p">()</span>
-<span class="n">constantValues</span><span class="o">.</span><span class="nf">setConstantValue</span><span class="p">(</span><span class="o">&amp;</span><span class="k">self</span><span class="o">.</span><span class="n">deviceSupportsNonuniformThreadgroups</span><span class="p">,</span>
-                                <span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="n">bool</span><span class="p">,</span>
-                                <span class="nv">index</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span></code></pre></figure>
-
-<p>Create a function from a library with and previously initialised FC. The name of the function is the same as in the shaders.</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">function</span> <span class="o">=</span> <span class="k">try</span> <span class="n">library</span><span class="o">.</span><span class="nf">makeFunction</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"adjustments"</span><span class="p">,</span>
-                                        <span class="nv">constantValues</span><span class="p">:</span> <span class="n">constantValues</span><span class="p">)</span></code></pre></figure>
-
-<p>The final step is the pipeline state creation. At this point the shaders will be compiled into GPU instructions and the passed FC will be used to determine if boundary check will be among them.</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">self</span><span class="o">.</span><span class="n">pipelineState</span> <span class="o">=</span> <span class="k">try</span> <span class="n">library</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="nf">makeComputePipelineState</span><span class="p">(</span><span class="nv">function</span><span class="p">:</span> <span class="n">function</span><span class="p">)</span></code></pre></figure>
-
-<p>The result should look like this:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">import</span> <span class="kt">Metal</span>
-
-<span class="kd">final</span> <span class="kd">class</span> <span class="kt">Adjustments</span> <span class="p">{</span>
-
-    <span class="k">var</span> <span class="nv">temperature</span><span class="p">:</span> <span class="kt">Float</span> <span class="o">=</span> <span class="o">.</span><span class="n">zero</span>
-    <span class="k">var</span> <span class="nv">tint</span><span class="p">:</span> <span class="kt">Float</span> <span class="o">=</span> <span class="o">.</span><span class="n">zero</span>
-    <span class="kd">private</span> <span class="k">var</span> <span class="nv">deviceSupportsNonuniformThreadgroups</span><span class="p">:</span> <span class="kt">Bool</span>
-    <span class="kd">private</span> <span class="k">let</span> <span class="nv">pipelineState</span><span class="p">:</span> <span class="kt">MTLComputePipelineState</span>
-    
-    <span class="nf">init</span><span class="p">(</span><span class="nv">library</span><span class="p">:</span> <span class="kt">MTLLibrary</span><span class="p">)</span> <span class="k">throws</span> <span class="p">{</span>
-        <span class="k">self</span><span class="o">.</span><span class="n">deviceSupportsNonuniformThreadgroups</span> <span class="o">=</span> <span class="n">library</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="nf">supportsFeatureSet</span><span class="p">(</span><span class="o">.</span><span class="n">iOS_GPUFamily4_v1</span><span class="p">)</span>
-        <span class="k">let</span> <span class="nv">constantValues</span> <span class="o">=</span> <span class="kt">MTLFunctionConstantValues</span><span class="p">()</span>
-        <span class="n">constantValues</span><span class="o">.</span><span class="nf">setConstantValue</span><span class="p">(</span><span class="o">&amp;</span><span class="k">self</span><span class="o">.</span><span class="n">deviceSupportsNonuniformThreadgroups</span><span class="p">,</span>
-                                        <span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="n">bool</span><span class="p">,</span>
-                                        <span class="nv">index</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="k">let</span> <span class="nv">function</span> <span class="o">=</span> <span class="k">try</span> <span class="n">library</span><span class="o">.</span><span class="nf">makeFunction</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"adjustments"</span><span class="p">,</span>
-                                                <span class="nv">constantValues</span><span class="p">:</span> <span class="n">constantValues</span><span class="p">)</span>
-        <span class="k">self</span><span class="o">.</span><span class="n">pipelineState</span> <span class="o">=</span> <span class="k">try</span> <span class="n">library</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="nf">makeComputePipelineState</span><span class="p">(</span><span class="nv">function</span><span class="p">:</span> <span class="n">function</span><span class="p">)</span>
-    <span class="p">}</span>
-    
-<span class="p">}</span></code></pre></figure>
-
-<h3 id="encoding-function">Encoding Function</h3>
-
-<p>Next, we’re a going to write the encoding of the kernel. The main thing what we need here to do is use command buffer’s encoder to encode all necessary resources and instructions to GPU.</p>
-
-<p style="text-align:center;">
-<img src="/images/introduction-to-metal-compute-part-three/command-buffer.png" alt="demo app" width="500" />
-</p>
-
-<p>Below the class constructor, add the encoding function.</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">encode</span><span class="p">(</span><span class="nv">source</span><span class="p">:</span> <span class="kt">MTLTexture</span><span class="p">,</span>
-            <span class="nv">destination</span><span class="p">:</span> <span class="kt">MTLTexture</span><span class="p">,</span>
-            <span class="k">in</span> <span class="nv">commandBuffer</span><span class="p">:</span> <span class="kt">MTLCommandBuffer</span><span class="p">)</span> <span class="p">{</span>
-
-<span class="p">}</span></code></pre></figure>
-
-<p>Now let’s fill it. Create a <code class="language-plaintext highlighter-rouge">command encoder</code>. This lightweight object is used to encode everything to a <code class="language-plaintext highlighter-rouge">command buffer</code>.</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">guard</span> <span class="k">let</span> <span class="nv">encoder</span> <span class="o">=</span> <span class="n">commandBuffer</span><span class="o">.</span><span class="nf">makeComputeCommandEncoder</span><span class="p">()</span>
-<span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span></code></pre></figure>
-
-<p>Set <code class="language-plaintext highlighter-rouge">source</code> and <code class="language-plaintext highlighter-rouge">destination</code> textures at the same indices we used in the shaders.</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">encoder</span><span class="o">.</span><span class="nf">setTexture</span><span class="p">(</span><span class="n">source</span><span class="p">,</span>
-                   <span class="nv">index</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">encoder</span><span class="o">.</span><span class="nf">setTexture</span><span class="p">(</span><span class="n">destination</span><span class="p">,</span>
-                   <span class="nv">index</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span></code></pre></figure>
-
-<p>Set <code class="language-plaintext highlighter-rouge">tint</code> and <code class="language-plaintext highlighter-rouge">temperature</code> values. Given that the data that we send to GPU is just two float values, which is not much in size, we use recommended in such cases <a href="https://developer.apple.com/documentation/metal/mtlcomputecommandencoder/1443159-setbytes"><code class="language-plaintext highlighter-rouge">setBytes</code></a> function. If the data is large, we’d create an <a href="https://developer.apple.com/documentation/metal/mtlbuffer"><code class="language-plaintext highlighter-rouge">MTLBuffer</code></a> for it and used <a href="https://developer.apple.com/documentation/metal/mtlcomputecommandencoder/1443126-setbuffer"><code class="language-plaintext highlighter-rouge">setBuffer</code></a> instead. The indices are the same as in the kernel’s arguments.</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">encoder</span><span class="o">.</span><span class="nf">setBytes</span><span class="p">(</span><span class="o">&amp;</span><span class="k">self</span><span class="o">.</span><span class="n">temperature</span><span class="p">,</span>
-                 <span class="nv">length</span><span class="p">:</span> <span class="kt">MemoryLayout</span><span class="o">&lt;</span><span class="kt">Float</span><span class="o">&gt;.</span><span class="n">stride</span><span class="p">,</span>
-                 <span class="nv">index</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">encoder</span><span class="o">.</span><span class="nf">setBytes</span><span class="p">(</span><span class="o">&amp;</span><span class="k">self</span><span class="o">.</span><span class="n">tint</span><span class="p">,</span>
-                 <span class="nv">length</span><span class="p">:</span> <span class="kt">MemoryLayout</span><span class="o">&lt;</span><span class="kt">Float</span><span class="o">&gt;.</span><span class="n">stride</span><span class="p">,</span>
-                 <span class="nv">index</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span></code></pre></figure>
-
-<p>Calculate the size of grid and the threadgroups. The grid size should be the same as the texture’s so each thread could work on its own pixel. Speaking about the threadgroup size, we need it to be as much as possible in order to maximise the work parallelisation. The calculation of threadgroup size is based on two properties of pipeline state: <a href="https://developer.apple.com/documentation/metal/mtlcomputepipelinestate/1414927-maxtotalthreadsperthreadgroup"><code class="language-plaintext highlighter-rouge">maxTotalThreadsPerThreadgroup</code></a> and <a href="https://developer.apple.com/documentation/metal/mtlcomputepipelinestate/1414911-threadexecutionwidth"><code class="language-plaintext highlighter-rouge">threadExecutionWidth</code></a>. The first defines the maximum number of threads that can be in a single threadgroup and the second is equal to width of SIMD group and defines the number of threads to execute in parallel on the GPU.</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">gridSize</span> <span class="o">=</span> <span class="kt">MTLSize</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="n">source</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-                       <span class="nv">height</span><span class="p">:</span> <span class="n">source</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
-                       <span class="nv">depth</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
-<span class="k">let</span> <span class="nv">threadGroupWidth</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">pipelineState</span><span class="o">.</span><span class="n">threadExecutionWidth</span>
-<span class="k">let</span> <span class="nv">threadGroupHeight</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">pipelineState</span><span class="o">.</span><span class="n">maxTotalThreadsPerThreadgroup</span> <span class="o">/</span> <span class="n">threadGroupWidth</span>
-<span class="k">let</span> <span class="nv">threadGroupSize</span> <span class="o">=</span> <span class="kt">MTLSize</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="n">threadGroupWidth</span><span class="p">,</span>
-                              <span class="nv">height</span><span class="p">:</span> <span class="n">threadGroupHeight</span><span class="p">,</span>
-                              <span class="nv">depth</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span></code></pre></figure>
-
-<p>Set the pipeline state which contains precompiled instructions of our adjustments kernel.</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">encoder</span><span class="o">.</span><span class="nf">setComputePipelineState</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">pipelineState</span><span class="p">)</span></code></pre></figure>
-
-<p>If the device supports non-uniform threadgroups, we allow Metal to calculate the number of them and to generate smaller threadgroups along the edges of the grid. If the device doesn’t support this feature, we calculate the number of threadgroups by hand to overlap the size of the texture.</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">if</span> <span class="k">self</span><span class="o">.</span><span class="n">deviceSupportsNonuniformThreadgroups</span> <span class="p">{</span>
-    <span class="n">encoder</span><span class="o">.</span><span class="nf">dispatchThreads</span><span class="p">(</span><span class="n">gridSize</span><span class="p">,</span>
-                            <span class="nv">threadsPerThreadgroup</span><span class="p">:</span> <span class="n">threadGroupSize</span><span class="p">)</span>
-<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="nv">threadGroupCount</span> <span class="o">=</span> <span class="kt">MTLSize</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="p">(</span><span class="n">gridSize</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">threadGroupSize</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">threadGroupSize</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-                                   <span class="nv">height</span><span class="p">:</span> <span class="p">(</span><span class="n">gridSize</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="n">threadGroupSize</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">threadGroupSize</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
-                                   <span class="nv">depth</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">encoder</span><span class="o">.</span><span class="nf">dispatchThreadgroups</span><span class="p">(</span><span class="n">threadGroupCount</span><span class="p">,</span>
-                                 <span class="nv">threadsPerThreadgroup</span><span class="p">:</span> <span class="n">threadGroupSize</span><span class="p">)</span>
-<span class="p">}</span></code></pre></figure>
-
-<p>After all encoding is done, we call <a href="https://developer.apple.com/documentation/metal/mtlcommandencoder/1458038-endencoding"><code class="language-plaintext highlighter-rouge">endEncoding()</code></a>. Without calling of this function the command buffer won’t know that it is ready to dispatch the commands to GPU.</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">encoder</span><span class="o">.</span><span class="nf">endEncoding</span><span class="p">()</span></code></pre></figure>
-
-<p>Here’s the final encoding function:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">encode</span><span class="p">(</span><span class="nv">source</span><span class="p">:</span> <span class="kt">MTLTexture</span><span class="p">,</span>
-            <span class="nv">destination</span><span class="p">:</span> <span class="kt">MTLTexture</span><span class="p">,</span>
-            <span class="k">in</span> <span class="nv">commandBuffer</span><span class="p">:</span> <span class="kt">MTLCommandBuffer</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">guard</span> <span class="k">let</span> <span class="nv">encoder</span> <span class="o">=</span> <span class="n">commandBuffer</span><span class="o">.</span><span class="nf">makeComputeCommandEncoder</span><span class="p">()</span>
-    <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
-
-    <span class="n">encoder</span><span class="o">.</span><span class="nf">setTexture</span><span class="p">(</span><span class="n">source</span><span class="p">,</span>
-                       <span class="nv">index</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">encoder</span><span class="o">.</span><span class="nf">setTexture</span><span class="p">(</span><span class="n">destination</span><span class="p">,</span>
-                       <span class="nv">index</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
-
-    <span class="n">encoder</span><span class="o">.</span><span class="nf">setBytes</span><span class="p">(</span><span class="o">&amp;</span><span class="k">self</span><span class="o">.</span><span class="n">temperature</span><span class="p">,</span>
-                     <span class="nv">length</span><span class="p">:</span> <span class="kt">MemoryLayout</span><span class="o">&lt;</span><span class="kt">Float</span><span class="o">&gt;.</span><span class="n">stride</span><span class="p">,</span>
-                     <span class="nv">index</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">encoder</span><span class="o">.</span><span class="nf">setBytes</span><span class="p">(</span><span class="o">&amp;</span><span class="k">self</span><span class="o">.</span><span class="n">tint</span><span class="p">,</span>
-                     <span class="nv">length</span><span class="p">:</span> <span class="kt">MemoryLayout</span><span class="o">&lt;</span><span class="kt">Float</span><span class="o">&gt;.</span><span class="n">stride</span><span class="p">,</span>
-                     <span class="nv">index</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
-
-    <span class="k">let</span> <span class="nv">gridSize</span> <span class="o">=</span> <span class="kt">MTLSize</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="n">source</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-                           <span class="nv">height</span><span class="p">:</span> <span class="n">source</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
-                           <span class="nv">depth</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="k">let</span> <span class="nv">threadGroupWidth</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">pipelineState</span><span class="o">.</span><span class="n">threadExecutionWidth</span>
-    <span class="k">let</span> <span class="nv">threadGroupHeight</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">pipelineState</span><span class="o">.</span><span class="n">maxTotalThreadsPerThreadgroup</span> <span class="o">/</span> <span class="n">threadGroupWidth</span>
-    <span class="k">let</span> <span class="nv">threadGroupSize</span> <span class="o">=</span> <span class="kt">MTLSize</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="n">threadGroupWidth</span><span class="p">,</span>
-                                  <span class="nv">height</span><span class="p">:</span> <span class="n">threadGroupHeight</span><span class="p">,</span>
-                                  <span class="nv">depth</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
-
-    <span class="n">encoder</span><span class="o">.</span><span class="nf">setComputePipelineState</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">pipelineState</span><span class="p">)</span>
-    
-    <span class="k">if</span> <span class="k">self</span><span class="o">.</span><span class="n">deviceSupportsNonuniformThreadgroups</span> <span class="p">{</span>
-        <span class="n">encoder</span><span class="o">.</span><span class="nf">dispatchThreads</span><span class="p">(</span><span class="n">gridSize</span><span class="p">,</span>
-                                <span class="nv">threadsPerThreadgroup</span><span class="p">:</span> <span class="n">threadGroupSize</span><span class="p">)</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="k">let</span> <span class="nv">threadGroupCount</span> <span class="o">=</span> <span class="kt">MTLSize</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="p">(</span><span class="n">gridSize</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">threadGroupSize</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">threadGroupSize</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-                                       <span class="nv">height</span><span class="p">:</span> <span class="p">(</span><span class="n">gridSize</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="n">threadGroupSize</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">threadGroupSize</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
-                                       <span class="nv">depth</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">encoder</span><span class="o">.</span><span class="nf">dispatchThreadgroups</span><span class="p">(</span><span class="n">threadGroupCount</span><span class="p">,</span>
-                                     <span class="nv">threadsPerThreadgroup</span><span class="p">:</span> <span class="n">threadGroupSize</span><span class="p">)</span>
-    <span class="p">}</span>
-    
-    <span class="n">encoder</span><span class="o">.</span><span class="nf">endEncoding</span><span class="p">()</span>
-<span class="p">}</span></code></pre></figure>
-
-<p>Excellent! Now we have a compute kernel and the corresponding encoder for it. In the next part we are going to write <a href="https://developer.apple.com/documentation/uikit/uiimage"><code class="language-plaintext highlighter-rouge">UIImage</code></a> to <a href="https://developer.apple.com/documentation/metal/mtltexture"><code class="language-plaintext highlighter-rouge">MTLTexture</code></a> conversion to pass the textures to the encoder, create a command queue and dispatch the kernel 👍.</p>
-
-    </div>
-
-    <div class="post__share">
-  <ul class="share__list list-reset">
-    <li class="share__item">
-      <a class="share__link share__facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://eugenebokhan.io/introduction-to-metal-compute-part-three"
-        onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
-        title="Share on Facebook" rel="nofollow"><i class="ion ion-logo-facebook"></i></a>
-    </li>
-
-    <li class="share__item">
-      <a class="share__link share__twitter" href="https://twitter.com/intent/tweet?text=Introduction%20to%20Metal%20Compute:%20Part%203&url=https://eugenebokhan.io/introduction-to-metal-compute-part-three"
-        onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
-        title="Share on Twitter" rel="nofollow"><i class="ion ion-logo-twitter"></i></a>
-    </li>
-
-    <li class="share__item">
-      <a class="share__link share__linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https://eugenebokhan.io/introduction-to-metal-compute-part-three&title=Introduction%20to%20Metal%20Compute:%20Part%203&summary=&source=Eugene's%20Blog"
-      onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn" rel="nofollow"><i class="ion ion-logo-linkedin"></i></a>
-    </li>
-
-    <li class="share__item">
-      <a class="share__link share__pinterest" href="http://pinterest.com/pin/create/button/?url=https://eugenebokhan.io/introduction-to-metal-compute-part-three&amp;media=https://eugenebokhan.io/images/introduction-to-metal-compute-part-three/icon.png&amp;description=Introduction%20to%20Metal%20Compute:%20Part%203"
-      onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=900,height=500,toolbar=1,resizable=0'); return false;" title="Share on Pinterest"
-      rel="nofollow"><i class="ion ion-logo-pinterest"></i></a>
-    </li>
-  </ul>
 </div>
-
-    <div class="post__navigation">
-  
-  <a class="post__prev" href="/introduction-to-metal-compute-part-two">
-    <div class="prev__image">
-      <img class="lazy" data-src="/images/introduction-to-metal-compute-part-two/icon.png" alt="Introduction to Metal Compute: Part 3">
-    </div>
-    <div class="prev__box">
-      <span class="post__nav post__nav__prev">Older post</span>
-      <h2 class="post__nav__title">Introduction to Metal Compute: Part 2</h2>
-    </div>
-  </a>
-  
-
-  
-  <a class="post__next" href="/introduction-to-metal-compute-part-four">
-    <div class="next__box">
-      <span class="post__nav post__nav__next">Newer post</span>
-      <h2 class="post__nav__title">Introduction to Metal Compute: Part 4</h2>
-    </div>
-    <div class="next__image">
-      <img class="lazy" data-src="/images/introduction-to-metal-compute-part-four/icon.png" alt="Introduction to Metal Compute: Part 3">
-    </div>
-  </a>
-  
-</div>
-
-    
-
-  </article>
-</div>
-<!-- end post -->
       </div>
       <!-- end wrapper-page -->
     </main>

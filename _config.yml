@@ -4,7 +4,7 @@ title: Eugene's Blog
 logo: # You can add own logo. For example '/images/logo.png'.
 description: iOS Development, Metal
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://eugenebokhan.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://eugenebokhan.io" # the base hostname & protocol for your site, e.g. http://example.com
 blog-theme: light # By default, Atega theme uses a 'light' color scheme, to change the color scheme to dark use 'dark' value (_includes/color-scheme)
 
 
@@ -79,7 +79,7 @@ gallery:
 
 #-------------------------------
 # Google Analytics
-google-analytics: G-RT3D9TFR93 # Add your identifier. For example UA-99631805-1.
+google-analytics: G-QDHS4MZ0CQ # Add your identifier. For example UA-99631805-1.
 
 
 #-------------------------------

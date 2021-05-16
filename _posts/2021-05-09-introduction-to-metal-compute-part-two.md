@@ -3,7 +3,7 @@ layout: post
 title:  "Introduction to Metal Compute: Part 2"
 date:   2021-05-09 15:01:35 +0300
 image:  '/images/introduction-to-metal-compute-part-two/icon.png'
-tags:
+tags:   iOS Metal
 ---
 
 ## Starter Project
