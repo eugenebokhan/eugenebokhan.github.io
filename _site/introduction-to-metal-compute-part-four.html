@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Introduction to Metal Compute: Part 4</title>
+  <meta name='description' content='iOS Development, Metal'>
+
+  <link rel="canonical" href="https://eugenebokhan.github.io/introduction-to-metal-compute-part-four">
+  <link rel="alternate" type="application/rss+xml" title="Eugene&#39;s Blog" href="/feed.xml">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Ionicons -->
+  <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
+
+  <style>
+  
+  /*!------------------------------------------------------------------
+[MAIN STYLESHEET]
+-------------------------------------------------------------------*/.list-reset{list-style-type:none;margin:0;padding:0}.clearfix::after,.clearfix ::before{content:"";display:table;clear:both}.screen-reader-text{clip:rect(1px, 1px, 1px, 1px);height:1px;overflow:hidden;position:absolute !important;width:1px;word-wrap:normal !important}/*! normalize.css v8.0.0 | MIT License | github.com/necolas/normalize.css */html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}h1{font-size:2em;margin:0.67em 0}hr{box-sizing:content-box;height:0;overflow:visible}pre{font-family:monospace, monospace;font-size:1em}a{background-color:transparent}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:bolder}code,kbd,samp{font-family:monospace, monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-0.25em}sup{top:-0.5em}img{border-style:none}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;line-height:1.15;margin:0}button,input{overflow:visible}button,select{text-transform:none}button,[type="button"],[type="reset"],[type="submit"]{-webkit-appearance:button}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner{border-style:none;padding:0}button:-moz-focusring,[type="button"]:-moz-focusring,[type="reset"]:-moz-focusring,[type="submit"]:-moz-focusring{outline:1px dotted ButtonText}fieldset{padding:0.35em 0.75em 0.625em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}progress{vertical-align:baseline}textarea{overflow:auto}[type="checkbox"],[type="radio"]{box-sizing:border-box;padding:0}[type="number"]::-webkit-inner-spin-button,[type="number"]::-webkit-outer-spin-button{height:auto}[type="search"]{-webkit-appearance:textfield;outline-offset:-2px}[type="search"]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details{display:block}summary{display:list-item}template{display:none}[hidden]{display:none}body,h1,h2,h3,h4,h5,h6,p,blockquote,pre,dl,dd,ol,ul,fieldset,legend,figure,hr{margin:0;padding:0}li>ul,li>ol{margin-bottom:0}table{border-collapse:collapse;border-spacing:0}h1,h2,h3,h4,h5,h6,ul,ol,dl,blockquote,p,address,hr,table,fieldset,figure,pre{margin-bottom:30px}ul,ol,dd{margin-left:15px}ul li,ol li{margin-bottom:10px}.highlight{background:#f3f3f3;line-height:18px;border-radius:8px;padding:1px 3px}.highlighter-rouge .highlight{background:#eef}.highlight .c{color:slategray;font-style:italic}.highlight .err{color:#a61717;background-color:#e3d2d2}.highlight .k{color:#07a;font-weight:bold}.highlight .o{color:#9a6e3a;font-weight:bold}.highlight .cm{color:slategray;font-style:italic}.highlight .cp{color:slategray;font-weight:bold}.highlight .c1{color:slategray;font-style:italic}.highlight .cs{color:slategray;font-weight:bold;font-style:italic}.highlight .gd{color:#000;background-color:#fdd}.highlight .gd .x{color:#000;background-color:#faa}.highlight .ge{font-style:italic}.highlight .gr{color:#a00}.highlight .gh{color:#999}.highlight .gi{color:#000;background-color:#dfd}.highlight .gi .x{color:#000;background-color:#afa}.highlight .go{color:#888}.highlight .gp{color:#555}.highlight .gs{font-weight:bold}.highlight .gu{color:#aaa}.highlight .gt{color:#a00}.highlight .kc{color:#905;font-weight:bold}.highlight .kd{color:#DD4A68;font-weight:bold}.highlight .kp{color:#905;font-weight:bold}.highlight .kr{color:#905;font-weight:bold}.highlight .kt{color:#07a;font-weight:bold}.highlight .m{color:#905}.highlight .s{color:#d14}.highlight .na{color:#008080}.highlight .nb{color:#0086B3}.highlight .nc{color:#458;font-weight:bold}.highlight .no{color:#008080}.highlight .ni{color:#800080}.highlight .ne{color:#900;font-weight:bold}.highlight .nf{color:#DD4A68;font-weight:bold}.highlight .nn{color:#555}.highlight .nt{color:#000080}.highlight .nv{color:#37352f}.highlight .ow{font-weight:bold}.highlight .w{color:#bbb}.highlight .mf{color:#905}.highlight .mh{color:#905}.highlight .mi{color:#905}.highlight .mo{color:#905}.highlight .sb{color:#d14}.highlight .sc{color:#d14}.highlight .sd{color:#d14}.highlight .s2{color:#d14}.highlight .se{color:#d14}.highlight .sh{color:#d14}.highlight .si{color:#d14}.highlight .sx{color:#d14}.highlight .sr{color:#009926}.highlight .s1{color:#d14}.highlight .ss{color:#990073}.highlight .bp{color:#999}.highlight .vc{color:#008080}.highlight .vg{color:#008080}.highlight .vi{color:#008080}.highlight .il{color:#099}.container{max-width:1270px;padding-left:15px;padding-right:15px;margin:0 auto}@media only screen and (max-width: 1300px){.container{max-width:1100px}}@media only screen and (max-width: 1130px){.container{max-width:1000px}}@media only screen and (max-width: 1024px){.container{max-width:740px}}@media only screen and (max-width: 768px){.container{max-width:540px}}@media only screen and (max-width: 576px){.container{max-width:380px}}.row{display:flex;flex-wrap:wrap;flex:0 1 auto;flex-direction:row;box-sizing:border-box;margin-left:-15px;margin-right:-15px}.col{padding-left:15px;padding-right:15px}[class^="col-"]{flex:auto}.col-0{width:0%}.col-1{width:8.3333333333%}.col-2{width:16.6666666667%}.col-3{width:25%}.col-4{width:33.3333333333%}.col-5{width:41.6666666667%}.col-6{width:50%}.col-7{width:58.3333333333%}.col-8{width:66.6666666667%}.col-9{width:75%}.col-10{width:83.3333333333%}.col-11{width:91.6666666667%}.col-12{width:100%}.push-0{margin-left:0%}.push-1{margin-left:8.3333333333%}.push-2{margin-left:16.6666666667%}.push-3{margin-left:25%}.push-4{margin-left:33.3333333333%}.push-5{margin-left:41.6666666667%}.push-6{margin-left:50%}.push-7{margin-left:58.3333333333%}.push-8{margin-left:66.6666666667%}.push-9{margin-left:75%}.push-10{margin-left:83.3333333333%}.push-11{margin-left:91.6666666667%}.push-12{margin-left:100%}.pull-0{margin-right:0%}.pull-1{margin-right:8.3333333333%}.pull-2{margin-right:16.6666666667%}.pull-3{margin-right:25%}.pull-4{margin-right:33.3333333333%}.pull-5{margin-right:41.6666666667%}.pull-6{margin-right:50%}.pull-7{margin-right:58.3333333333%}.pull-8{margin-right:66.6666666667%}.pull-9{margin-right:75%}.pull-10{margin-right:83.3333333333%}.pull-11{margin-right:91.6666666667%}.pull-12{margin-right:100%}@media (max-width: 1024px){.col-d-0{width:0%}.col-d-1{width:8.3333333333%}.col-d-2{width:16.6666666667%}.col-d-3{width:25%}.col-d-4{width:33.3333333333%}.col-d-5{width:41.6666666667%}.col-d-6{width:50%}.col-d-7{width:58.3333333333%}.col-d-8{width:66.6666666667%}.col-d-9{width:75%}.col-d-10{width:83.3333333333%}.col-d-11{width:91.6666666667%}.col-d-12{width:100%}.push-d-0{margin-left:0%}.push-d-1{margin-left:8.3333333333%}.push-d-2{margin-left:16.6666666667%}.push-d-3{margin-left:25%}.push-d-4{margin-left:33.3333333333%}.push-d-5{margin-left:41.6666666667%}.push-d-6{margin-left:50%}.push-d-7{margin-left:58.3333333333%}.push-d-8{margin-left:66.6666666667%}.push-d-9{margin-left:75%}.push-d-10{margin-left:83.3333333333%}.push-d-11{margin-left:91.6666666667%}.push-d-12{margin-left:100%}.pull-d-0{margin-right:0%}.pull-d-1{margin-right:8.3333333333%}.pull-d-2{margin-right:16.6666666667%}.pull-d-3{margin-right:25%}.pull-d-4{margin-right:33.3333333333%}.pull-d-5{margin-right:41.6666666667%}.pull-d-6{margin-right:50%}.pull-d-7{margin-right:58.3333333333%}.pull-d-8{margin-right:66.6666666667%}.pull-d-9{margin-right:75%}.pull-d-10{margin-right:83.3333333333%}.pull-d-11{margin-right:91.6666666667%}.pull-d-12{margin-right:100%}}@media (max-width: 768px){.col-t-0{width:0%}.col-t-1{width:8.3333333333%}.col-t-2{width:16.6666666667%}.col-t-3{width:25%}.col-t-4{width:33.3333333333%}.col-t-5{width:41.6666666667%}.col-t-6{width:50%}.col-t-7{width:58.3333333333%}.col-t-8{width:66.6666666667%}.col-t-9{width:75%}.col-t-10{width:83.3333333333%}.col-t-11{width:91.6666666667%}.col-t-12{width:100%}.push-t-0{margin-left:0%}.push-t-1{margin-left:8.3333333333%}.push-t-2{margin-left:16.6666666667%}.push-t-3{margin-left:25%}.push-t-4{margin-left:33.3333333333%}.push-t-5{margin-left:41.6666666667%}.push-t-6{margin-left:50%}.push-t-7{margin-left:58.3333333333%}.push-t-8{margin-left:66.6666666667%}.push-t-9{margin-left:75%}.push-t-10{margin-left:83.3333333333%}.push-t-11{margin-left:91.6666666667%}.push-t-12{margin-left:100%}.pull-t-0{margin-right:0%}.pull-t-1{margin-right:8.3333333333%}.pull-t-2{margin-right:16.6666666667%}.pull-t-3{margin-right:25%}.pull-t-4{margin-right:33.3333333333%}.pull-t-5{margin-right:41.6666666667%}.pull-t-6{margin-right:50%}.pull-t-7{margin-right:58.3333333333%}.pull-t-8{margin-right:66.6666666667%}.pull-t-9{margin-right:75%}.pull-t-10{margin-right:83.3333333333%}.pull-t-11{margin-right:91.6666666667%}.pull-t-12{margin-right:100%}}@media (max-width: 576px){.col-m-0{width:0%}.col-m-1{width:8.3333333333%}.col-m-2{width:16.6666666667%}.col-m-3{width:25%}.col-m-4{width:33.3333333333%}.col-m-5{width:41.6666666667%}.col-m-6{width:50%}.col-m-7{width:58.3333333333%}.col-m-8{width:66.6666666667%}.col-m-9{width:75%}.col-m-10{width:83.3333333333%}.col-m-11{width:91.6666666667%}.col-m-12{width:100%}.push-m-0{margin-left:0%}.push-m-1{margin-left:8.3333333333%}.push-m-2{margin-left:16.6666666667%}.push-m-3{margin-left:25%}.push-m-4{margin-left:33.3333333333%}.push-m-5{margin-left:41.6666666667%}.push-m-6{margin-left:50%}.push-m-7{margin-left:58.3333333333%}.push-m-8{margin-left:66.6666666667%}.push-m-9{margin-left:75%}.push-m-10{margin-left:83.3333333333%}.push-m-11{margin-left:91.6666666667%}.push-m-12{margin-left:100%}.pull-m-0{margin-right:0%}.pull-m-1{margin-right:8.3333333333%}.pull-m-2{margin-right:16.6666666667%}.pull-m-3{margin-right:25%}.pull-m-4{margin-right:33.3333333333%}.pull-m-5{margin-right:41.6666666667%}.pull-m-6{margin-right:50%}.pull-m-7{margin-right:58.3333333333%}.pull-m-8{margin-right:66.6666666667%}.pull-m-9{margin-right:75%}.pull-m-10{margin-right:83.3333333333%}.pull-m-11{margin-right:91.6666666667%}.pull-m-12{margin-right:100%}}@media (max-width: 1024px){.col-d-0{width:0%}.col-d-1{width:8.3333333333%}.col-d-2{width:16.6666666667%}.col-d-3{width:25%}.col-d-4{width:33.3333333333%}.col-d-5{width:41.6666666667%}.col-d-6{width:50%}.col-d-7{width:58.3333333333%}.col-d-8{width:66.6666666667%}.col-d-9{width:75%}.col-d-10{width:83.3333333333%}.col-d-11{width:91.6666666667%}.col-d-12{width:100%}.push-d-0{margin-left:0%}.push-d-1{margin-left:8.3333333333%}.push-d-2{margin-left:16.6666666667%}.push-d-3{margin-left:25%}.push-d-4{margin-left:33.3333333333%}.push-d-5{margin-left:41.6666666667%}.push-d-6{margin-left:50%}.push-d-7{margin-left:58.3333333333%}.push-d-8{margin-left:66.6666666667%}.push-d-9{margin-left:75%}.push-d-10{margin-left:83.3333333333%}.push-d-11{margin-left:91.6666666667%}.push-d-12{margin-left:100%}.pull-d-0{margin-right:0%}.pull-d-1{margin-right:8.3333333333%}.pull-d-2{margin-right:16.6666666667%}.pull-d-3{margin-right:25%}.pull-d-4{margin-right:33.3333333333%}.pull-d-5{margin-right:41.6666666667%}.pull-d-6{margin-right:50%}.pull-d-7{margin-right:58.3333333333%}.pull-d-8{margin-right:66.6666666667%}.pull-d-9{margin-right:75%}.pull-d-10{margin-right:83.3333333333%}.pull-d-11{margin-right:91.6666666667%}.pull-d-12{margin-right:100%}}@media (max-width: 768px){.col-t-0{width:0%}.col-t-1{width:8.3333333333%}.col-t-2{width:16.6666666667%}.col-t-3{width:25%}.col-t-4{width:33.3333333333%}.col-t-5{width:41.6666666667%}.col-t-6{width:50%}.col-t-7{width:58.3333333333%}.col-t-8{width:66.6666666667%}.col-t-9{width:75%}.col-t-10{width:83.3333333333%}.col-t-11{width:91.6666666667%}.col-t-12{width:100%}.push-t-0{margin-left:0%}.push-t-1{margin-left:8.3333333333%}.push-t-2{margin-left:16.6666666667%}.push-t-3{margin-left:25%}.push-t-4{margin-left:33.3333333333%}.push-t-5{margin-left:41.6666666667%}.push-t-6{margin-left:50%}.push-t-7{margin-left:58.3333333333%}.push-t-8{margin-left:66.6666666667%}.push-t-9{margin-left:75%}.push-t-10{margin-left:83.3333333333%}.push-t-11{margin-left:91.6666666667%}.push-t-12{margin-left:100%}.pull-t-0{margin-right:0%}.pull-t-1{margin-right:8.3333333333%}.pull-t-2{margin-right:16.6666666667%}.pull-t-3{margin-right:25%}.pull-t-4{margin-right:33.3333333333%}.pull-t-5{margin-right:41.6666666667%}.pull-t-6{margin-right:50%}.pull-t-7{margin-right:58.3333333333%}.pull-t-8{margin-right:66.6666666667%}.pull-t-9{margin-right:75%}.pull-t-10{margin-right:83.3333333333%}.pull-t-11{margin-right:91.6666666667%}.pull-t-12{margin-right:100%}}@media (max-width: 576px){.col-m-0{width:0%}.col-m-1{width:8.3333333333%}.col-m-2{width:16.6666666667%}.col-m-3{width:25%}.col-m-4{width:33.3333333333%}.col-m-5{width:41.6666666667%}.col-m-6{width:50%}.col-m-7{width:58.3333333333%}.col-m-8{width:66.6666666667%}.col-m-9{width:75%}.col-m-10{width:83.3333333333%}.col-m-11{width:91.6666666667%}.col-m-12{width:100%}.push-m-0{margin-left:0%}.push-m-1{margin-left:8.3333333333%}.push-m-2{margin-left:16.6666666667%}.push-m-3{margin-left:25%}.push-m-4{margin-left:33.3333333333%}.push-m-5{margin-left:41.6666666667%}.push-m-6{margin-left:50%}.push-m-7{margin-left:58.3333333333%}.push-m-8{margin-left:66.6666666667%}.push-m-9{margin-left:75%}.push-m-10{margin-left:83.3333333333%}.push-m-11{margin-left:91.6666666667%}.push-m-12{margin-left:100%}.pull-m-0{margin-right:0%}.pull-m-1{margin-right:8.3333333333%}.pull-m-2{margin-right:16.6666666667%}.pull-m-3{margin-right:25%}.pull-m-4{margin-right:33.3333333333%}.pull-m-5{margin-right:41.6666666667%}.pull-m-6{margin-right:50%}.pull-m-7{margin-right:58.3333333333%}.pull-m-8{margin-right:66.6666666667%}.pull-m-9{margin-right:75%}.pull-m-10{margin-right:83.3333333333%}.pull-m-11{margin-right:91.6666666667%}.pull-m-12{margin-right:100%}}@media (max-width: 1024px){.col-d-0{width:0%}.col-d-1{width:8.3333333333%}.col-d-2{width:16.6666666667%}.col-d-3{width:25%}.col-d-4{width:33.3333333333%}.col-d-5{width:41.6666666667%}.col-d-6{width:50%}.col-d-7{width:58.3333333333%}.col-d-8{width:66.6666666667%}.col-d-9{width:75%}.col-d-10{width:83.3333333333%}.col-d-11{width:91.6666666667%}.col-d-12{width:100%}.push-d-0{margin-left:0%}.push-d-1{margin-left:8.3333333333%}.push-d-2{margin-left:16.6666666667%}.push-d-3{margin-left:25%}.push-d-4{margin-left:33.3333333333%}.push-d-5{margin-left:41.6666666667%}.push-d-6{margin-left:50%}.push-d-7{margin-left:58.3333333333%}.push-d-8{margin-left:66.6666666667%}.push-d-9{margin-left:75%}.push-d-10{margin-left:83.3333333333%}.push-d-11{margin-left:91.6666666667%}.push-d-12{margin-left:100%}.pull-d-0{margin-right:0%}.pull-d-1{margin-right:8.3333333333%}.pull-d-2{margin-right:16.6666666667%}.pull-d-3{margin-right:25%}.pull-d-4{margin-right:33.3333333333%}.pull-d-5{margin-right:41.6666666667%}.pull-d-6{margin-right:50%}.pull-d-7{margin-right:58.3333333333%}.pull-d-8{margin-right:66.6666666667%}.pull-d-9{margin-right:75%}.pull-d-10{margin-right:83.3333333333%}.pull-d-11{margin-right:91.6666666667%}.pull-d-12{margin-right:100%}}@media (max-width: 768px){.col-t-0{width:0%}.col-t-1{width:8.3333333333%}.col-t-2{width:16.6666666667%}.col-t-3{width:25%}.col-t-4{width:33.3333333333%}.col-t-5{width:41.6666666667%}.col-t-6{width:50%}.col-t-7{width:58.3333333333%}.col-t-8{width:66.6666666667%}.col-t-9{width:75%}.col-t-10{width:83.3333333333%}.col-t-11{width:91.6666666667%}.col-t-12{width:100%}.push-t-0{margin-left:0%}.push-t-1{margin-left:8.3333333333%}.push-t-2{margin-left:16.6666666667%}.push-t-3{margin-left:25%}.push-t-4{margin-left:33.3333333333%}.push-t-5{margin-left:41.6666666667%}.push-t-6{margin-left:50%}.push-t-7{margin-left:58.3333333333%}.push-t-8{margin-left:66.6666666667%}.push-t-9{margin-left:75%}.push-t-10{margin-left:83.3333333333%}.push-t-11{margin-left:91.6666666667%}.push-t-12{margin-left:100%}.pull-t-0{margin-right:0%}.pull-t-1{margin-right:8.3333333333%}.pull-t-2{margin-right:16.6666666667%}.pull-t-3{margin-right:25%}.pull-t-4{margin-right:33.3333333333%}.pull-t-5{margin-right:41.6666666667%}.pull-t-6{margin-right:50%}.pull-t-7{margin-right:58.3333333333%}.pull-t-8{margin-right:66.6666666667%}.pull-t-9{margin-right:75%}.pull-t-10{margin-right:83.3333333333%}.pull-t-11{margin-right:91.6666666667%}.pull-t-12{margin-right:100%}}@media (max-width: 576px){.col-m-0{width:0%}.col-m-1{width:8.3333333333%}.col-m-2{width:16.6666666667%}.col-m-3{width:25%}.col-m-4{width:33.3333333333%}.col-m-5{width:41.6666666667%}.col-m-6{width:50%}.col-m-7{width:58.3333333333%}.col-m-8{width:66.6666666667%}.col-m-9{width:75%}.col-m-10{width:83.3333333333%}.col-m-11{width:91.6666666667%}.col-m-12{width:100%}.push-m-0{margin-left:0%}.push-m-1{margin-left:8.3333333333%}.push-m-2{margin-left:16.6666666667%}.push-m-3{margin-left:25%}.push-m-4{margin-left:33.3333333333%}.push-m-5{margin-left:41.6666666667%}.push-m-6{margin-left:50%}.push-m-7{margin-left:58.3333333333%}.push-m-8{margin-left:66.6666666667%}.push-m-9{margin-left:75%}.push-m-10{margin-left:83.3333333333%}.push-m-11{margin-left:91.6666666667%}.push-m-12{margin-left:100%}.pull-m-0{margin-right:0%}.pull-m-1{margin-right:8.3333333333%}.pull-m-2{margin-right:16.6666666667%}.pull-m-3{margin-right:25%}.pull-m-4{margin-right:33.3333333333%}.pull-m-5{margin-right:41.6666666667%}.pull-m-6{margin-right:50%}.pull-m-7{margin-right:58.3333333333%}.pull-m-8{margin-right:66.6666666667%}.pull-m-9{margin-right:75%}.pull-m-10{margin-right:83.3333333333%}.pull-m-11{margin-right:91.6666666667%}.pull-m-12{margin-right:100%}}img[data-action="zoom"]{cursor:pointer;cursor:-webkit-zoom-in;cursor:-moz-zoom-in}.zoom-img,.zoom-img-wrap{position:relative;z-index:666;-webkit-transition:all 300ms;-o-transition:all 300ms;transition:all 300ms}img.zoom-img{cursor:pointer;cursor:-webkit-zoom-out;cursor:-moz-zoom-out}.zoom-overlay{z-index:420;background:#fff;position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;opacity:0;-webkit-transition:opacity 300ms;-o-transition:opacity 300ms;transition:opacity 300ms}.zoom-overlay-open .zoom-overlay{opacity:1}.zoom-overlay-open,.zoom-overlay-transitioning{cursor:default}.animate{animation:animateElement cubic-bezier(0.3, 0.45, 0.45, 0.95) 0.75s;animation-duration:0.5s;animation-iteration-count:1;transition:transform .15s}@keyframes animateElement{0%{opacity:0;transform:translate(0px, 50px)}100%{opacity:1;transform:translate(0px, 0px)}}*,*::after,*::before{box-sizing:border-box}body{font-family:"Inter",Helvetica Neue,Helvetica,Arial,sans-serif;font-size:18px;line-height:34px;border:10px solid #f9f9fc;color:#17181e;background-color:#f9f9fc;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}body.dark .footer__head{background:#f9f9fc}@media only screen and (max-width: 768px){body.dark .footer__head{padding:40px}}@media only screen and (max-width: 576px){body.dark .footer__head{padding:30px}}body.dark .subscribe-form .subscribe-email{background:#fff}@media only screen and (max-width: 576px){body{font-size:16px;line-height:29px;border-width:5px}}*::selection{color:#fff;background-color:rgba(0,112,255,0.8)}h1,h2,h3,h4,h5,h6{font-family:"Inter",Helvetica Neue,Helvetica,Arial,sans-serif;font-weight:700;line-height:1.3;letter-spacing:-1px}h1{font-size:36px}h2{font-size:28px}h3{font-size:24px}h4{font-size:20px}h5{font-size:18px}h6{font-size:16px}blockquote{position:relative;margin-top:30px;padding:25px 25px 15px 60px;font-size:30px;line-height:45px;font-weight:600;font-style:normal}blockquote::before{content:'\201C';position:absolute;top:0.35em;left:0.05em;font-size:3.5em;color:#0070ff}blockquote p{margin-bottom:10px}blockquote cite{display:inline-block;margin-top:7px;font-size:15px;font-style:normal;color:#657388}blockquote cite:before{content:'\2014' '\00a0'}@media only screen and (max-width: 1024px){blockquote{font-size:24px;line-height:37px}}@media only screen and (max-width: 576px){blockquote{padding:38px 0 15px 35px;font-size:21px;line-height:31px}}pre{overflow:auto;padding:15px;margin-bottom:0;font-size:14px;word-break:normal !important;word-wrap:normal !important;white-space:pre !important}img,.zoom-img-wrap{max-width:100%;height:auto;vertical-align:middle}img+em,.zoom-img-wrap+em{display:block;margin-top:15px;font-size:14px;line-height:22px;font-style:normal;font-weight:normal;text-align:center;color:#17181e}img+em a,.zoom-img-wrap+em a{border-bottom:1px solid #17181e}img+em a:hover,.zoom-img-wrap+em a:hover{color:#17181e;border-color:#0070ff}a{text-decoration:none;color:#17181e;transition:all 0.35s}a:hover{color:#17181e}hr{display:block;height:1px;width:100px;margin:50px 0;border:0;background:#ededf3}pre code{font-family:SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace}:not(pre)>code{font-family:"SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;line-height:normal;background:rgba(135,131,120,0.15);color:#EB5757;border-radius:3px;font-size:90%;padding:0.2em 0.4em}.wrapper-page{margin-bottom:70px}@media only screen and (max-width: 768px){.wrapper-page{margin-bottom:60px}}@media only screen and (max-width: 576px){.wrapper-page{margin-bottom:40px}}.button{display:inline-block;height:45px;padding:0 20px;font-size:15px;font-weight:700;border:none;outline:none;color:#fff;background:#0070ff;transition:all 0.35s;cursor:pointer}.button:hover{color:#fff;background:#0065e6}.lazy{opacity:0;transition:0.3s}.lazy.loaded{opacity:1}.top{position:fixed;bottom:40px;right:-100px;z-index:1;width:28px;height:40px;font-size:28px;line-height:40px;text-align:center;border-radius:6px;background-color:#fff;color:#17181e;cursor:pointer;transition:all .25s ease;box-shadow:0px 0px 20px rgba(0,0,0,0.05)}.top:hover{color:#fff;background-color:#0070ff}.top.is-active{right:40px}@media only screen and (max-width: 768px){.top{bottom:25px}.top.is-active{right:30px}}.header{height:auto;border-bottom:1px solid #ededf3;background:#fff;transition:all 0.35s}.header .header__overlay{position:fixed;top:0;right:0;bottom:0;left:0;z-index:15;background-color:rgba(17,17,17,0.7);cursor:pointer;opacity:0;visibility:hidden;transition:all 0.5s ease}@media only screen and (max-width: 1024px){.header .header__overlay.is-visible{opacity:1;visibility:visible}}.header__inner{position:relative;display:flex;align-items:center;min-height:80px}.logo__link{font-size:20px;line-height:26px;font-weight:700}.logo__link:hover{color:#0070ff}.logo__image{max-height:50px}.main-nav{margin-left:80px}@media only screen and (max-width: 1024px){.main-nav{position:fixed;top:0;left:inherit;right:-300px;bottom:0;transform:none;z-index:100;width:300px;height:100vh;padding:40px 30px 30px;border:10px solid #f9f9fc;transition:right 0.5s cubic-bezier(0.7, 0.4, 0, 1);background:#fff}.main-nav.is-open{right:0}.main-nav .nav__list{width:100%}.main-nav .nav__list .nav__item{display:block;margin:0 10px}.main-nav .nav__list .nav__item:last-child{margin-right:10px}.main-nav .nav__list .nav__item .nav__link{display:block;padding:10px 0;font-size:16px;line-height:26px;font-weight:500}}@media only screen and (max-width: 576px){.main-nav{padding:20px 30px;border-width:5px}}.main-nav__box{display:flex;align-items:center}.main-nav__box .nav__icon-close{display:none;font-size:24px;text-align:right}.main-nav__box .nav__icon-close .ion-md-close{transition:all 0.35s;cursor:pointer}.main-nav__box .nav__icon-close .ion-md-close:hover{color:#0070ff}.main-nav__box .nav__title{display:none}@media only screen and (max-width: 1024px){.main-nav__box{display:block}.main-nav__box .nav__icon-close{display:block}.main-nav__box .nav__title{display:block;margin:0 10px 15px;padding-bottom:15px;font-size:24px;font-weight:700;color:#17181e;border-bottom:1px solid #ededf3}}.nav__list .nav__item{display:inline-block;margin:0 20px}.nav__list .nav__item:last-child{margin-right:40px}.nav__list .nav__item .nav__link{font-size:15px;line-height:24px;font-weight:500}.nav__list .nav__item .nav__link:hover{color:#0070ff}.nav-buttons{display:flex;align-items:center;margin-left:auto;font-size:21px;color:#17181e;cursor:pointer}.nav-buttons .nav__icon{transition:all 0.35s}.nav-buttons .nav__icon:hover{color:#0070ff}.nav-buttons .nav__icon:first-child{margin-right:15px}.nav-buttons .nav__icon-menu{display:none}@media only screen and (max-width: 1024px){.nav-buttons{margin-left:auto}.nav-buttons .nav__icon-menu{display:block}}.search{position:fixed;top:0;left:0;right:0;bottom:0;z-index:-1;transform:scale(0.95);overflow:auto;opacity:0;background:#f9f9fc;transition:all .25s ease}.search.is-visible{transform:scale(1);z-index:100;opacity:1;transition:all .25s ease}.search__box{width:50%;margin:0 auto;padding-top:140px}@media only screen and (max-width: 1024px){.search__box{width:80%;padding-top:100px}}.search__group{position:relative;margin-bottom:50px}.search__group .search__close{position:absolute;right:20px;top:17px;font-size:27px;line-height:40px;cursor:pointer;transition:all .2s}.search__group .search__close:hover{color:#0070ff}.search__group .search__text{width:100%;padding:20px;font-size:21px;line-height:31px;border:2px solid transparent;border-radius:4px;color:#17181e;background:#fff;outline:none;transition:all .2s}.search__group .search__text:focus{border-color:#0070ff}.search__group .search__text::placeholder{font-weight:500;color:#17181e}.search__group .search__text::-ms-clear{display:none}.search-results-list .no-results{width:100%;font-size:21px;font-weight:600;text-align:center;color:#17181e}.pagination{margin-top:40px}@media only screen and (max-width: 768px){.pagination{margin-top:30px}}@media only screen and (max-width: 576px){.pagination{margin-top:20px}}.pagination__inner{display:flex;justify-content:center;align-items:center}.pagination__list{display:flex;font-weight:600;height:40px;padding:0 20px;font-size:14px;line-height:40px;border-radius:3px;box-shadow:0px 0px 20px rgba(0,0,0,0.05);color:#17181e;background-color:#fff}.pagination__count{display:inline-block;padding:0 15px;margin:0 15px;font-size:13px;border-left:1px solid rgba(23,24,30,0.1);border-right:1px solid rgba(23,24,30,0.1);color:#657388}.pagination__next i,.pagination__prev i{font-size:13px}.pagination__next:hover,.pagination__prev:hover{color:#0070ff}.pagination__next.disabled,.pagination__prev.disabled{opacity:0.2;cursor:not-allowed;color:inherit}.pagination__next i{margin-left:4px}.pagination__prev i{margin-right:4px}.footer{padding-top:70px;background:#fff}.footer .row .col{flex-grow:1}.footer .footer__inner{padding:60px 0;margin:0 60px 0;background-image:-webkit-repeating-radial-gradient(center center, rgba(0,112,255,0.7), rgba(0,112,255,0.7) 2px, transparent 2px, transparent 100%);background-image:-moz-repeating-radial-gradient(center center, rgba(0,112,255,0.7), rgba(0,112,255,0.7) 2px, transparent 2px, transparent 100%);background-image:-ms-repeating-radial-gradient(center center, rgba(0,112,255,0.7), rgba(0,112,255,0.7) 2px, transparent 2px, transparent 100%);background-image:repeating-radial-gradient(center center, rgba(0,112,255,0.7), rgba(0,112,255,0.7) 2px, transparent 2px, transparent 100%);-webkit-background-size:15px 15px;-moz-background-size:15px 15px;background-size:15px 15px}.footer .footer__head{margin:0 -60px;padding:60px;background:#fff;box-shadow:0 10px 40px rgba(0,0,0,0.07)}.footer .footer__content{padding:60px 0}@media only screen and (max-width: 1024px){.footer .row .col:last-child>.widget{margin-bottom:0}}@media only screen and (max-width: 768px){.footer{padding-top:60px}.footer .footer__inner{padding:0;margin:0;background-image:none}.footer .footer__head{margin:0;padding:0;box-shadow:none}}@media only screen and (max-width: 576px){.footer{padding-top:50px}}@media only screen and (max-width: 1024px){.widget{margin-bottom:30px}}@media only screen and (max-width: 576px){.widget{margin-bottom:40px}}.widget__head{margin-bottom:20px}.widget__head .widget__title{margin:0;font-size:24px;color:#17181e}.widget-gallery{padding:0 35px}@media only screen and (max-width: 1024px){.widget-gallery{padding:0}}.recent-posts{position:relative;display:flex;margin-bottom:15px}.recent-posts:last-child{margin-bottom:0}.recent-posts__header{margin-right:15px}.recent-posts__image{position:relative;display:block;margin-right:15px;min-width:80px;height:80px;background-size:cover;background-position:center;background-repeat:no-repeat;background-color:#f9f9fc}.recent-posts__image img{position:absolute;top:0;width:100%;height:100%;object-fit:cover}.recent-posts__date{margin-bottom:5px;font-size:13px;line-height:16px;color:#657388}.recent-posts__title{margin-bottom:0;font-size:17px;line-height:22px;font-weight:700}.recent-posts__title a{color:#17181e}.recent-posts__title a:hover{color:#17181e}.widget-subscribe .subscribe__inner{display:flex;flex-direction:column;justify-content:space-between}.widget-subscribe .subscribe__group{margin-bottom:20px}.widget-subscribe .subscribe__group .subscribe__title{margin-bottom:15px;color:#17181e}.widget-subscribe .subscribe__group .subscribe__description{font-size:15px;line-height:22px;color:#657388}.widget-subscribe .subscribe-form{position:relative;height:60px}.widget-subscribe .subscribe-form .subscribe-email{width:100%;height:100%;padding:20px;font-size:14px;line-height:19px;font-weight:500;color:rgba(23,24,30,0.8);border:2px solid #ededf3;background:transparent;transition:border-color .2s ease-in-out;outline:0}.widget-subscribe .subscribe-form .subscribe-email::placeholder{color:rgba(23,24,30,0.8)}.widget-subscribe .subscribe-form .subscribe-email:focus{color:rgba(23,24,30,0.8);border-color:#0070ff}.widget-subscribe .subscribe-form .subscribe-button{position:absolute;top:10px;right:10px;height:40px;padding:0 15px;font-size:14px}@media only screen and (max-width: 1130px){.widget-subscribe .subscribe-form .subscribe-email{font-size:13px}.widget-subscribe .subscribe-form .subscribe-button{font-size:14px}}.copyright{padding:0 0 30px;margin-top:10px;font-size:13px;font-weight:500;text-align:center;color:#657388}.copyright a:hover{color:#0070ff}@media only screen and (max-width: 768px){.copyright{text-align:left}}.gallery-box{margin:40px 0}.gallery-box.gallery-footer{margin:0}.gallery-box em{display:block;margin-top:15px;font-size:14px;line-height:22px;font-style:normal;font-weight:normal;text-align:center;color:#17181e}.gallery-box em a{border-bottom:1px solid #17181e}.gallery-box em a:hover{color:#17181e;border-color:#0070ff}.gallery{display:grid;grid-template-columns:repeat(3, auto);justify-content:center;align-content:center;grid-gap:10px}.gallery .gallery__image{background:#f9f9fc}.gallery .gallery__image img{display:block;width:100%;height:auto;object-fit:cover}.social{margin:60px 0 0;text-align:center}.social .social__list{display:flex;justify-content:center;align-items:center;flex-wrap:wrap}.social .social__item{display:inline-block;margin:0 2px}.social .social__link{position:relative;z-index:1;padding:0 10px;font-size:21px;line-height:1}.social .social__link:hover{color:#fff}.social .social__link:hover::after{transform:translate3d(-50%, -50%, 0) scale(1)}.social .social__link::after{content:'';display:block;position:absolute;z-index:-1;top:50%;left:50%;transform:translate3d(-50%, -50%, 0) scale(0);width:100%;height:0;padding-bottom:100%;border-radius:50%;background:#0070ff;transition:all .25s}@media only screen and (max-width: 768px){.social{margin:50px 0 0;text-align:left}.social .social__list{justify-content:start}}.hero{padding:60px 0 70px;margin-bottom:70px;background:#fff}.hero.hero--post .article__meta{margin-bottom:13px;font-size:14px;font-weight:500}.hero.hero--post .article__meta .article__date::before{content:none}.hero.hero--post .article__author-link{font-size:14px;line-height:20px;font-weight:500;color:#657388}.hero.hero--post .article__author-link span{color:#657388}.hero.hero--post .article__author-link:hover{color:#17181e}.hero.hero--page .hero__title{margin-bottom:0}@media only screen and (max-width: 768px){.hero{padding:60px 0 60px;margin-bottom:60px}}@media only screen and (max-width: 576px){.hero{padding:40px 0 40px;margin-bottom:40px}}.hero__inner{display:flex;align-items:center}@media only screen and (max-width: 768px){.hero__inner{flex-direction:column}}.hero__left,.hero__right{width:50%}@media only screen and (max-width: 768px){.hero__left,.hero__right{width:100%}}.hero__left .hero__title,.hero__left .hero__job{font-size:50px;font-weight:700;letter-spacing:-2px;color:#17181e}@media only screen and (max-width: 1130px){.hero__left .hero__title,.hero__left .hero__job{font-size:40px;line-height:1.2}}@media only screen and (max-width: 1024px){.hero__left .hero__title,.hero__left .hero__job{font-size:33px}}@media only screen and (max-width: 576px){.hero__left .hero__title,.hero__left .hero__job{font-size:27px}}.hero__left .hero__title{margin-right:20px;margin-bottom:10px}@media only screen and (max-width: 768px){.hero__left .hero__title{margin-right:0}}.hero__left .hero__job{margin-bottom:20px}.hero__left .hero__name{position:relative;font-weight:400}.hero__left .hero__name::after{content:"";position:absolute;left:0;bottom:0px;width:100%;height:38%;background-color:rgba(0,112,255,0.1)}.hero__left .hero__description{max-width:550px;margin:0;font-size:21px;font-weight:500;color:#657388}@media only screen and (max-width: 1024px){.hero__left .hero__description{font-size:16px;line-height:26px}}.hero__left .hero__button{margin-top:20px;padding-right:12px;display:inline-block;font-size:16px;line-height:16px;font-weight:700;color:#17181e;outline:none;cursor:pointer;transition:all 0.35s}.hero__left .hero__button:hover{color:#fff;background:#0065e6}.hero__left .hero__button .button-arrow{display:inline-block;margin-right:10px;width:30px;height:30px;line-height:30px;text-align:center;color:#fff;background:#0070ff}.hero__right{position:relative}.hero__right::after{content:"";position:absolute;top:50%;transform:translateY(-50%);display:block;width:100%;height:50%;background-image:-webkit-repeating-radial-gradient(center center, rgba(0,112,255,0.7), rgba(0,112,255,0.7) 2px, transparent 2px, transparent 100%);background-image:-moz-repeating-radial-gradient(center center, rgba(0,112,255,0.7), rgba(0,112,255,0.7) 2px, transparent 2px, transparent 100%);background-image:-ms-repeating-radial-gradient(center center, rgba(0,112,255,0.7), rgba(0,112,255,0.7) 2px, transparent 2px, transparent 100%);background-image:repeating-radial-gradient(center center, rgba(0,112,255,0.7), rgba(0,112,255,0.7) 2px, transparent 2px, transparent 100%);-webkit-background-size:15px 15px;-moz-background-size:15px 15px;background-size:15px 15px}.hero__right .hero__image{position:relative;z-index:10;width:370px;height:470px;margin:0 auto}.hero__right .hero__image::before{content:"";display:block;position:absolute;top:0;z-index:1;width:100%;height:100%;background:#f9f9fc}.hero__right .hero__image img{position:absolute;top:0;z-index:1;height:100%;width:100%;object-fit:cover;box-shadow:10px 10px 0 #0070ff;background:#f9f9fc}@media only screen and (max-width: 1130px){.hero__right .hero__image{width:270px;height:370px}}@media only screen and (max-width: 1024px){.hero__right .hero__image{width:230px;height:330px}}@media only screen and (max-width: 768px){.hero__right{order:-1}.hero__right .hero__image{width:100%;height:330px;margin-bottom:40px}}@media only screen and (max-width: 576px){.hero__right .hero__image{height:270px;margin-bottom:30px}.hero__right .hero__image img{box-shadow:none}}.contact-head{margin-bottom:30px}.form-box{max-width:750px;margin:0 auto}.form__group{margin-bottom:20px}.form__group:last-child{margin-bottom:0}.form__input{width:100%;padding:20px;font-size:14px;font-weight:500;border:1px solid #ededf3;outline:none;transition:250ms;resize:vertical;color:rgba(23,24,30,0.8);background:#fff}.form__input::placeholder{color:rgba(23,24,30,0.8)}.form__input:focus{border:1px solid #0070ff}.article{margin-bottom:30px;border-radius:3px;overflow:hidden;transition:transform .2s}.article:hover{transform:translateY(-3px)}.article__inner{box-shadow:0px 0px 20px rgba(0,0,0,0.05)}.image-wrap{padding:15px 15px 0 15px;background:#fff}.article__image{position:relative;display:block;height:0;padding-bottom:56.25%;background:#f9f9fc;overflow:hidden}.article__image img{position:absolute;width:100%;height:100%;object-fit:cover}.article__content{padding:25px;background:#fff}.article__title{margin-bottom:10px;font-size:22px;line-height:32px}.article__title a:hover{color:#17181e}.article__excerpt{font-size:15px;line-height:24px;font-weight:500;margin-bottom:20px;color:#657388}.article__meta{display:flex;align-items:center;flex-wrap:wrap;margin-bottom:10px;font-size:13px;font-weight:500;line-height:20px}.article__meta .article__author-link{color:#657388}.article__meta .article__author-link:hover{color:#17181e}.article__meta .article-tags__box{display:flex}.article__meta .article-tags__box::before{content:"/";display:inline-block;margin:0 5px;color:#657388}.article__meta .article-tags__box .article__tag{color:#657388}.article__meta .article-tags__box .article__tag:hover{color:#17181e}.article__meta .article-tags__box .article__tag::after{content:",";display:inline-block;margin:0 2px}.article__meta .article-tags__box .article__tag:last-child::after{content:none}.article__meta .article__date{color:#657388}.article__meta .article__date::before{content:"/";display:inline-block;margin:0 5px;color:#657388}.post,.page{max-width:850px;margin:0 auto;color:#17181e}.post__content a,.page__content a{border-bottom:1px solid #17181e}.post__content a:hover,.page__content a:hover{color:#17181e;border-color:#0070ff}.image-box{margin:40px 0}.post__share{margin:50px 0}.post__share .share__list{display:flex;justify-content:center;align-items:center;width:100%}.post__share .share__item{margin:0 2px;text-align:center}.post__share .share__link{display:block;padding:2px 12px;font-size:18px;color:#fff}.post__share .share__link.share__facebook,.post__share .share__link.share__twitter,.post__share .share__link.share__linkedin,.post__share .share__link.share__pinterest{border:1px solid #ededf3;background:#fff}.post__share .share__link.share__facebook:hover,.post__share .share__link.share__twitter:hover,.post__share .share__link.share__linkedin:hover,.post__share .share__link.share__pinterest:hover{color:#fff}.post__share .share__link.share__facebook{color:#3b5998}.post__share .share__link.share__facebook:hover{background:#3b5998}.post__share .share__link.share__twitter{color:#55acee}.post__share .share__link.share__twitter:hover{background:#55acee}.post__share .share__link.share__linkedin{color:#0077b5}.post__share .share__link.share__linkedin:hover{background:#0077b5}.post__share .share__link.share__pinterest{color:#bd081c}.post__share .share__link.share__pinterest:hover{background:#bd081c}@media only screen and (max-width: 576px){.post__share{margin:40px 0}}.post__navigation{display:flex;justify-content:space-between;margin-bottom:20px}.post__navigation .post__prev,.post__navigation .post__next{display:flex;width:48%;padding:25px;margin-bottom:30px;background:#fff;box-shadow:0px 0px 20px rgba(0,0,0,0.05);transition:transform .2s}.post__navigation .post__prev:hover,.post__navigation .post__next:hover{transform:translateY(-3px)}.post__navigation .post__prev .prev__image,.post__navigation .post__prev .next__image,.post__navigation .post__next .prev__image,.post__navigation .post__next .next__image{position:relative;display:block;width:100px;min-width:100px;height:100px;background-color:#f9f9fc}.post__navigation .post__prev .prev__image img,.post__navigation .post__prev .next__image img,.post__navigation .post__next .prev__image img,.post__navigation .post__next .next__image img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover}.post__navigation .post__prev .prev__image,.post__navigation .post__next .prev__image{margin-right:15px}.post__navigation .post__prev .next__image,.post__navigation .post__next .next__image{margin-left:15px}.post__navigation .post__prev .post__nav,.post__navigation .post__next .post__nav{display:inline-block;margin-bottom:5px;font-size:13px;line-height:1;font-weight:500;color:#657388}.post__navigation .post__prev .post__nav__title,.post__navigation .post__next .post__nav__title{margin-bottom:0;font-size:18px;line-height:24px}.post__navigation .post__prev .post__nav__title a:hover,.post__navigation .post__next .post__nav__title a:hover{color:#17181e}.post__navigation .post__next{text-align:right;margin-left:auto;justify-content:flex-end}@media only screen and (max-width: 768px){.post__navigation{flex-wrap:wrap}.post__navigation .post__prev,.post__navigation .post__next{width:100%}.post__navigation .post__prev{margin-bottom:30px}.post__navigation .next__box{margin-left:auto}}@media only screen and (max-width: 576px){.post__navigation{margin-bottom:10px}.post__navigation .post__prev,.post__navigation .post__next{padding:20px}.post__navigation .post__prev .post__nav__title,.post__navigation .post__next .post__nav__title{font-size:15px;line-height:20px}}.post__comments{padding:40px;box-shadow:0px 0px 20px rgba(0,0,0,0.05);background:#fff}@media only screen and (max-width: 576px){.post__comments{padding:30px}}.error{margin-bottom:30px;text-align:center}.error .error__title{margin-bottom:0;font-size:100px}.error .error__text{margin-bottom:20px;font-size:21px;color:#657388}.error .error__button{line-height:45px}.tag{padding:70px 0;margin-bottom:70px;text-align:center;background:#fff}.tag .tag__meta{font-size:16px;color:#657388}.tag .tag__title{margin:0;font-size:50px}@media only screen and (max-width: 768px){.tag{padding:60px 0;margin-bottom:60px}}@media only screen and (max-width: 576px){.tag{padding:40px 0;margin-bottom:40px}}
+
+  </style>
+</head>
+
+<body class="light">
+
+  
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'G-RT3D9TFR93', 'auto');
+  ga('send', 'pageview');
+</script>
+  
+
+    <!-- begin header -->
+<header class="header">
+  <div class="container">
+    <div class="row">
+      <div class="header__inner col col-12">
+
+        <div class="logo">
+          <a class="logo__link" href="/">
+          
+            Eugene's Blog
+          
+          </a>
+        </div>
+
+        <nav class="main-nav">
+          <div class="main-nav__box">
+            <div class="nav__icon-close">
+              <i class="ion ion-md-close"></i>
+            </div>
+            <div class="nav__title">Menu</div>
+            <ul class="nav__list list-reset">
+              <li class="nav__item">
+                <a href="/" class="nav__link">Home</a>
+              </li>
+              
+                
+              
+                
+                  
+                  <li class="nav__item">
+                    <a href="/about/" class="nav__link">About</a>
+                  </li>
+                  
+                
+              
+                
+                  
+                  <li class="nav__item">
+                    <a href="/contact/" class="nav__link">Contact</a>
+                  </li>
+                  
+                
+              
+                
+                  
+                
+              
+                
+                  
+                  <li class="nav__item">
+                    <a href="/resume/" class="nav__link">Resume</a>
+                  </li>
+                  
+                
+              
+                
+                  
+                
+              
+                
+                  
+                
+              
+                
+                  
+                
+              
+                
+                  
+                
+              
+            </ul>
+          </div>
+        </nav>
+
+        <div class="nav-buttons">
+          <i class="nav__icon nav__icon-menu ion ion-md-menu"></i>
+          <i class="nav__icon nav__icon-search ion ion-md-search"></i>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="header__overlay"></div>
+</header>
+<!-- end header -->
+
+<!-- begin search -->
+<div class="search">
+  <div class="container">
+    <div class="row">
+      <div class="col col-12">
+        <div class="search__box">
+          <div class="search__group">
+            <div class="search__close">
+              <i class="ion ion-md-close"></i>
+            </div>
+            <label for="js-search-input" class="screen-reader-text">Search for Blog</label>
+            <input type="text" id="js-search-input" class="search__text" autocomplete="off" placeholder="Type to search...">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col col-12">
+        <div class="container__inner">
+          <div class="row search-results-list" id="js-results-container"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- end search -->
+    <!-- begin content -->
+    <main class="content" aria-label="Content">
+      <!-- begin wrapper-page -->
+      <div class="wrapper-page">
+        <!-- begin hero -->
+
+<section class="hero hero--post">
+  <div class="container">
+    <div class="row">
+      <div class="col col-12">
+        <div class="hero__inner">
+          <div class="hero__left">
+            
+
+            <div class="article__meta">
+              <span class="article__date"><time datetime="2021-05-14T15:01:35+03:00">14 May 2021</time></span>
+              
+            </div>
+
+            <h1 class="hero__title">Introduction to Metal Compute: Part 4</h1>
+            <a href="/about/" class="article__author-link"><span>By</span> Eugene Bokhan</a>
+
+            
+          </div>
+
+          <div class="hero__right">
+
+            
+            <div class="hero__image">
+              <img class="lazy" data-src="/images/introduction-to-metal-compute-part-four/icon.png" alt="Introduction to Metal Compute: Part 4">
+            </div>
+
+            
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end hero -->
+
+<!-- begin post -->
+<div class="container">
+  <article class="post animate">
+
+    <div class="post__content">
+      <p>In this section we will write image to texture conversion and the kernel dispatching code.</p>
+
+<h3 id="mtltexture-or-there-and-back-again">MTLTexture, or There and Back Again</h3>
+
+<p>Create an empty swift file called <code class="language-plaintext highlighter-rouge">TextureManager.swift</code>.</p>
+
+<p style="text-align:center;">
+<img src="/images/introduction-to-metal-compute-part-four/empty-file.png" alt="demo app" width="800" />
+</p>
+
+<p>Create a class <code class="language-plaintext highlighter-rouge">TextureManager</code>. We are going to incapsulate texture to image conversion in it with a throwable API.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">import</span> <span class="kt">MetalKit</span>
+
+<span class="kd">final</span> <span class="kd">class</span> <span class="kt">TextureManager</span> <span class="p">{</span>
+    
+    <span class="kd">enum</span> <span class="kt">Error</span><span class="p">:</span> <span class="kt">Swift</span><span class="o">.</span><span class="kt">Error</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">cgImageCreationFailed</span>
+        <span class="k">case</span> <span class="n">textureCreationFailed</span>
+    <span class="p">}</span>
+
+<span class="p">}</span></code></pre></figure>
+
+<p>The first and the only property that this class will hold is <a href="https://developer.apple.com/documentation/metalkit/mtktextureloader"><code class="language-plaintext highlighter-rouge">MTKTextureLoader</code></a>.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">private</span> <span class="k">let</span> <span class="nv">textureLoader</span><span class="p">:</span> <span class="kt">MTKTextureLoader</span></code></pre></figure>
+
+<p>This object is able read common file formats like PNG, JPEG, asset catalogs, <code class="language-plaintext highlighter-rouge">CGImage</code>s and decode them into Metal textures.</p>
+
+<p>To initialise the class, <code class="language-plaintext highlighter-rouge">MTLDevice</code> is passed to the constructor:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="nf">init</span><span class="p">(</span><span class="nv">device</span><span class="p">:</span> <span class="kt">MTLDevice</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">textureLoader</span> <span class="o">=</span> <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">device</span><span class="p">:</span> <span class="n">device</span><span class="p">)</span>
+<span class="p">}</span></code></pre></figure>
+
+<h2 id="texture-to-image-conversion">Texture To Image Conversion</h2>
+
+<p>Now let’s write a function for creation a texture from a <code class="language-plaintext highlighter-rouge">CGImage</code> that will use the texture loader.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">texture</span><span class="p">(</span><span class="n">from</span> <span class="nv">cgImage</span><span class="p">:</span> <span class="kt">CGImage</span><span class="p">,</span>
+             <span class="nv">usage</span><span class="p">:</span> <span class="kt">MTLTextureUsage</span> <span class="o">=</span> <span class="p">[</span><span class="o">.</span><span class="n">shaderRead</span><span class="p">,</span> <span class="o">.</span><span class="n">shaderWrite</span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">MTLTexture</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">textureOptions</span><span class="p">:</span> <span class="p">[</span><span class="kt">MTKTextureLoader</span><span class="o">.</span><span class="kt">Option</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="k">try</span> <span class="k">self</span><span class="o">.</span><span class="n">textureLoader</span><span class="o">.</span><span class="nf">newTexture</span><span class="p">(</span><span class="nv">cgImage</span><span class="p">:</span> <span class="n">cgImage</span><span class="p">,</span>
+                                             <span class="nv">options</span><span class="p">:</span> <span class="n">textureOptions</span><span class="p">)</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Here we create <code class="language-plaintext highlighter-rouge">MTKTextureLoader</code> options that specify how the result texture will be created. Currently the options are empty and now we are going to fill the dictionary.</p>
+
+<h4 id="texture-usage">Texture Usage</h4>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="o">.</span><span class="nv">textureUsage</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="n">usage</span><span class="o">.</span><span class="n">rawValue</span><span class="p">),</span></code></pre></figure>
+
+<p>The texture usage <code class="language-plaintext highlighter-rouge">OptionSet</code> describes what operations will be performed with the texture. But given that we have images which we can read and modify like the other data, why does Metal provide such API? The point is that MTLTextures holds a reference to the block of memory where the real pixels are located and Metal can apply certain optimisations for a given texture, based on its intended use. I’s a good practice to set <code class="language-plaintext highlighter-rouge">.shaderRead</code> for read-only textures and <code class="language-plaintext highlighter-rouge">.shaderWrite</code> to those which will contain the result.</p>
+
+<h4 id="mipmaps">Mipmaps</h4>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="o">.</span><span class="nv">generateMipmaps</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="kc">false</span><span class="p">),</span></code></pre></figure>
+
+<p><a href="https://en.wikipedia.org/wiki/Mipmap">Mipmaps</a> are smaller, pre-filtered versions of a texture, representing different levels of detail (LOD) of the image. They are mostly used in 3D graphics to draw objects that are far away with less detail to save memory and computational resources.</p>
+
+<p style="text-align:center;">
+<img src="/images/introduction-to-metal-compute-part-four/mipmaps.png" alt="demo app" width="500" />
+</p>
+
+<p>We won’t use mipmaps in our app, so we disable their allocation and generation.</p>
+
+<h4 id="gamma-correction">Gamma Correction</h4>
+
+<p>In order to understand why do we pass <code class="language-plaintext highlighter-rouge">sRGB</code> as <code class="language-plaintext highlighter-rouge">false</code> to the texture options, first we need to talk a little bit about gamma. Look a the picture below.</p>
+
+<p style="text-align:center;">
+<img src="/images/introduction-to-metal-compute-part-four/gamma.png" alt="demo app" width="600" />
+</p>
+
+<p>The top line looks like the correct brightness scale to the our eyes with consistent differences. The funny thing is that when we’re talking about the physical brightness of light e.g. amount of photons leaving the display, the bottom line actually displays the correct brightness.</p>
+
+<p>Now, look at the chart below. It depicts the difference of light perceivation between human eyes and a digital camera.</p>
+
+<p style="text-align:center;">
+<img src="/images/introduction-to-metal-compute-part-four/chart.png" alt="demo app" width="500" />
+</p>
+
+<p>As we can see in the chart, compared to a camera, we are much more sensitive to changes in dark tones than we are to similar changes in bright tones. There is a biological reason for this peculiarity: it is much more useful to perceive light in a non-linear manner and see better at night than during the day.</p>
+
+<p>That’s why the bottom line looks like incorrect brightness scale despite the fact that the increase of actual number of photons is linear.</p>
+
+<p>So, given the fact that human perceivation of light is non-linear, in order not to waste bytes representing many lighter shades that look very similar to us, digital cameras do gamma encoding and redistribute tonal levels closer to how our eyes perceive them.</p>
+
+<p style="text-align:center;">
+<img src="/images/introduction-to-metal-compute-part-four/gamma-correction.png" alt="demo app" width="250" />
+</p>
+
+<p>This is done only for recording the image, not for displaying the image. Standard RGB or sRGB color space defines a nonlinear transfer function between the intensity of the color primaries and the actual number stored in such images.</p>
+
+<p>If you load an sRGB image file, <code class="language-plaintext highlighter-rouge">iOS</code> it will create a <code class="language-plaintext highlighter-rouge">CGImage</code> with <strong>sRGB IEC61966-2.1</strong> color profile and gamma decoding applied to the pixel values.
+For the same image saved as general RGB file a <code class="language-plaintext highlighter-rouge">CGImage</code> will be created with <strong>Adobe RGB (1998)</strong> color profile and no gamma decoding applied to the pixels.
+Both of these <code class="language-plaintext highlighter-rouge">CGImages</code> will contain the same pixel values in memory.</p>
+
+<p>Now, getting back to the texture loader. When it creates a texture from a <code class="language-plaintext highlighter-rouge">CGImage</code>, it copies the bytes from <code class="language-plaintext highlighter-rouge">CGImage</code> data without modification. The <code class="language-plaintext highlighter-rouge">sRGB</code> option doesn’t influence on anything with RGB images passed to the texture loader and you always get textures with ordinary <code class="language-plaintext highlighter-rouge">bgra8Unorm</code> pixel format. But when you use <code class="language-plaintext highlighter-rouge">CGImage</code>s with sRGB color profile, this option does influence on what pixel format the created texture will have. If you pass <code class="language-plaintext highlighter-rouge">false</code>, you will get a <code class="language-plaintext highlighter-rouge">bgra8Unorm</code> texture. If you pass <code class="language-plaintext highlighter-rouge">true</code> , you will get <code class="language-plaintext highlighter-rouge">bgra8Unorm_srgb</code> texture. And if you don’t add this option at all, the texture loader will make a decision for you and return an <code class="language-plaintext highlighter-rouge">bgra8Unorm_srgb</code> texture too.</p>
+
+<p>Why do we care about that? The thing is that in shaders sRGB textures are gamma decoded while being read and gamma encoded during the writing. It means that you will get <em>twice gamma decoded</em> pixel values in the kernel: first gamma decoding is done by the system when you create a <code class="language-plaintext highlighter-rouge">CGImage</code> from an sRGB image file, and second is done by Metal when you passed sRGB texture to the shader. In this case you get incorrect, darkened values in the shader. This looks pretty messy, so the best option is just always explicitly pass <code class="language-plaintext highlighter-rouge">sRGB: false</code> while creating textures from images to avoid gamma-related issues.</p>
+
+<p>The final function should look like this:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">texture</span><span class="p">(</span><span class="n">from</span> <span class="nv">cgImage</span><span class="p">:</span> <span class="kt">CGImage</span><span class="p">,</span>
+             <span class="nv">usage</span><span class="p">:</span> <span class="kt">MTLTextureUsage</span> <span class="o">=</span> <span class="p">[</span><span class="o">.</span><span class="n">shaderRead</span><span class="p">,</span> <span class="o">.</span><span class="n">shaderWrite</span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">MTLTexture</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">textureOptions</span><span class="p">:</span> <span class="p">[</span><span class="kt">MTKTextureLoader</span><span class="o">.</span><span class="kt">Option</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="o">.</span><span class="nv">textureUsage</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="n">usage</span><span class="o">.</span><span class="n">rawValue</span><span class="p">),</span>
+        <span class="o">.</span><span class="nv">generateMipmaps</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="kc">false</span><span class="p">),</span>
+        <span class="o">.</span><span class="kt">SRGB</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="k">try</span> <span class="k">self</span><span class="o">.</span><span class="n">textureLoader</span><span class="o">.</span><span class="nf">newTexture</span><span class="p">(</span><span class="nv">cgImage</span><span class="p">:</span> <span class="n">cgImage</span><span class="p">,</span>
+                                             <span class="nv">options</span><span class="p">:</span> <span class="n">textureOptions</span><span class="p">)</span>
+<span class="p">}</span></code></pre></figure>
+
+<h2 id="image-to-texture-conversion">Image To Texture Conversion</h2>
+
+<p>Now, let’s create a function to convert <code class="language-plaintext highlighter-rouge">MTLTexture</code> back to <code class="language-plaintext highlighter-rouge">CGImage</code>. Add an empty function:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">cgImage</span><span class="p">(</span><span class="n">from</span> <span class="nv">texture</span><span class="p">:</span> <span class="kt">MTLTexture</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">CGImage</span> <span class="p">{</span>
+
+<span class="p">}</span></code></pre></figure>
+
+<p>In this function we are going to allocate some memory where the texture will export its contents. Then we will create an image from this block of memory. From this point we are going to fill the body of the function.</p>
+
+<h4 id="bytes-allocation">Bytes Allocation</h4>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">bytesPerRow</span> <span class="o">=</span> <span class="n">texture</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mi">4</span>
+<span class="k">let</span> <span class="nv">length</span> <span class="o">=</span> <span class="n">bytesPerRow</span> <span class="o">*</span> <span class="n">texture</span><span class="o">.</span><span class="n">height</span>
+
+<span class="k">let</span> <span class="nv">rgbaBytes</span> <span class="o">=</span> <span class="kt">UnsafeMutableRawPointer</span><span class="o">.</span><span class="nf">allocate</span><span class="p">(</span><span class="nv">byteCount</span><span class="p">:</span> <span class="n">length</span><span class="p">,</span>
+                                                 <span class="nv">alignment</span><span class="p">:</span> <span class="kt">MemoryLayout</span><span class="o">&lt;</span><span class="kt">UInt8</span><span class="o">&gt;.</span><span class="n">alignment</span><span class="p">)</span>
+<span class="k">defer</span> <span class="p">{</span> <span class="n">rgbaBytes</span><span class="o">.</span><span class="nf">deallocate</span><span class="p">()</span> <span class="p">}</span></code></pre></figure>
+
+<p>First, we calculate bytes per row. In memory the image is stored contiguously row by row with optional paddings between them. The paddings might be added for better CPU access to the blocks of memory. In our case we don’t add any paddings and calculate the value as the width of the texture multiplied by 4 bytes per pixel.</p>
+
+<p style="text-align:center;">
+<img src="/images/introduction-to-metal-compute-part-four/memory.png" alt="demo app" width="700" />
+</p>
+
+<p>The length of the memory where the image bytes will be stored can be calculated as bytes per row multiplied by the texture height.
+Next, we allocate a chunk of memory where the pixels will be stored. It is aligned by <code class="language-plaintext highlighter-rouge">UInt8</code> because  <code class="language-plaintext highlighter-rouge">bgra8Unorm</code> textures pixels are stored as 8-bit integers. This memory is temporary, so we will free it at the end of function execution.</p>
+
+<h4 id="texture-data-export">Texture Data Export</h4>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">destinationRegion</span> <span class="o">=</span> <span class="kt">MTLRegion</span><span class="p">(</span><span class="nv">origin</span><span class="p">:</span> <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">z</span><span class="p">:</span> <span class="mi">0</span><span class="p">),</span>
+                                  <span class="nv">size</span><span class="p">:</span> <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="n">texture</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                                              <span class="nv">height</span><span class="p">:</span> <span class="n">texture</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+                                              <span class="nv">depth</span><span class="p">:</span> <span class="n">texture</span><span class="o">.</span><span class="n">depth</span><span class="p">))</span>
+<span class="n">texture</span><span class="o">.</span><span class="nf">getBytes</span><span class="p">(</span><span class="n">pixelBytes</span><span class="p">,</span>
+                 <span class="nv">bytesPerRow</span><span class="p">:</span> <span class="n">bytesPerRow</span><span class="p">,</span>
+                 <span class="nv">from</span><span class="p">:</span> <span class="n">destinationRegion</span><span class="p">,</span>
+                 <span class="nv">mipmapLevel</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span></code></pre></figure>
+
+<p>Calculate the region of the texture and call <a href="https://developer.apple.com/documentation/metal/mtltexture/1516318-getbytes"><code class="language-plaintext highlighter-rouge">getBytes</code></a> function to store texture pixel values to the memory we allocated. This function takes a pointer to the start of the preallocated memory and writes pixel values of specified region to it with predefined bytes per row. It is quite interesting that Metal doesn’t allow you to get the pointer to the raw pixels of the texture, instead it allows you only to export them via <code class="language-plaintext highlighter-rouge">getBytes</code> and import them with the help of <a href="https://developer.apple.com/documentation/metal/mtltexture/1515464-replace"><code class="language-plaintext highlighter-rouge">replace(region:)</code></a> function. The explanation to it is that Metal is able to adjust the private layout of the texture in memory to improve pixel access on GPU while sampling. This can be done with texture descriptor’s <code class="language-plaintext highlighter-rouge">allowGPUOptimizedContents</code> flag set <code class="language-plaintext highlighter-rouge">true</code>. There is no documentation on that, but here is an example how the memory reordering could look like:</p>
+
+<p style="text-align:center;">
+<img src="/images/introduction-to-metal-compute-part-four/gpu-content-optimisation.png" alt="demo app" width="700" />
+</p>
+
+<h4 id="bitmap">Bitmap</h4>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">colorScape</span> <span class="o">=</span> <span class="kt">CGColorSpaceCreateDeviceRGB</span><span class="p">()</span>
+<span class="k">let</span> <span class="nv">bitmapInfo</span> <span class="o">=</span> <span class="kt">CGBitmapInfo</span><span class="p">(</span><span class="nv">rawValue</span><span class="p">:</span> <span class="kt">CGImageByteOrderInfo</span><span class="o">.</span><span class="n">order32Little</span><span class="o">.</span><span class="n">rawValue</span> <span class="o">|</span> <span class="kt">CGImageAlphaInfo</span><span class="o">.</span><span class="n">noneSkipFirst</span><span class="o">.</span><span class="n">rawValue</span><span class="p">)</span></code></pre></figure>
+
+<p>Create a color space and bitmap info values. The bitmap info can be interpreted as: the pixels of the image are represented by 32 bits with little-endian byte order and we don’t care about the information in the alpha channel. Here is the difference between little and big endian byte orders:</p>
+
+<p style="text-align:center;">
+<img src="/images/introduction-to-metal-compute-part-four/little-big-endian.png" alt="demo app" width="500" />
+</p>
+
+<h4 id="cgimage-creation">CGImage Creation</h4>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">guard</span> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="kt">CFDataCreate</span><span class="p">(</span><span class="kc">nil</span><span class="p">,</span>
+                              <span class="n">pixelBytes</span><span class="o">.</span><span class="nf">assumingMemoryBound</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="kt">UInt8</span><span class="o">.</span><span class="k">self</span><span class="p">),</span>
+                              <span class="n">length</span><span class="p">),</span>
+      <span class="k">let</span> <span class="nv">dataProvider</span> <span class="o">=</span> <span class="kt">CGDataProvider</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="n">data</span><span class="p">),</span>
+      <span class="k">let</span> <span class="nv">cgImage</span> <span class="o">=</span> <span class="kt">CGImage</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="n">texture</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                            <span class="nv">height</span><span class="p">:</span> <span class="n">texture</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+                            <span class="nv">bitsPerComponent</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+                            <span class="nv">bitsPerPixel</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+                            <span class="nv">bytesPerRow</span><span class="p">:</span> <span class="n">bytesPerRow</span><span class="p">,</span>
+                            <span class="nv">space</span><span class="p">:</span> <span class="n">colorScape</span><span class="p">,</span>
+                            <span class="nv">bitmapInfo</span><span class="p">:</span> <span class="n">bitmapInfo</span><span class="p">,</span>
+                            <span class="nv">provider</span><span class="p">:</span> <span class="n">dataProvider</span><span class="p">,</span>
+                            <span class="nv">decode</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span>
+                            <span class="nv">shouldInterpolate</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+                            <span class="nv">intent</span><span class="p">:</span> <span class="o">.</span><span class="n">defaultIntent</span><span class="p">)</span>
+<span class="k">else</span> <span class="p">{</span> <span class="k">throw</span> <span class="kt">Error</span><span class="o">.</span><span class="n">cgImageCreationFailed</span> <span class="p">}</span>
+<span class="k">return</span> <span class="n">cgImage</span></code></pre></figure>
+
+<p>Finally, create a <code class="language-plaintext highlighter-rouge">CGImage</code> with the data and information we provided: each pixel contains of 4 <code class="language-plaintext highlighter-rouge">UInt8</code>s or 32 bits, each byte is representing one channel. The layout of the pixels is described with bitmap info. The function should look like this:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">cgImage</span><span class="p">(</span><span class="n">from</span> <span class="nv">texture</span><span class="p">:</span> <span class="kt">MTLTexture</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">CGImage</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">bytesPerRow</span> <span class="o">=</span> <span class="n">texture</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mi">4</span>
+    <span class="k">let</span> <span class="nv">length</span> <span class="o">=</span> <span class="n">bytesPerRow</span> <span class="o">*</span> <span class="n">texture</span><span class="o">.</span><span class="n">height</span>
+
+    <span class="k">let</span> <span class="nv">rgbaBytes</span> <span class="o">=</span> <span class="kt">UnsafeMutableRawPointer</span><span class="o">.</span><span class="nf">allocate</span><span class="p">(</span><span class="nv">byteCount</span><span class="p">:</span> <span class="n">length</span><span class="p">,</span>
+                                                     <span class="nv">alignment</span><span class="p">:</span> <span class="kt">MemoryLayout</span><span class="o">&lt;</span><span class="kt">UInt8</span><span class="o">&gt;.</span><span class="n">alignment</span><span class="p">)</span>
+    <span class="k">defer</span> <span class="p">{</span> <span class="n">rgbaBytes</span><span class="o">.</span><span class="nf">deallocate</span><span class="p">()</span> <span class="p">}</span>
+
+    <span class="k">let</span> <span class="nv">destinationRegion</span> <span class="o">=</span> <span class="kt">MTLRegion</span><span class="p">(</span><span class="nv">origin</span><span class="p">:</span> <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">z</span><span class="p">:</span> <span class="mi">0</span><span class="p">),</span>
+                                      <span class="nv">size</span><span class="p">:</span> <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="n">texture</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                                                  <span class="nv">height</span><span class="p">:</span> <span class="n">texture</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+                                                  <span class="nv">depth</span><span class="p">:</span> <span class="n">texture</span><span class="o">.</span><span class="n">depth</span><span class="p">))</span>
+    <span class="n">texture</span><span class="o">.</span><span class="nf">getBytes</span><span class="p">(</span><span class="n">rgbaBytes</span><span class="p">,</span>
+                     <span class="nv">bytesPerRow</span><span class="p">:</span> <span class="n">bytesPerRow</span><span class="p">,</span>
+                     <span class="nv">from</span><span class="p">:</span> <span class="n">destinationRegion</span><span class="p">,</span>
+                     <span class="nv">mipmapLevel</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">let</span> <span class="nv">colorScape</span> <span class="o">=</span> <span class="kt">CGColorSpaceCreateDeviceRGB</span><span class="p">()</span>
+    <span class="k">let</span> <span class="nv">bitmapInfo</span> <span class="o">=</span> <span class="kt">CGBitmapInfo</span><span class="p">(</span><span class="nv">rawValue</span><span class="p">:</span> <span class="kt">CGImageByteOrderInfo</span><span class="o">.</span><span class="n">order32Little</span><span class="o">.</span><span class="n">rawValue</span> <span class="o">|</span> <span class="kt">CGImageAlphaInfo</span><span class="o">.</span><span class="n">premultipliedFirst</span><span class="o">.</span><span class="n">rawValue</span><span class="p">)</span>
+
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="kt">CFDataCreate</span><span class="p">(</span><span class="kc">nil</span><span class="p">,</span>
+                                  <span class="n">rgbaBytes</span><span class="o">.</span><span class="nf">assumingMemoryBound</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="kt">UInt8</span><span class="o">.</span><span class="k">self</span><span class="p">),</span>
+                                  <span class="n">length</span><span class="p">),</span>
+          <span class="k">let</span> <span class="nv">dataProvider</span> <span class="o">=</span> <span class="kt">CGDataProvider</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="n">data</span><span class="p">),</span>
+          <span class="k">let</span> <span class="nv">cgImage</span> <span class="o">=</span> <span class="kt">CGImage</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="n">texture</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                                <span class="nv">height</span><span class="p">:</span> <span class="n">texture</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+                                <span class="nv">bitsPerComponent</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+                                <span class="nv">bitsPerPixel</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+                                <span class="nv">bytesPerRow</span><span class="p">:</span> <span class="n">bytesPerRow</span><span class="p">,</span>
+                                <span class="nv">space</span><span class="p">:</span> <span class="n">colorScape</span><span class="p">,</span>
+                                <span class="nv">bitmapInfo</span><span class="p">:</span> <span class="n">bitmapInfo</span><span class="p">,</span>
+                                <span class="nv">provider</span><span class="p">:</span> <span class="n">dataProvider</span><span class="p">,</span>
+                                <span class="nv">decode</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span>
+                                <span class="nv">shouldInterpolate</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+                                <span class="nv">intent</span><span class="p">:</span> <span class="o">.</span><span class="n">defaultIntent</span><span class="p">)</span>
+    <span class="k">else</span> <span class="p">{</span> <span class="k">throw</span> <span class="kt">Error</span><span class="o">.</span><span class="n">cgImageCreationFailed</span> <span class="p">}</span>
+    <span class="k">return</span> <span class="n">cgImage</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Let’s add the last convenience function to the texture manager. This one helps to create a texture with similar properties.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">matchingTexture</span><span class="p">(</span><span class="n">to</span> <span class="nv">texture</span><span class="p">:</span> <span class="kt">MTLTexture</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">MTLTexture</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">matchingDescriptor</span> <span class="o">=</span> <span class="kt">MTLTextureDescriptor</span><span class="p">()</span>
+    <span class="n">matchingDescriptor</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">texture</span><span class="o">.</span><span class="n">width</span>
+    <span class="n">matchingDescriptor</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">texture</span><span class="o">.</span><span class="n">height</span>
+    <span class="n">matchingDescriptor</span><span class="o">.</span><span class="n">usage</span> <span class="o">=</span> <span class="n">texture</span><span class="o">.</span><span class="n">usage</span>
+    <span class="n">matchingDescriptor</span><span class="o">.</span><span class="n">pixelFormat</span> <span class="o">=</span> <span class="n">texture</span><span class="o">.</span><span class="n">pixelFormat</span>
+    <span class="n">matchingDescriptor</span><span class="o">.</span><span class="n">storageMode</span> <span class="o">=</span> <span class="n">texture</span><span class="o">.</span><span class="n">storageMode</span>
+
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">matchingTexture</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">textureLoader</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="nf">makeTexture</span><span class="p">(</span><span class="nv">descriptor</span><span class="p">:</span> <span class="n">matchingDescriptor</span><span class="p">)</span>
+    <span class="k">else</span> <span class="p">{</span> <span class="k">throw</span> <span class="kt">Error</span><span class="o">.</span><span class="n">textureCreationFailed</span> <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">matchingTexture</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We have finished with texture manager. Now the object of this class is able to create a texture from a CGImage, create an image from a texture and create an empty copy of a texture with the same dimension pixel format, usage and storage.</p>
+
+<h2 id="kernel-dispatching">Kernel Dispatching</h2>
+
+<p>The final step is to create a command queue, a command buffer and pass it to the encoding function.</p>
+
+<p>Navigate to <code class="language-plaintext highlighter-rouge">ViewController.swift</code> and add the following properties:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">private</span> <span class="k">let</span> <span class="nv">device</span><span class="p">:</span> <span class="kt">MTLDevice</span>
+<span class="kd">private</span> <span class="k">let</span> <span class="nv">commandQueue</span><span class="p">:</span> <span class="kt">MTLCommandQueue</span>
+<span class="kd">private</span> <span class="k">let</span> <span class="nv">textureManager</span><span class="p">:</span> <span class="kt">TextureManager</span>
+<span class="kd">private</span> <span class="k">let</span> <span class="nv">adjustments</span><span class="p">:</span> <span class="kt">Adjustments</span>
+<span class="kd">private</span> <span class="k">var</span> <span class="nv">texturePair</span><span class="p">:</span> <span class="p">(</span><span class="nv">source</span><span class="p">:</span> <span class="kt">MTLTexture</span><span class="p">,</span> <span class="nv">destination</span><span class="p">:</span> <span class="kt">MTLTexture</span><span class="p">)?</span></code></pre></figure>
+
+<p>Now, replace the constructor of this ViewController with the following:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="nf">init</span><span class="p">(</span><span class="nv">device</span><span class="p">:</span> <span class="kt">MTLDevice</span><span class="p">)</span> <span class="k">throws</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">library</span> <span class="o">=</span> <span class="k">try</span> <span class="n">device</span><span class="o">.</span><span class="nf">makeDefaultLibrary</span><span class="p">(</span><span class="nv">bundle</span><span class="p">:</span> <span class="o">.</span><span class="n">main</span><span class="p">)</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">commandQueue</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="nf">makeCommandQueue</span><span class="p">()</span>
+    <span class="k">else</span> <span class="p">{</span> <span class="k">throw</span> <span class="kt">Error</span><span class="o">.</span><span class="n">commandQueueCreationFailed</span> <span class="p">}</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">commandQueue</span> <span class="o">=</span> <span class="n">commandQueue</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">imageView</span> <span class="o">=</span> <span class="o">.</span><span class="nf">init</span><span class="p">()</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">adjustments</span> <span class="o">=</span> <span class="k">try</span> <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">library</span><span class="p">:</span> <span class="n">library</span><span class="p">)</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">textureManager</span> <span class="o">=</span> <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">device</span><span class="p">:</span> <span class="n">device</span><span class="p">)</span>
+    <span class="k">super</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">nibName</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">bundle</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">commonInit</span><span class="p">()</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Here we create the library for the main bundle and initialise command queue, adjustments and texture manager.</p>
+
+<p>Let’s add the drawing function:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">private</span> <span class="kd">func</span> <span class="nf">redraw</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">source</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">texturePair</span><span class="p">?</span><span class="o">.</span><span class="n">source</span><span class="p">,</span>
+          <span class="k">let</span> <span class="nv">destination</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">texturePair</span><span class="p">?</span><span class="o">.</span><span class="n">destination</span><span class="p">,</span>
+          <span class="k">let</span> <span class="nv">commandBuffer</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">commandQueue</span><span class="o">.</span><span class="nf">makeCommandBuffer</span><span class="p">()</span>
+    <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+
+    <span class="k">self</span><span class="o">.</span><span class="n">adjustments</span><span class="o">.</span><span class="nf">encode</span><span class="p">(</span><span class="nv">source</span><span class="p">:</span> <span class="n">source</span><span class="p">,</span>
+                            <span class="nv">destination</span><span class="p">:</span> <span class="n">destination</span><span class="p">,</span>
+                            <span class="nv">in</span><span class="p">:</span> <span class="n">commandBuffer</span><span class="p">)</span>
+
+    <span class="n">commandBuffer</span><span class="o">.</span><span class="n">addScheduledHandler</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span>
+        <span class="k">guard</span> <span class="k">let</span> <span class="nv">cgImage</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="k">self</span><span class="o">.</span><span class="n">textureManager</span><span class="o">.</span><span class="nf">cgImage</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="n">destination</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+
+        <span class="kt">DispatchQueue</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">imageView</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="kt">UIImage</span><span class="p">(</span><span class="nv">cgImage</span><span class="p">:</span> <span class="n">cgImage</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">commandBuffer</span><span class="o">.</span><span class="nf">commit</span><span class="p">()</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Inside the <code class="language-plaintext highlighter-rouge">redraw</code> the command queue creates a command buffer. The <code class="language-plaintext highlighter-rouge">Adjustments</code> object encodes everything in the command buffer and at the end we commit it. After the command buffer is committed, Metal sends it to the GPU for execution.</p>
+
+<p style="text-align:center;">
+<img src="/images/introduction-to-metal-compute-part-four/command-queue.png" alt="demo app" width="500" />
+</p>
+
+<p>The final two steps are: create textures from images and update the sliders logic. Update the <code class="language-plaintext highlighter-rouge">handlePickedImage</code> function:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">handlePickedImage</span><span class="p">(</span><span class="nv">image</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">cgImage</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">cgImage</span><span class="p">,</span>
+          <span class="k">let</span> <span class="nv">source</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="k">self</span><span class="o">.</span><span class="n">textureManager</span><span class="o">.</span><span class="nf">texture</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="n">cgImage</span><span class="p">),</span>
+          <span class="k">let</span> <span class="nv">destination</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="k">self</span><span class="o">.</span><span class="n">textureManager</span><span class="o">.</span><span class="nf">matchingTexture</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="n">source</span><span class="p">)</span>
+    <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+    
+    <span class="k">self</span><span class="o">.</span><span class="n">texturePair</span> <span class="o">=</span> <span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">)</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">imageView</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">redraw</span><span class="p">()</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>And finally, in the <code class="language-plaintext highlighter-rouge">commonInit</code> body replace the settings:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">settings</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="kt">FloatSetting</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Temperature"</span><span class="p">,</span>
+                 <span class="n">defaultValue</span><span class="p">:</span> <span class="o">.</span><span class="n">zero</span><span class="p">,</span>
+                 <span class="nv">min</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="nv">max</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">adjustments</span><span class="o">.</span><span class="n">temperature</span> <span class="o">=</span> <span class="nv">$0</span>
+        <span class="k">self</span><span class="o">.</span><span class="nf">redraw</span><span class="p">()</span>
+    <span class="p">},</span>
+    <span class="kt">FloatSetting</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Tint"</span><span class="p">,</span>
+                 <span class="n">defaultValue</span><span class="p">:</span> <span class="o">.</span><span class="n">zero</span><span class="p">,</span>
+                 <span class="nv">min</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="nv">max</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">adjustments</span><span class="o">.</span><span class="n">tint</span> <span class="o">=</span> <span class="nv">$0</span>
+        <span class="k">self</span><span class="o">.</span><span class="nf">redraw</span><span class="p">()</span>
+    <span class="p">},</span>
+<span class="p">]</span></code></pre></figure>
+
+<p>Hooray! We’re finally done! From now on, if you have done everything correctly, you can compile and run the application 🎉.</p>
+
+<p style="text-align:center;">
+<img src="/images/introduction-to-metal-compute-part-four/final-app.gif" alt="demo app" width="800" />
+</p>
+
+<p>In these four parts, we learned a lot: how to write a kernel, how to make an encoder for it, how to dispatch the work to the GPU and how to convert textures to images and backwards, got familiar with gamma correction, the internals of how pixels are stored in memory and more. But the that’s not all yet. At this moment we are using <code class="language-plaintext highlighter-rouge">UIImage</code> to display the result. In the next part, we will replace it with rendering in <a href="https://developer.apple.com/documentation/quartzcore/cametallayer"><code class="language-plaintext highlighter-rouge">CAMetalLayer</code></a> and start using more Swift-friendly API to work with Metal.</p>
+
+    </div>
+
+    <div class="post__share">
+  <ul class="share__list list-reset">
+    <li class="share__item">
+      <a class="share__link share__facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://eugenebokhan.github.io/introduction-to-metal-compute-part-four"
+        onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
+        title="Share on Facebook" rel="nofollow"><i class="ion ion-logo-facebook"></i></a>
+    </li>
+
+    <li class="share__item">
+      <a class="share__link share__twitter" href="https://twitter.com/intent/tweet?text=Introduction%20to%20Metal%20Compute:%20Part%204&url=https://eugenebokhan.github.io/introduction-to-metal-compute-part-four"
+        onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
+        title="Share on Twitter" rel="nofollow"><i class="ion ion-logo-twitter"></i></a>
+    </li>
+
+    <li class="share__item">
+      <a class="share__link share__linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https://eugenebokhan.github.io/introduction-to-metal-compute-part-four&title=Introduction%20to%20Metal%20Compute:%20Part%204&summary=&source=Eugene's%20Blog"
+      onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn" rel="nofollow"><i class="ion ion-logo-linkedin"></i></a>
+    </li>
+
+    <li class="share__item">
+      <a class="share__link share__pinterest" href="http://pinterest.com/pin/create/button/?url=https://eugenebokhan.github.io/introduction-to-metal-compute-part-four&amp;media=https://eugenebokhan.github.io/images/introduction-to-metal-compute-part-four/icon.png&amp;description=Introduction%20to%20Metal%20Compute:%20Part%204"
+      onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=900,height=500,toolbar=1,resizable=0'); return false;" title="Share on Pinterest"
+      rel="nofollow"><i class="ion ion-logo-pinterest"></i></a>
+    </li>
+  </ul>
+</div>
+
+    <div class="post__navigation">
+  
+  <a class="post__prev" href="/introduction-to-metal-compute-part-three">
+    <div class="prev__image">
+      <img class="lazy" data-src="/images/introduction-to-metal-compute-part-three/icon.png" alt="Introduction to Metal Compute: Part 4">
+    </div>
+    <div class="prev__box">
+      <span class="post__nav post__nav__prev">Older post</span>
+      <h2 class="post__nav__title">Introduction to Metal Compute: Part 3</h2>
+    </div>
+  </a>
+  
+
+  
+</div>
+
+    
+
+  </article>
+</div>
+<!-- end post -->
+      </div>
+      <!-- end wrapper-page -->
+    </main>
+    <!-- end content -->
+    <div class="top" title="Top"><i class="ion ion-ios-arrow-round-up"></i></div>
+    <!-- begin footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col col-12 col-m-12">
+        <div class="footer__inner">
+
+          <div class="footer__head">
+            <div class="row">
+              <div class="col col-4 col-d-6 col-t-12">
+  <div class="widget widget-recent">
+    <div class="widget__head">
+      <h3 class="widget__title">Recent Posts</h3>
+    </div>
+    
+    <div class="recent-posts">
+      
+      <a class="recent-posts__image" href="/introduction-to-metal-compute-part-four">
+        <img class="lazy" data-src="/images/introduction-to-metal-compute-part-four/icon.png" alt="Introduction to Metal Compute: Part 4">
+      </a>
+      
+      <div class="recent-posts__content">
+        <div class="recent-posts__date">
+          <time class="timeago" datetime="2021-05-14T15:01:35+03:00">May 14, 2021</time>
+        </div>
+        <h4 class="recent-posts__title"><a href="/introduction-to-metal-compute-part-four">Introduction to Metal Compute: Part 4</a></h4>
+      </div>
+    </div>
+    
+    <div class="recent-posts">
+      
+      <a class="recent-posts__image" href="/introduction-to-metal-compute-part-three">
+        <img class="lazy" data-src="/images/introduction-to-metal-compute-part-three/icon.png" alt="Introduction to Metal Compute: Part 3">
+      </a>
+      
+      <div class="recent-posts__content">
+        <div class="recent-posts__date">
+          <time class="timeago" datetime="2021-05-10T15:01:35+03:00">May 10, 2021</time>
+        </div>
+        <h4 class="recent-posts__title"><a href="/introduction-to-metal-compute-part-three">Introduction to Metal Compute: Part 3</a></h4>
+      </div>
+    </div>
+    
+  </div>
+</div>
+              <!-- <div class="col col-4 col-d-6 col-t-12">
+  <div class="widget widget-gallery">
+    <div class="widget__head">
+      <h3 class="widget__title">Gallery</h3>
+    </div>
+    
+    <div class="gallery-box gallery-footer">
+      <div class="gallery">
+        
+        <div class="gallery__image">
+          <img class="lazy" data-src="/images/06.jpg" alt="Minimalism">
+        </div>
+        
+        <div class="gallery__image">
+          <img class="lazy" data-src="/images/05.jpg" alt="Minimalism">
+        </div>
+        
+        <div class="gallery__image">
+          <img class="lazy" data-src="/images/08.jpg" alt="Minimalism">
+        </div>
+        
+        <div class="gallery__image">
+          <img class="lazy" data-src="/images/03.jpg" alt="Minimalism">
+        </div>
+        
+        <div class="gallery__image">
+          <img class="lazy" data-src="/images/09.jpg" alt="Minimalism">
+        </div>
+        
+        <div class="gallery__image">
+          <img class="lazy" data-src="/images/04.jpg" alt="Minimalism">
+        </div>
+        
+      </div>
+    </div>
+    
+  </div>
+</div> -->
+              <!-- <div class="col col-4 col-d-6 col-t-12">
+  <div class="widget widget-subscribe">
+    <div class="widget__head">
+      <h3 class="widget__title">Subscribe to new posts</h3>
+    </div>
+    <div class="subscribe__inner">
+      <div class="subscribe__group">
+        <div class="subscribe__description">Subscribe to our newsletter and we’ll send you the emails of latest posts.</div>
+      </div>
+      <form class="subscribe-form validate"
+        action="#" method="POST" id="membedded-subscribe-form" name="membedded-subscribe-form" target="_blank" novalidate>
+        <label class="screen-reader-text" for="mce-EMAIL">Email address</label>
+        <input class="subscribe-email required email" id="mce-EMAIL" type="text" name="EMAIL"
+          placeholder="Your email address">
+        <button class="button subscribe-button" id="membedded-subscribe" type="submit" name="subscribe">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</div> -->
+            </div>
+          </div>
+        </div>
+
+        
+  <div class="social">
+    <ul class="social__list list-reset">
+      
+      <li class="social__item">
+        <a class="social__link" href="https://twitter.com/eugenebokhan" target="_blank" rel="noopener" aria-label="social icon"><i class="ion ion-logo-twitter"></i></a>
+      </li>
+      
+      <li class="social__item">
+        <a class="social__link" href="https://github.com/eugenebokhan" target="_blank" rel="noopener" aria-label="social icon"><i class="ion ion-logo-github"></i></a>
+      </li>
+      
+    </ul>
+  </div>
+
+        <div class="copyright">2021 &copy; <a href="/">Eugene's Blog</a>. Crafted & Designed by <a href="https://github.com/eugenebokhan">Eugene Bokhan</a>.</div>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- end footer -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="/js/scripts.js"></script>
+</body>
+
+</html>
