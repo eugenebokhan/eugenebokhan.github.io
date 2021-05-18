@@ -6,6 +6,7 @@ description: iOS Development, Metal
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://eugenebokhan.io" # the base hostname & protocol for your site, e.g. http://example.com
 blog-theme: light # By default, Atega theme uses a 'light' color scheme, to change the color scheme to dark use 'dark' value (_includes/color-scheme)
+theme_toggle: true
 
 
 #-------------------------------
