@@ -8,7 +8,7 @@
 
 .post__content a,
 .page__content a {
-  border-bottom: 1px solid $heading-font-color;
+  border-bottom: 1px solid $link-border-color;
   &:hover {
     color: $link-color-hover;
     border-color: $brand-color;

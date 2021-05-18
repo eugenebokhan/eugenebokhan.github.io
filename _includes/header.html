@@ -33,6 +33,11 @@
                   {% endif %}
                 {% endunless %}
               {% endfor %}
+              {%if site.theme_toggle %}
+              <li class="nav__item">
+                <a id="toggleTheme" title="Click to change theme" href="#" class="nav__link" onclick="toggle(); return false;">Toggle Theme</a>
+              </li>
+              {% endif %}
             </ul>
           </div>
         </nav>

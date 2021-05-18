@@ -6,3 +6,4 @@
 {% include_relative vendors/transition.js %}
 {% include_relative vendors/zoom.min.js %}
 {% include_relative common.js %}
+{% include_relative themetoggle.js %}
