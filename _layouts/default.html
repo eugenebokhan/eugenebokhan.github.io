@@ -5,7 +5,7 @@
 
 <body class="{% if site.blog-theme == 'light' %}light{% elsif site.blog-theme == 'dark' %}dark{% else %}light{% endif %}">
 
-  {% if site.google_analytics and jekyll.environment == 'production' %}
+  {% if site.google-analytics and jekyll.environment != 'development' %}
     {% include google-analytics.html %}
   {% endif %}
 
