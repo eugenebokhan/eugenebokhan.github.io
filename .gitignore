@@ -91,3 +91,4 @@ iOSInjectionProject/
 *.DS_Store
 .jekyll-cache
 _site/build.sh
+_site/serve.sh
