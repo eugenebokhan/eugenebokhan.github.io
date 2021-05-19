@@ -19,11 +19,11 @@
   {%if site.theme_toggle %}
 
     {% if site.blog-theme == "light" %}
-      <link rel="stylesheet" type="text/css" title="light" id="light" href="css/light.css">
-      <link rel="stylesheet" type="text/css" title="dark" id="dark" href="css/dark.css" disabled="true">
+      <link rel="stylesheet" type="text/css" title="light" id="light" href="{{site.baseurl}}/css/light.css">
+      <link rel="stylesheet" type="text/css" title="dark" id="dark" href="{{site.baseurl}}/css/dark.css" disabled="true">
     {% else %}
-      <link rel="stylesheet" type="text/css" title="light" id="light" href="css/light.css">
-      <link rel="stylesheet" type="text/css" title="dark" id="dark" href="css/light.css" disabled="false">
+      <link rel="stylesheet" type="text/css" title="light" id="light" href="{{site.baseurl}}/css/light.css">
+      <link rel="stylesheet" type="text/css" title="dark" id="dark" href="{{site.baseurl}}/css/light.css" disabled="false">
     {% endif %}
 
   {% else %}
