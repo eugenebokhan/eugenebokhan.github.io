@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Introduction to Metal Compute: Alloy</title>
+  <meta name='description' content='iOS Development, Metal'>
+
+  <link rel="canonical" href="https://eugenebokhan.io/introduction-to-metal-compute-part-five-alloy">
+  <link rel="alternate" type="application/rss+xml" title="Eugene&#39;s Blog" href="/feed.xml">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Ionicons -->
+  <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
+
+
+  
+
+    
+      <link rel="stylesheet" type="text/css" title="light" id="light" href="/css/light.css">
+      <link rel="stylesheet" type="text/css" title="dark" id="dark" href="/css/dark.css" disabled="true">
+    
+
+  
+
+</head>
+
+<body class="light">
+
+  
+
+    <!-- begin header -->
+<header class="header">
+  <div class="container">
+    <div class="row">
+      <div class="header__inner col col-12">
+
+        <div class="logo">
+          <a class="logo__link" href="/">
+          
+            Eugene's Blog
+          
+          </a>
+        </div>
+
+        <nav class="main-nav">
+          <div class="main-nav__box">
+            <div class="nav__icon-close">
+              <i class="ion ion-md-close"></i>
+            </div>
+            <div class="nav__title">Menu</div>
+            <ul class="nav__list list-reset">
+              <li class="nav__item">
+                <a href="/" class="nav__link">Home</a>
+              </li>
+              
+                
+              
+                
+                  
+                  <li class="nav__item">
+                    <a href="/about/" class="nav__link">About</a>
+                  </li>
+                  
+                
+              
+                
+                  
+                  <li class="nav__item">
+                    <a href="/contact/" class="nav__link">Contact</a>
+                  </li>
+                  
+                
+              
+                
+                  
+                
+              
+                
+                  
+                  <li class="nav__item">
+                    <a href="/resume/" class="nav__link">Resume</a>
+                  </li>
+                  
+                
+              
+                
+                  
+                
+              
+                
+                  
+                
+              
+                
+                  
+                
+              
+                
+                  
+                
+              
+                
+                  
+                
+              
+                
+                  
+                
+              
+                
+                  
+                
+              
+              
+              <li class="nav__item">
+                <a id="toggleTheme" title="Click to change theme" href="#" class="nav__link" onclick="toggle(); return false;">Toggle Theme</a>
+              </li>
+              
+            </ul>
+          </div>
+        </nav>
+
+        <div class="nav-buttons">
+          <i class="nav__icon nav__icon-menu ion ion-md-menu"></i>
+          <i class="nav__icon nav__icon-search ion ion-md-search"></i>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="header__overlay"></div>
+</header>
+<!-- end header -->
+
+<!-- begin search -->
+<div class="search">
+  <div class="container">
+    <div class="row">
+      <div class="col col-12">
+        <div class="search__box">
+          <div class="search__group">
+            <div class="search__close">
+              <i class="ion ion-md-close"></i>
+            </div>
+            <label for="js-search-input" class="screen-reader-text">Search for Blog</label>
+            <input type="text" id="js-search-input" class="search__text" autocomplete="off" placeholder="Type to search...">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col col-12">
+        <div class="container__inner">
+          <div class="row search-results-list" id="js-results-container"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- end search -->
+    <!-- begin content -->
+    <main class="content" aria-label="Content">
+      <!-- begin wrapper-page -->
+      <div class="wrapper-page">
+        <!-- begin hero -->
+
+<section class="hero hero--post">
+  <div class="container">
+    <div class="row">
+      <div class="col col-12">
+        <div class="hero__inner">
+          <div class="hero__left">
+            
+
+            <div class="article__meta">
+              <span class="article__date"><time datetime="2021-05-21T15:01:35+03:00">21 May 2021</time></span>
+              
+              <div class="article-tags__box">
+                
+                  <a href="/tag/iOS" class="article__tag">iOS</a>
+                
+                  <a href="/tag/Metal" class="article__tag">Metal</a>
+                
+              </div>
+              
+            </div>
+
+            <h1 class="hero__title">Introduction to Metal Compute: Alloy</h1>
+            <a href="/about/" class="article__author-link"><span>By</span> Eugene Bokhan</a>
+
+            
+          </div>
+
+          <div class="hero__right">
+
+            
+            <div class="hero__image">
+              <img class="lazy" data-src="/images/introduction-to-metal-compute-alloy/icon.png" alt="Introduction to Metal Compute: Alloy">
+            </div>
+
+            
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end hero -->
+
+<!-- begin post -->
+<div class="container">
+  <article class="post animate">
+
+    <div class="post__content">
+      <p>Hello everyone and welcome the fifth chapter of Introduction to Metal Compute! We made a lot things in the previous parts. We created a simple image editing app that is able to open, preview, adjust and export images. To do that, we wrote an image editing Metal shader kernel, created an encoder for it, learned, how to convert images to textures and pass the data to the GPU while dispatching the commands to it. The aim of this article is to encourage you to use more “Swifty” way of writing Metal related code. Also, we will migrate from <code class="language-plaintext highlighter-rouge">UIImageView</code> to <code class="language-plaintext highlighter-rouge">CAMetalLayer</code> for previewing the result.</p>
+
+<h2 id="alloy">Alloy</h2>
+
+<p>Vanilla Metal provides an access to work with device’s GPU. It practically does not add any abstraction and allows you to work in the same paradigm in which the hardware works. Being a low-level API, on one hand, Metal provides an ability to have a fine grained control over the hardware, and on the other hand, it introduces a little bit of complexity and redundancy in some cases. While writing metal pipeline, we operate such concepts as device, command queue, command buffer, command encoder, library, function and more. Some of these objects are created once and can be reused, others need to be initialised on every kernel dispatch. Some of them need to be initialised with their corresponding descriptors and some are not. In some places the API is throwable and returns optionals in the other. In general it feels like Metal was written for Objective-C users without any extra adaptation for Swift.</p>
+
+<p>With all these thoughts in mind <a href="https://github.com/s1ddok/Alloy/">Alloy</a> was born. This framework’s purpose is to simplify Metal development on Swift, make the code cleaner and consistent without changing the main paradigm of low-level control over how things work. It provides nano-tiny layer over vanilla Metal API, that hides the majority of redundant explicity in the Metal code, while not limiting a flexibility a bit. Originally Alloy written in 2018 by my colleague <a href="https://twitter.com/s1ddok">Andrey Volodin</a> and what concerns me, I was one of the main contributors to it for the last few years.</p>
+
+<p>To make code more consistent, the Alloys API is designed to be throwable in those places where vanilla Metal is either throwable or returns optionals. A lot of extensions were added to device, texture, command queue and other classes to reduce the number of repeating boilerplate code.</p>
+
+<h3 id="device">Device</h3>
+
+<p>The device has been upgraded and by using it you are able to:</p>
+
+<ul>
+  <li>allocate a heap without a descriptor:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">heap</span> <span class="o">=</span> <span class="k">try</span> <span class="n">device</span><span class="o">.</span><span class="nf">heap</span><span class="p">(</span><span class="nv">size</span><span class="p">:</span> <span class="mi">512</span><span class="p">,</span>
+                           <span class="nv">storageMode</span><span class="p">:</span> <span class="o">.</span><span class="n">shared</span><span class="p">,</span>
+                           <span class="nv">cpuCacheMode</span><span class="p">:</span> <span class="o">.</span><span class="n">defaultCache</span><span class="p">)</span></code></pre></figure>
+
+<ul>
+  <li>create a texture with few lines of code:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">texture</span> <span class="o">=</span> <span class="k">try</span> <span class="n">device</span><span class="o">.</span><span class="nf">texture</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="mi">512</span><span class="p">,</span>
+                                 <span class="nv">height</span><span class="p">:</span> <span class="mi">512</span><span class="p">,</span>
+                                 <span class="nv">pixelFormat</span><span class="p">:</span> <span class="o">.</span><span class="n">bgra8Unorm</span><span class="p">,</span>
+                                 <span class="nv">usage</span><span class="p">:</span> <span class="p">[</span><span class="o">.</span><span class="n">shaderRead</span><span class="p">,</span> <span class="o">.</span><span class="n">shaderWrite</span><span class="p">])</span></code></pre></figure>
+
+<ul>
+  <li>allocate a buffer with a value:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">someValue</span> <span class="o">=</span> <span class="kt">SIMD4</span><span class="o">&lt;</span><span class="kt">Float</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">repeating</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">buffer</span> <span class="o">=</span> <span class="k">try</span> <span class="n">device</span><span class="o">.</span><span class="nf">buffer</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">someValue</span><span class="p">,</span>
+                               <span class="nv">options</span><span class="p">:</span> <span class="o">.</span><span class="n">storageModeShared</span><span class="p">)</span></code></pre></figure>
+
+<p>… and more!</p>
+
+<h3 id="command-queue">Command Queue</h3>
+
+<p>We extended the command queue with two convenience function that allow you to:</p>
+
+<ul>
+  <li>dispatch a command buffer in async manner:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">commandQueue</span><span class="o">.</span><span class="n">schedule</span> <span class="p">{</span> <span class="n">commandBuffer</span> <span class="k">in</span>
+    <span class="c1">// encoding logic</span>
+<span class="p">}</span></code></pre></figure>
+
+<ul>
+  <li>dispatch a command buffer synchronously:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">commandQueue</span><span class="o">.</span><span class="n">scheduleAndWait</span> <span class="p">{</span> <span class="n">commandBuffer</span> <span class="k">in</span>
+    <span class="c1">// encoding logic</span>
+<span class="p">}</span></code></pre></figure>
+
+<h3 id="command-buffer">Command Buffer</h3>
+
+<p>Now encoding the commands to command buffer can be done by calling just one function. Also, you don’t need to worry about committing the work. You can easily encode:</p>
+
+<ul>
+  <li>a compute command:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">commandBuffer</span><span class="o">.</span><span class="n">compute</span> <span class="p">{</span> <span class="n">computeCommandEncoder</span> <span class="k">in</span>
+    <span class="c1">// compute command encoding logic</span>
+<span class="p">}</span></code></pre></figure>
+
+<ul>
+  <li>a render command:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">commandBuffer</span><span class="o">.</span><span class="nf">render</span><span class="p">(</span><span class="nv">descriptor</span><span class="p">:</span> <span class="kt">MTLRenderPassDescriptor</span><span class="p">)</span> <span class="p">{</span> <span class="n">renderCommandEncoder</span> <span class="k">in</span>
+    <span class="c1">// render command encoding logic</span>
+<span class="p">}</span></code></pre></figure>
+
+<ul>
+  <li>a blit command:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">commandBuffer</span><span class="o">.</span><span class="n">blit</span> <span class="p">{</span> <span class="n">blitCommandEncoder</span>
+    <span class="c1">// blit command encoding logic</span>
+<span class="p">}</span></code></pre></figure>
+
+<h3 id="compute-command-encoder">Compute Command Encoder</h3>
+
+<p>Remember how you passed data to shaders via compute command encoder? If you needed to pass any value, you needed to calculate it’s size in bytes and pass a reference to the value. Now you can just call:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">someValue</span> <span class="o">=</span> <span class="kt">SIMD4</span><span class="o">&lt;</span><span class="kt">Float</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">repeating</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">encoder</span><span class="o">.</span><span class="nf">setValue</span><span class="p">(</span><span class="n">someValue</span><span class="p">,</span> <span class="nv">at</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span></code></pre></figure>
+
+<p>or if you need to pass an array:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">someArray</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Float</span><span class="p">](</span><span class="nv">repeating</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nv">count</span><span class="p">:</span> <span class="mi">256</span><span class="p">)</span>
+<span class="n">encoder</span><span class="o">.</span><span class="nf">setValue</span><span class="p">(</span><span class="n">someArray</span><span class="p">,</span> <span class="nv">at</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span></code></pre></figure>
+
+<p>Also you can set a number of textures just by calling:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">encoder</span><span class="o">.</span><span class="nf">setTextures</span><span class="p">(</span><span class="n">textureOne</span><span class="p">,</span> <span class="n">textureTwo</span><span class="p">)</span></code></pre></figure>
+
+<p>and buffers:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">encoder</span><span class="o">.</span><span class="nf">setBuffers</span><span class="p">(</span><span class="n">bufferOne</span><span class="p">,</span> <span class="n">bufferTwo</span><span class="p">)</span></code></pre></figure>
+
+<p>One of key things is that now you don’t need to write threadgrop size computations by hand and the code can be reduced just to:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">if</span> <span class="k">self</span><span class="o">.</span><span class="n">deviceSupportsNonuniformThreadgroups</span> <span class="p">{</span>
+    <span class="n">encoder</span><span class="o">.</span><span class="nf">dispatch2d</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="n">pipelineState</span><span class="p">,</span>
+                       <span class="nv">exactly</span><span class="p">:</span> <span class="n">size</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">encoder</span><span class="o">.</span><span class="nf">dispatch2d</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="n">pipelineState</span><span class="p">,</span>
+                       <span class="nv">covering</span><span class="p">:</span> <span class="n">size</span><span class="p">)</span>
+<span class="p">}</span></code></pre></figure>
+
+<h3 id="textutre">Textutre</h3>
+
+<p>What concerns textures, now you are able to create images from them by calling:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">image</span> <span class="o">=</span> <span class="k">try</span> <span class="n">texture</span><span class="o">.</span><span class="nf">image</span><span class="p">(</span><span class="nv">colorSpace</span><span class="p">:</span> <span class="o">.</span><span class="n">displayP3Space</span><span class="p">)</span></code></pre></figure>
+
+<p>and pixel buffers:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">pixelBuffer</span> <span class="o">=</span> <span class="n">texture</span><span class="o">.</span><span class="n">pixelBuffer</span></code></pre></figure>
+
+<p>Now it is easy to get <code class="language-plaintext highlighter-rouge">size</code>, <code class="language-plaintext highlighter-rouge">region</code> and a <code class="language-plaintext highlighter-rouge">descriptor</code> of a texture as well as to create it’s empty copy:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">textureTwo</span> <span class="o">=</span> <span class="k">try</span> <span class="n">textureOne</span><span class="o">.</span><span class="nf">matchingTexture</span><span class="p">(</span><span class="nv">usage</span><span class="p">:</span> <span class="p">[</span><span class="o">.</span><span class="n">shaderRead</span><span class="p">,</span> <span class="o">.</span><span class="n">shaderWrite</span><span class="p">],</span>
+                                                <span class="nv">storage</span><span class="p">:</span> <span class="o">.</span><span class="n">shared</span><span class="p">)</span></code></pre></figure>
+
+<h3 id="context">Context</h3>
+
+<p>The only new concept that Alloy introduces is <code class="language-plaintext highlighter-rouge">MTLContext</code>. The context is an object that is designed to be injected across the app. Internally, the context holds references to such objects that remain the same over the whole metal pipeline lifecycle (device, command queue, library cache and texture loader) and provides a convenience API to maintain it. With the help of context you can:</p>
+
+<ul>
+  <li>create a texture form <code class="language-plaintext highlighter-rouge">CGImage</code>:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">texture</span> <span class="o">=</span> <span class="k">try</span> <span class="k">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="nf">texture</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="kt">CGImage</span><span class="p">,</span>
+                                       <span class="nv">srgb</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?,</span>
+                                       <span class="nv">usage</span><span class="p">:</span> <span class="kt">MTLTextureUsage</span><span class="p">,</span>
+                                       <span class="nv">generateMipmaps</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre></figure>
+
+<ul>
+  <li>create a shaders library for a given bundle:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">library</span> <span class="o">=</span> <span class="k">try</span> <span class="k">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="nf">library</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="kt">Bundle</span><span class="p">)</span></code></pre></figure>
+
+<ul>
+  <li>do everything that a device and command queue can.</li>
+</ul>
+
+<p>Also it is important to notice that this framework provides a set of handwritten utility kernels that are commonly used in image processing:</p>
+
+<ul>
+  <li>BitonicSort;</li>
+  <li>LookUpTable;</li>
+  <li>MaskGuidedBlur;</li>
+  <li>Normalisation;</li>
+  <li>RGBAToYCbCr;</li>
+  <li>YCbCrToRGBA;</li>
+  <li>TextureAffineCrop;</li>
+  <li>TextureCopy;</li>
+  <li>TextureMask;</li>
+  <li>TextureMax;</li>
+  <li>TextureMean;</li>
+  <li>TextureMin;</li>
+  <li>TextureMultiplyAdd;</li>
+  <li>TextureResize;</li>
+  <li>TextureWeightedMix;</li>
+</ul>
+
+<p>and more!</p>
+
+<p>And yet we have covered just a little part of all the extensions that Alloy has. Alloy is a production ready tool and it is used in the development of all <a href="https://prisma-ai.com">Prisma</a>’s apps. I highly recommend you to give this framework a try, and I am sure, you won’t return to vanilla Metal any more 🙂.</p>
+
+<h2 id="demo-app">Demo App</h2>
+
+<p>Let’s migrate our existing codebase to Alloy and see it in action. First, add is as a dependency to the project.</p>
+
+<p style="text-align:center;">
+<img src="/images/introduction-to-metal-compute-alloy/add-alloy-package.png" alt="add-alloy-package" width="900" />
+</p>
+
+<h3 id="adjustments">Adjustments</h3>
+
+<p>Navigate to <code class="language-plaintext highlighter-rouge">Adjustments.swift</code> and replace <code class="language-plaintext highlighter-rouge">import Metal</code> with <code class="language-plaintext highlighter-rouge">import Alloy</code>.</p>
+
+<p>Now let’s modify the class constructor. First thing is <code class="language-plaintext highlighter-rouge">deviceSupportsNonuniformThreadgroups</code>. Make this property a constant by replacing <code class="language-plaintext highlighter-rouge">var</code> with <code class="language-plaintext highlighter-rouge">let</code>and init it this way:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">self</span><span class="o">.</span><span class="n">deviceSupportsNonuniformThreadgroups</span> <span class="o">=</span> <span class="n">library</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="nf">supports</span><span class="p">(</span><span class="nv">feature</span><span class="p">:</span> <span class="o">.</span><span class="n">nonUniformThreadgroups</span><span class="p">)</span></code></pre></figure>
+
+<p>The function constants can be created much cleaner:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">constantValues</span> <span class="o">=</span> <span class="kt">MTLFunctionConstantValues</span><span class="p">()</span>
+<span class="n">constantValues</span><span class="o">.</span><span class="nf">set</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">deviceSupportsNonuniformThreadgroups</span><span class="p">,</span> <span class="nv">at</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span></code></pre></figure>
+
+<p>To crate a pipeline state now you don’t need to init with a function. Instead, pass the function name directly to the pipeline state constructor:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">self</span><span class="o">.</span><span class="n">pipelineState</span> <span class="o">=</span> <span class="k">try</span> <span class="n">library</span><span class="o">.</span><span class="nf">computePipelineState</span><span class="p">(</span><span class="nv">function</span><span class="p">:</span> <span class="s">"adjustments"</span><span class="p">,</span>
+                                                      <span class="nv">constants</span><span class="p">:</span> <span class="n">constantValues</span><span class="p">)</span></code></pre></figure>
+
+<p>The final variant of the <code class="language-plaintext highlighter-rouge">Adjustments</code> init looks like this:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="nf">init</span><span class="p">(</span><span class="nv">library</span><span class="p">:</span> <span class="kt">MTLLibrary</span><span class="p">)</span> <span class="k">throws</span> <span class="p">{</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">deviceSupportsNonuniformThreadgroups</span> <span class="o">=</span> <span class="n">library</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="nf">supports</span><span class="p">(</span><span class="nv">feature</span><span class="p">:</span> <span class="o">.</span><span class="n">nonUniformThreadgroups</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">constantValues</span> <span class="o">=</span> <span class="kt">MTLFunctionConstantValues</span><span class="p">()</span>
+    <span class="n">constantValues</span><span class="o">.</span><span class="nf">set</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">deviceSupportsNonuniformThreadgroups</span><span class="p">,</span> <span class="nv">at</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">pipelineState</span> <span class="o">=</span> <span class="k">try</span> <span class="n">library</span><span class="o">.</span><span class="nf">computePipelineState</span><span class="p">(</span><span class="nv">function</span><span class="p">:</span> <span class="s">"adjustments"</span><span class="p">,</span>
+                                                          <span class="nv">constants</span><span class="p">:</span> <span class="n">constantValues</span><span class="p">)</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Next stop is the encoding function. Currently, it looks large, explicit and takes about 39 lines of code. Thanks to Alloy’s extensions over command buffer and command encoder, we can significantly reduce the amount of the code. Replace the encoding with the following:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">encode</span><span class="p">(</span><span class="nv">source</span><span class="p">:</span> <span class="kt">MTLTexture</span><span class="p">,</span>
+            <span class="nv">destination</span><span class="p">:</span> <span class="kt">MTLTexture</span><span class="p">,</span>
+            <span class="k">in</span> <span class="nv">commandBuffer</span><span class="p">:</span> <span class="kt">MTLCommandBuffer</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">commandBuffer</span><span class="o">.</span><span class="n">compute</span> <span class="p">{</span> <span class="n">encoder</span> <span class="k">in</span>
+	<span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>As you can see, now you don’t need to create encoder by hand, instead we are using Swift’s closures which looks much cleaner. Now let’s add the encoding logic:</p>
+
+<ul>
+  <li>set the label</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">encoder</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s">"Adjustments"</span></code></pre></figure>
+
+<ul>
+  <li>set the textures:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">encoder</span><span class="o">.</span><span class="nf">setTextures</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">)</span></code></pre></figure>
+
+<ul>
+  <li>set the floats:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">encoder</span><span class="o">.</span><span class="nf">setValue</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">temperature</span><span class="p">,</span> <span class="nv">at</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">encoder</span><span class="o">.</span><span class="nf">setValue</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">tint</span><span class="p">,</span> <span class="nv">at</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span></code></pre></figure>
+
+<ul>
+  <li>dispatch the command:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">if</span> <span class="k">self</span><span class="o">.</span><span class="n">deviceSupportsNonuniformThreadgroups</span> <span class="p">{</span>
+    <span class="n">encoder</span><span class="o">.</span><span class="nf">dispatch2d</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">pipelineState</span><span class="p">,</span>
+                       <span class="nv">exactly</span><span class="p">:</span> <span class="n">destination</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">encoder</span><span class="o">.</span><span class="nf">dispatch2d</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">pipelineState</span><span class="p">,</span>
+                       <span class="nv">covering</span><span class="p">:</span> <span class="n">destination</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The result function looks like this:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">encode</span><span class="p">(</span><span class="nv">source</span><span class="p">:</span> <span class="kt">MTLTexture</span><span class="p">,</span>
+            <span class="nv">destination</span><span class="p">:</span> <span class="kt">MTLTexture</span><span class="p">,</span>
+            <span class="k">in</span> <span class="nv">commandBuffer</span><span class="p">:</span> <span class="kt">MTLCommandBuffer</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">commandBuffer</span><span class="o">.</span><span class="n">compute</span> <span class="p">{</span> <span class="n">encoder</span> <span class="k">in</span>
+        <span class="n">encoder</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s">"Adjustments"</span>
+        <span class="n">encoder</span><span class="o">.</span><span class="nf">setTextures</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">)</span>
+        <span class="n">encoder</span><span class="o">.</span><span class="nf">setValue</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">temperature</span><span class="p">,</span> <span class="nv">at</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">encoder</span><span class="o">.</span><span class="nf">setValue</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">tint</span><span class="p">,</span> <span class="nv">at</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="k">self</span><span class="o">.</span><span class="n">deviceSupportsNonuniformThreadgroups</span> <span class="p">{</span>
+            <span class="n">encoder</span><span class="o">.</span><span class="nf">dispatch2d</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">pipelineState</span><span class="p">,</span>
+                               <span class="nv">exactly</span><span class="p">:</span> <span class="n">destination</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">encoder</span><span class="o">.</span><span class="nf">dispatch2d</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">pipelineState</span><span class="p">,</span>
+                               <span class="nv">covering</span><span class="p">:</span> <span class="n">destination</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>and it takes only 16 lines of code! Note that we don’t need to worry about the <code class="language-plaintext highlighter-rouge">encoder.endEncoding()</code>, because Alloy does it under the hood and reduces the amount of redundant code just by changing the way you call it.</p>
+
+<h3 id="viewcontroller">ViewController</h3>
+
+<p>Next, delete the <code class="language-plaintext highlighter-rouge">TextureManager</code> file. All its logic now can be replaced by Alloy’s <code class="language-plaintext highlighter-rouge">MTLContext</code>. Navigate to the <code class="language-plaintext highlighter-rouge">ViewController</code>. Import Alloy and replace <code class="language-plaintext highlighter-rouge">device</code>, <code class="language-plaintext highlighter-rouge">commandQueue</code> and <code class="language-plaintext highlighter-rouge">textureManager</code> properties with:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">private</span> <span class="k">let</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">MTLContext</span></code></pre></figure>
+
+<p>Now, the <code class="language-plaintext highlighter-rouge">ViewContoller</code>’s constructor should be modified:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="nf">init</span><span class="p">(</span><span class="nv">context</span><span class="p">:</span> <span class="kt">MTLContext</span><span class="p">)</span> <span class="k">throws</span> <span class="p">{</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">context</span> <span class="o">=</span> <span class="n">context</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">adjustments</span> <span class="o">=</span> <span class="k">try</span> <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">library</span><span class="p">:</span> <span class="n">context</span><span class="o">.</span><span class="nf">library</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">main</span><span class="p">))</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">imageView</span> <span class="o">=</span> <span class="o">.</span><span class="nf">init</span><span class="p">()</span>
+    <span class="k">super</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">nibName</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">bundle</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">commonInit</span><span class="p">()</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>as well as the calling of this constructor in <code class="language-plaintext highlighter-rouge">SceneDelegate.swift</code>:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">guard</span> <span class="k">let</span> <span class="nv">windowScene</span> <span class="o">=</span> <span class="p">(</span><span class="n">scene</span> <span class="k">as?</span> <span class="kt">UIWindowScene</span><span class="p">),</span>
+      <span class="k">let</span> <span class="nv">vc</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="kt">ViewController</span><span class="p">(</span><span class="nv">context</span><span class="p">:</span> <span class="o">.</span><span class="nf">init</span><span class="p">())</span>
+<span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span></code></pre></figure>
+
+<p>Note, how easy it is to initialise Adjustments with just one line of code.</p>
+
+<p>Next, the <code class="language-plaintext highlighter-rouge">handlePickedImage</code>’s texture creation logic needs to be replaced with:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">guard</span> <span class="k">let</span> <span class="nv">cgImage</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">cgImage</span><span class="p">,</span>
+      <span class="k">let</span> <span class="nv">source</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="k">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="nf">texture</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="n">cgImage</span><span class="p">,</span>
+                                             <span class="nv">srgb</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+                                             <span class="nv">usage</span><span class="p">:</span> <span class="o">.</span><span class="n">shaderRead</span><span class="p">),</span>
+      <span class="k">let</span> <span class="nv">destination</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="n">source</span><span class="o">.</span><span class="nf">matchingTexture</span><span class="p">(</span><span class="nv">usage</span><span class="p">:</span> <span class="p">[</span><span class="o">.</span><span class="n">shaderRead</span><span class="p">,</span> <span class="o">.</span><span class="n">shaderWrite</span><span class="p">])</span>
+<span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span></code></pre></figure>
+
+<p>Creation textures from images and making matching textures is now super easy.</p>
+
+<p>Knowing that the context holds a command queue inside and the textures now are able to output images, we can delete the command queue property from the class and replace the <code class="language-plaintext highlighter-rouge">redraw</code> function with the following:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">private</span> <span class="kd">func</span> <span class="nf">redraw</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">source</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">texturePair</span><span class="p">?</span><span class="o">.</span><span class="n">source</span><span class="p">,</span>
+          <span class="k">let</span> <span class="nv">destination</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">texturePair</span><span class="p">?</span><span class="o">.</span><span class="n">destination</span>
+    <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+
+    <span class="k">try</span><span class="p">?</span> <span class="k">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">schedule</span> <span class="p">{</span> <span class="n">commandBuffer</span> <span class="k">in</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">adjustments</span><span class="o">.</span><span class="nf">encode</span><span class="p">(</span><span class="nv">source</span><span class="p">:</span> <span class="n">source</span><span class="p">,</span>
+                                <span class="nv">destination</span><span class="p">:</span> <span class="n">destination</span><span class="p">,</span>
+                                <span class="nv">in</span><span class="p">:</span> <span class="n">commandBuffer</span><span class="p">)</span>
+        <span class="n">commandBuffer</span><span class="o">.</span><span class="n">addScheduledHandler</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span>
+            <span class="kt">DispatchQueue</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+                <span class="k">self</span><span class="o">.</span><span class="n">imageView</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="n">destination</span><span class="o">.</span><span class="nf">image</span><span class="p">()</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Now it looks much better and cleaner. And the bonus is that overall we reduced the number of lines of code by 122, which is very cool 🎉.</p>
+
+<h2 id="texture-view">Texture View</h2>
+
+<p>Creation an image by every slider change is extremely inefficient: each time the system allocates memory, copies the texture bytes to it, creates an image, sets it to the image view and draws the layer to the screen. The better approach is just to render the texture directly to <code class="language-plaintext highlighter-rouge">CAMetalLayer</code>. In order to do that we will use <a href="https://github.com/eugenebokhan/texture-view">Texture View</a>. Internally this little framework renders two triangles with a texture stretched over them.</p>
+
+<p style="text-align:center;">
+<img src="/images/introduction-to-metal-compute-alloy/rendering.png" alt="rendering" width="600" />
+</p>
+
+<p>Let’s add it as a dependency.</p>
+
+<p style="text-align:center;">
+<img src="/images/introduction-to-metal-compute-alloy/add-alloy-package.png" alt="add-alloy-package" width="900" />
+</p>
+
+<p>Import <code class="language-plaintext highlighter-rouge">TextureView</code> in the <code class="language-plaintext highlighter-rouge">ViewController</code>. Replace the image view with a texture view:</p>
+
+<ul>
+  <li>the property:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">private</span> <span class="k">let</span> <span class="nv">textureView</span><span class="p">:</span> <span class="kt">TextureView</span></code></pre></figure>
+
+<ul>
+  <li>in the <code class="language-plaintext highlighter-rouge">ViewController</code>’s constructor:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">self</span><span class="o">.</span><span class="n">textureView</span> <span class="o">=</span> <span class="k">try</span> <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">device</span><span class="p">:</span> <span class="n">context</span><span class="o">.</span><span class="n">device</span><span class="p">)</span></code></pre></figure>
+
+<ul>
+  <li>in the <code class="language-plaintext highlighter-rouge">commonInit</code> function:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="c1">// texture view</span>
+<span class="k">self</span><span class="o">.</span><span class="n">textureView</span><span class="o">.</span><span class="n">textureContentMode</span> <span class="o">=</span> <span class="o">.</span><span class="n">aspectFit</span>
+<span class="k">self</span><span class="o">.</span><span class="n">textureView</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">cornerRadius</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="k">self</span><span class="o">.</span><span class="n">textureView</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">masksToBounds</span> <span class="o">=</span> <span class="kc">true</span>
+<span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">textureView</span><span class="p">)</span>
+<span class="k">self</span><span class="o">.</span><span class="n">textureView</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="o">.</span><span class="n">tertiarySystemFill</span>
+<span class="k">self</span><span class="o">.</span><span class="n">textureView</span><span class="o">.</span><span class="n">snp</span><span class="o">.</span><span class="n">makeConstraints</span> <span class="p">{</span>
+    <span class="nv">$0</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="nf">equalToSuperview</span><span class="p">()</span><span class="o">.</span><span class="nf">inset</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+    <span class="nv">$0</span><span class="o">.</span><span class="n">top</span><span class="o">.</span><span class="nf">equalTo</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">safeAreaLayoutGuide</span><span class="p">)</span><span class="o">.</span><span class="nf">inset</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+    <span class="nv">$0</span><span class="o">.</span><span class="n">bottom</span><span class="o">.</span><span class="nf">equalTo</span><span class="p">(</span><span class="n">settingsView</span><span class="o">.</span><span class="n">snp</span><span class="o">.</span><span class="n">top</span><span class="p">)</span><span class="o">.</span><span class="nf">inset</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">)</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Replace the getting result image logic of <code class="language-plaintext highlighter-rouge">share</code> function with the following:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">guard</span> <span class="k">let</span> <span class="nv">destination</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">texturePair</span><span class="p">?</span><span class="o">.</span><span class="n">destination</span><span class="p">,</span>
+      <span class="k">let</span> <span class="nv">image</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="n">destination</span><span class="o">.</span><span class="nf">image</span><span class="p">()</span>
+<span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span></code></pre></figure>
+
+<p>In the <code class="language-plaintext highlighter-rouge">handlePickedImage</code> replace the image view code with:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">self</span><span class="o">.</span><span class="n">textureView</span><span class="o">.</span><span class="n">texture</span> <span class="o">=</span> <span class="n">destination</span></code></pre></figure>
+
+<p>And finally, the the redraw function should look like this:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">private</span> <span class="kd">func</span> <span class="nf">redraw</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">source</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">texturePair</span><span class="p">?</span><span class="o">.</span><span class="n">source</span><span class="p">,</span>
+          <span class="k">let</span> <span class="nv">destination</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">texturePair</span><span class="p">?</span><span class="o">.</span><span class="n">destination</span>
+    <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+    <span class="kt">DispatchQueue</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+        <span class="k">try</span><span class="p">?</span> <span class="k">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">schedule</span> <span class="p">{</span> <span class="n">commandBuffer</span> <span class="k">in</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">adjustments</span><span class="o">.</span><span class="nf">encode</span><span class="p">(</span><span class="nv">source</span><span class="p">:</span> <span class="n">source</span><span class="p">,</span>
+                                    <span class="nv">destination</span><span class="p">:</span> <span class="n">destination</span><span class="p">,</span>
+                                    <span class="nv">in</span><span class="p">:</span> <span class="n">commandBuffer</span><span class="p">)</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">textureView</span><span class="o">.</span><span class="nf">draw</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="n">commandBuffer</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Nice! Now we have an image editing app with an end-to-end Metal pipeline 🤘. The source code of the result project can be found <a href="https://github.com/eugenebokhan/introduction-to-metal-compute/tree/main/part-5">here</a>. In the next chapter we will learn how to use another cool tool for kernel encoder codegeneration.</p>
+
+    </div>
+
+    <div class="post__share">
+  <ul class="share__list list-reset">
+    <li class="share__item">
+      <a class="share__link share__facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://eugenebokhan.io/introduction-to-metal-compute-part-five-alloy"
+        onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
+        title="Share on Facebook" rel="nofollow"><i class="ion ion-logo-facebook"></i></a>
+    </li>
+
+    <li class="share__item">
+      <a class="share__link share__twitter" href="https://twitter.com/intent/tweet?text=Introduction%20to%20Metal%20Compute:%20Alloy&url=https://eugenebokhan.io/introduction-to-metal-compute-part-five-alloy"
+        onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
+        title="Share on Twitter" rel="nofollow"><i class="ion ion-logo-twitter"></i></a>
+    </li>
+
+    <li class="share__item">
+      <a class="share__link share__linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https://eugenebokhan.io/introduction-to-metal-compute-part-five-alloy&title=Introduction%20to%20Metal%20Compute:%20Alloy&summary=&source=Eugene's%20Blog"
+      onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn" rel="nofollow"><i class="ion ion-logo-linkedin"></i></a>
+    </li>
+
+    <li class="share__item">
+      <a class="share__link share__pinterest" href="http://pinterest.com/pin/create/button/?url=https://eugenebokhan.io/introduction-to-metal-compute-part-five-alloy&amp;media=https://eugenebokhan.io/images/introduction-to-metal-compute-alloy/icon.png&amp;description=Introduction%20to%20Metal%20Compute:%20Alloy"
+      onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=900,height=500,toolbar=1,resizable=0'); return false;" title="Share on Pinterest"
+      rel="nofollow"><i class="ion ion-logo-pinterest"></i></a>
+    </li>
+  </ul>
+</div>
+
+    <div class="post__navigation">
+  
+  <a class="post__prev" href="/introduction-to-metal-compute-part-four">
+    <div class="prev__image">
+      <img class="lazy" data-src="/images/introduction-to-metal-compute-part-four/icon.png" alt="Introduction to Metal Compute: Alloy">
+    </div>
+    <div class="prev__box">
+      <span class="post__nav post__nav__prev">Older post</span>
+      <h2 class="post__nav__title">Introduction to Metal Compute: Part 4</h2>
+    </div>
+  </a>
+  
+
+  
+</div>
+
+    
+
+  </article>
+</div>
+<!-- end post -->
+      </div>
+      <!-- end wrapper-page -->
+    </main>
+    <!-- end content -->
+    <div class="top" title="Top"><i class="ion ion-ios-arrow-round-up"></i></div>
+    <!-- begin footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col col-12 col-m-12">
+        <div class="footer__inner">
+
+          <div class="footer__head">
+            <div class="row">
+              <div class="col col-4 col-d-6 col-t-12">
+  <div class="widget widget-recent">
+    <div class="widget__head">
+      <h3 class="widget__title">Recent Posts</h3>
+    </div>
+    
+    <div class="recent-posts">
+      
+      <a class="recent-posts__image" href="/introduction-to-metal-compute-part-five-alloy">
+        <img class="lazy" data-src="/images/introduction-to-metal-compute-alloy/icon.png" alt="Introduction to Metal Compute: Alloy">
+      </a>
+      
+      <div class="recent-posts__content">
+        <div class="recent-posts__date">
+          <time class="timeago" datetime="2021-05-21T15:01:35+03:00">May 21, 2021</time>
+        </div>
+        <h4 class="recent-posts__title"><a href="/introduction-to-metal-compute-part-five-alloy">Introduction to Metal Compute: Alloy</a></h4>
+      </div>
+    </div>
+    
+    <div class="recent-posts">
+      
+      <a class="recent-posts__image" href="/introduction-to-metal-compute-part-four">
+        <img class="lazy" data-src="/images/introduction-to-metal-compute-part-four/icon.png" alt="Introduction to Metal Compute: Part 4">
+      </a>
+      
+      <div class="recent-posts__content">
+        <div class="recent-posts__date">
+          <time class="timeago" datetime="2021-05-14T15:01:35+03:00">May 14, 2021</time>
+        </div>
+        <h4 class="recent-posts__title"><a href="/introduction-to-metal-compute-part-four">Introduction to Metal Compute: Part 4</a></h4>
+      </div>
+    </div>
+    
+  </div>
+</div>
+              <!-- <div class="col col-4 col-d-6 col-t-12">
+  <div class="widget widget-gallery">
+    <div class="widget__head">
+      <h3 class="widget__title">Gallery</h3>
+    </div>
+    
+    <div class="gallery-box gallery-footer">
+      <div class="gallery">
+        
+        <div class="gallery__image">
+          <img class="lazy" data-src="/images/06.jpg" alt="Minimalism">
+        </div>
+        
+        <div class="gallery__image">
+          <img class="lazy" data-src="/images/05.jpg" alt="Minimalism">
+        </div>
+        
+        <div class="gallery__image">
+          <img class="lazy" data-src="/images/08.jpg" alt="Minimalism">
+        </div>
+        
+        <div class="gallery__image">
+          <img class="lazy" data-src="/images/03.jpg" alt="Minimalism">
+        </div>
+        
+        <div class="gallery__image">
+          <img class="lazy" data-src="/images/09.jpg" alt="Minimalism">
+        </div>
+        
+        <div class="gallery__image">
+          <img class="lazy" data-src="/images/04.jpg" alt="Minimalism">
+        </div>
+        
+      </div>
+    </div>
+    
+  </div>
+</div> -->
+              <!-- <div class="col col-4 col-d-6 col-t-12">
+  <div class="widget widget-subscribe">
+    <div class="widget__head">
+      <h3 class="widget__title">Subscribe to new posts</h3>
+    </div>
+    <div class="subscribe__inner">
+      <div class="subscribe__group">
+        <div class="subscribe__description">Subscribe to our newsletter and we’ll send you the emails of latest posts.</div>
+      </div>
+      <form class="subscribe-form validate"
+        action="#" method="POST" id="membedded-subscribe-form" name="membedded-subscribe-form" target="_blank" novalidate>
+        <label class="screen-reader-text" for="mce-EMAIL">Email address</label>
+        <input class="subscribe-email required email" id="mce-EMAIL" type="text" name="EMAIL"
+          placeholder="Your email address">
+        <button class="button subscribe-button" id="membedded-subscribe" type="submit" name="subscribe">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</div> -->
+            </div>
+          </div>
+        </div>
+
+        
+  <div class="social">
+    <ul class="social__list list-reset">
+      
+      <li class="social__item">
+        <a class="social__link" href="https://twitter.com/eugenebokhan" target="_blank" rel="noopener" aria-label="social icon"><i class="ion ion-logo-twitter"></i></a>
+      </li>
+      
+      <li class="social__item">
+        <a class="social__link" href="https://github.com/eugenebokhan" target="_blank" rel="noopener" aria-label="social icon"><i class="ion ion-logo-github"></i></a>
+      </li>
+      
+    </ul>
+  </div>
+
+        <div class="copyright">2021 &copy; <a href="/">Eugene's Blog</a>. Crafted & Designed by <a href="https://github.com/eugenebokhan">Eugene Bokhan</a>.</div>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- end footer -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="/js/scripts.js"></script>
+</body>
+
+</html>
