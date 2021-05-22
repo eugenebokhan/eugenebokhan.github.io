@@ -135,7 +135,7 @@ if self.deviceSupportsNonuniformThreadgroups {
 }
 {% endhighlight %}
 
-### Textutre
+### Texture
 
 What concerns textures, now you are able to create images from them by calling:
 
