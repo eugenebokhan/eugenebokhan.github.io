@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Introduction to Metal Compute: Part 1"
+title:  "Introduction to Metal Compute"
 date:   2021-05-08 15:01:35 +0300
 image:  '/images/introduction-to-metal-compute-part-one/icon.png'
 tags:   iOS Metal

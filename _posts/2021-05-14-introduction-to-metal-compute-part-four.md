@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Introduction to Metal Compute: Part 4"
+title:  "Introduction to Metal Compute: Textures & Dispatching"
 date:   2021-05-14 15:01:35 +0300
 image:  '/images/introduction-to-metal-compute-part-four/icon.png'
 tags:   iOS Metal Texture

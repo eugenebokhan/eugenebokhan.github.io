@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Introduction to Metal Compute: Part 3"
+title:  "Introduction to Metal Compute: Kernel Encoder"
 date:   2021-05-10 15:01:35 +0300
 image:  '/images/introduction-to-metal-compute-part-three/icon.png'
 tags:   iOS Metal

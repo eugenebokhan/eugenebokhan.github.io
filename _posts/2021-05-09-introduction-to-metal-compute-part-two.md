@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Introduction to Metal Compute: Part 2"
+title:  "Introduction to Metal Compute: Kernel Shader"
 date:   2021-05-09 15:01:35 +0300
 image:  '/images/introduction-to-metal-compute-part-two/icon.png'
 tags:   iOS Metal
@@ -169,7 +169,7 @@ Compiling one function many times with different preprocessor macros to enable d
 
 Another way is to use Metal's `function constants`. Function constants provide the same ease of use as preprocessor macros but moves the generation of the specific variants to the creation of the compute pipeline state - the state the GPU is in during the instructions execution, so you don't have to compile the variants offline.
 
-Let's declare our function constant by adding the following pice of code before the kernel function declaration:
+Let's declare our function constant by adding the following piece of code before the kernel function declaration:
 
 {% highlight cpp %}
 constant bool deviceSupportsNonuniformThreadgroups [[ function_constant(0) ]];

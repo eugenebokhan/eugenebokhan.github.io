@@ -6,7 +6,7 @@ image:  '/images/introduction-to-metal-compute-alloy/icon.png'
 tags:   iOS Metal
 ---
 
-Hello everyone and welcome the fifth chapter of Introduction to Metal Compute! We made a lot things in the previous parts. We created a simple image editing app that is able to open, preview, adjust and export images. To do that, we wrote an image editing Metal shader kernel, created an encoder for it, learned, how to convert images to textures and pass the data to the GPU while dispatching the commands to it. The aim of this article is to encourage you to use more "Swifty" way of writing Metal related code. Also, we will migrate from `UIImageView` to `CAMetalLayer` for previewing the result.
+Hello everyone and welcome to the fifth chapter of Introduction to Metal Compute! We made a lot things in the previous parts. We created a simple image editing app that is able to open, preview, adjust and export images. To do that, we wrote an image editing Metal shader kernel, created an encoder for it, learned, how to convert images to textures and pass the data to the GPU while dispatching the commands to it. The aim of this article is to encourage you to use more "Swifty" way of writing Metal related code. Also, we will migrate from `UIImageView` to `CAMetalLayer` for previewing the result.
 
 ## Alloy
 
