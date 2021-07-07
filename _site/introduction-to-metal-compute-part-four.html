@@ -260,7 +260,7 @@
     <span class="k">self</span><span class="o">.</span><span class="n">textureLoader</span> <span class="o">=</span> <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">device</span><span class="p">:</span> <span class="n">device</span><span class="p">)</span>
 <span class="p">}</span></code></pre></figure>
 
-<h2 id="texture-to-image-conversion">Texture To Image Conversion</h2>
+<h2 id="image-to-texture-conversion">Image To Texture Conversion</h2>
 
 <p>Now let’s write a function for creation a texture from a <code class="language-plaintext highlighter-rouge">CGImage</code> that will use the texture loader.</p>
 
@@ -295,13 +295,15 @@
 
 <h4 id="gamma-correction">Gamma Correction</h4>
 
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="o">.</span><span class="kt">SRGB</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre></figure>
+
 <p>In order to understand why do we pass <code class="language-plaintext highlighter-rouge">sRGB</code> as <code class="language-plaintext highlighter-rouge">false</code> to the texture options, first we need to talk a little bit about gamma. Look a the picture below.</p>
 
 <p style="text-align:center;">
 <img src="/images/introduction-to-metal-compute-part-four/gamma.png" alt="demo app" width="600" />
 </p>
 
-<p>The top line looks like the correct brightness scale to the our eyes with consistent differences. The funny thing is that when we’re talking about the physical brightness of light e.g. amount of photons leaving the display, the bottom line actually displays the correct brightness.</p>
+<p>The top line looks like the correct brightness scale to our eyes with consistent differences. The funny thing is that when we’re talking about the physical brightness of light, e.g., the number of photons leaving the display, the bottom line actually displays the correct brightness.</p>
 
 <p>Now, look at the chart below. It depicts the difference of light perceivation between human eyes and a digital camera.</p>
 
@@ -342,7 +344,7 @@ Both of these <code class="language-plaintext highlighter-rouge">CGImages</code>
                                              <span class="nv">options</span><span class="p">:</span> <span class="n">textureOptions</span><span class="p">)</span>
 <span class="p">}</span></code></pre></figure>
 
-<h2 id="image-to-texture-conversion">Image To Texture Conversion</h2>
+<h2 id="texture-to-image-conversion">Texture To Image Conversion</h2>
 
 <p>Now, let’s create a function to convert <code class="language-plaintext highlighter-rouge">MTLTexture</code> back to <code class="language-plaintext highlighter-rouge">CGImage</code>. Add an empty function:</p>
 
@@ -381,7 +383,7 @@ Next, we allocate a chunk of memory where the pixels will be stored. It is align
                  <span class="nv">from</span><span class="p">:</span> <span class="n">destinationRegion</span><span class="p">,</span>
                  <span class="nv">mipmapLevel</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span></code></pre></figure>
 
-<p>Calculate the region of the texture and call <a href="https://developer.apple.com/documentation/metal/mtltexture/1516318-getbytes"><code class="language-plaintext highlighter-rouge">getBytes</code></a> function to store texture pixel values to the memory we allocated. This function takes a pointer to the start of the preallocated memory and writes pixel values of specified region to it with predefined bytes per row. It is quite interesting that Metal doesn’t allow you to get the pointer to the raw pixels of the texture, instead it allows you only to export them via <code class="language-plaintext highlighter-rouge">getBytes</code> and import them with the help of <a href="https://developer.apple.com/documentation/metal/mtltexture/1515464-replace"><code class="language-plaintext highlighter-rouge">replace(region:)</code></a> function. The explanation to it is that Metal is able to adjust the private layout of the texture in memory to improve pixel access on GPU while sampling. This can be done with texture descriptor’s <code class="language-plaintext highlighter-rouge">allowGPUOptimizedContents</code> flag set <code class="language-plaintext highlighter-rouge">true</code>. There is no documentation on that, but here is an example how the memory reordering could look like:</p>
+<p>Calculate the region of the texture and call the <a href="https://developer.apple.com/documentation/metal/mtltexture/1516318-getbytes"><code class="language-plaintext highlighter-rouge">getBytes</code></a> function to store texture pixel values to the memory we allocated. This function takes a pointer to the start of the preallocated memory and writes pixel values of the specified region to it with predefined bytes per row. It is quite interesting that Metal doesn’t allow you to get the pointer to the raw pixels of the texture; instead, it allows you to export them via <code class="language-plaintext highlighter-rouge">getBytes</code> and import them with the help of <a href="https://developer.apple.com/documentation/metal/mtltexture/1515464-replace"><code class="language-plaintext highlighter-rouge">replace(region:)</code></a> function. The explanation is that Metal can adjust the private layout of the texture in memory to improve pixel access on GPU while sampling. This can be done with texture descriptor’s <code class="language-plaintext highlighter-rouge">allowGPUOptimizedContents</code> flag set <code class="language-plaintext highlighter-rouge">true</code>. There is no documentation on that, the texture memory layout may differ from GPU to GPU, but here is an example of how the memory reordering could look like this:</p>
 
 <p style="text-align:center;">
 <img src="/images/introduction-to-metal-compute-part-four/gpu-content-optimisation.png" alt="demo app" width="700" />
@@ -489,9 +491,15 @@ Next, we allocate a chunk of memory where the pixels will be stored. It is align
 <span class="kd">private</span> <span class="k">let</span> <span class="nv">adjustments</span><span class="p">:</span> <span class="kt">Adjustments</span>
 <span class="kd">private</span> <span class="k">var</span> <span class="nv">texturePair</span><span class="p">:</span> <span class="p">(</span><span class="nv">source</span><span class="p">:</span> <span class="kt">MTLTexture</span><span class="p">,</span> <span class="nv">destination</span><span class="p">:</span> <span class="kt">MTLTexture</span><span class="p">)?</span></code></pre></figure>
 
-<p>Now, replace the constructor of this ViewController with the following:</p>
+<p>Now, declare <code class="language-plaintext highlighter-rouge">Error</code> enum and replace the constructor of this ViewController with the following:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="nf">init</span><span class="p">(</span><span class="nv">device</span><span class="p">:</span> <span class="kt">MTLDevice</span><span class="p">)</span> <span class="k">throws</span> <span class="p">{</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">enum</span> <span class="kt">Error</span><span class="p">:</span> <span class="kt">Swift</span><span class="o">.</span><span class="kt">Error</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="n">commandQueueCreationFailed</span>
+<span class="p">}</span>
+
+<span class="c1">// ...</span>
+
+<span class="nf">init</span><span class="p">(</span><span class="nv">device</span><span class="p">:</span> <span class="kt">MTLDevice</span><span class="p">)</span> <span class="k">throws</span> <span class="p">{</span>
     <span class="k">let</span> <span class="nv">library</span> <span class="o">=</span> <span class="k">try</span> <span class="n">device</span><span class="o">.</span><span class="nf">makeDefaultLibrary</span><span class="p">(</span><span class="nv">bundle</span><span class="p">:</span> <span class="o">.</span><span class="n">main</span><span class="p">)</span>
     <span class="k">guard</span> <span class="k">let</span> <span class="nv">commandQueue</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="nf">makeCommandQueue</span><span class="p">()</span>
     <span class="k">else</span> <span class="p">{</span> <span class="k">throw</span> <span class="kt">Error</span><span class="o">.</span><span class="n">commandQueueCreationFailed</span> <span class="p">}</span>
@@ -518,7 +526,7 @@ Next, we allocate a chunk of memory where the pixels will be stored. It is align
                             <span class="nv">destination</span><span class="p">:</span> <span class="n">destination</span><span class="p">,</span>
                             <span class="nv">in</span><span class="p">:</span> <span class="n">commandBuffer</span><span class="p">)</span>
 
-    <span class="n">commandBuffer</span><span class="o">.</span><span class="n">addScheduledHandler</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span>
+    <span class="n">commandBuffer</span><span class="o">.</span><span class="n">addCompletedHandler</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span>
         <span class="k">guard</span> <span class="k">let</span> <span class="nv">cgImage</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="k">self</span><span class="o">.</span><span class="n">textureManager</span><span class="o">.</span><span class="nf">cgImage</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="n">destination</span><span class="p">)</span>
         <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
 
@@ -530,7 +538,7 @@ Next, we allocate a chunk of memory where the pixels will be stored. It is align
     <span class="n">commandBuffer</span><span class="o">.</span><span class="nf">commit</span><span class="p">()</span>
 <span class="p">}</span></code></pre></figure>
 
-<p>Inside the <code class="language-plaintext highlighter-rouge">redraw</code> the command queue creates a command buffer. The <code class="language-plaintext highlighter-rouge">Adjustments</code> object encodes everything in the command buffer and at the end we commit it. After the command buffer is committed, Metal sends it to the GPU for execution.</p>
+<p>Inside the <code class="language-plaintext highlighter-rouge">redraw</code>, the command queue creates a command buffer. The <code class="language-plaintext highlighter-rouge">Adjustments</code> object encodes everything in the command buffer, and at the end, we commit it. After the command buffer is committed, Metal sends it to the GPU for execution.</p>
 
 <p style="text-align:center;">
 <img src="/images/introduction-to-metal-compute-part-four/command-queue.png" alt="demo app" width="500" />

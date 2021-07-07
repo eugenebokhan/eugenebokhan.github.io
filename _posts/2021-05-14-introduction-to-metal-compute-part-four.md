@@ -51,7 +51,7 @@ init(device: MTLDevice) {
 }
 {% endhighlight %}
 
-## Texture To Image Conversion
+## Image To Texture Conversion
 
 Now let's write a function for creation a texture from a `CGImage` that will use the texture loader.
 
@@ -96,6 +96,10 @@ We won't use mipmaps in our app, so we disable their allocation and generation.
 
 #### Gamma Correction
 
+{% highlight swift %}
+.SRGB: NSNumber(value: false)
+{% endhighlight %}
+
 In order to understand why do we pass `sRGB` as `false` to the texture options, first we need to talk a little bit about gamma. Look a the picture below. 
 
 <p style="text-align:center;">
@@ -106,7 +110,7 @@ width="600"
 />
 </p>
 
-The top line looks like the correct brightness scale to the our eyes with consistent differences. The funny thing is that when we're talking about the physical brightness of light e.g. amount of photons leaving the display, the bottom line actually displays the correct brightness. 
+The top line looks like the correct brightness scale to our eyes with consistent differences. The funny thing is that when we’re talking about the physical brightness of light, e.g., the number of photons leaving the display, the bottom line actually displays the correct brightness.
 
 Now, look at the chart below. It depicts the difference of light perceivation between human eyes and a digital camera.
 
@@ -157,7 +161,7 @@ func texture(from cgImage: CGImage,
 }
 {% endhighlight %}
 
-## Image To Texture Conversion
+## Texture To Image Conversion
 
 Now, let's create a function to convert `MTLTexture` back to `CGImage`. Add an empty function:
 
@@ -206,7 +210,7 @@ texture.getBytes(pixelBytes,
                  mipmapLevel: 0)
 {% endhighlight %}
 
-Calculate the region of the texture and call [`getBytes`](https://developer.apple.com/documentation/metal/mtltexture/1516318-getbytes) function to store texture pixel values to the memory we allocated. This function takes a pointer to the start of the preallocated memory and writes pixel values of specified region to it with predefined bytes per row. It is quite interesting that Metal doesn't allow you to get the pointer to the raw pixels of the texture, instead it allows you only to export them via `getBytes` and import them with the help of [`replace(region:)`](https://developer.apple.com/documentation/metal/mtltexture/1515464-replace) function. The explanation to it is that Metal is able to adjust the private layout of the texture in memory to improve pixel access on GPU while sampling. This can be done with texture descriptor's `allowGPUOptimizedContents` flag set `true`. There is no documentation on that, but here is an example how the memory reordering could look like:
+Calculate the region of the texture and call the [`getBytes`](https://developer.apple.com/documentation/metal/mtltexture/1516318-getbytes) function to store texture pixel values to the memory we allocated. This function takes a pointer to the start of the preallocated memory and writes pixel values of the specified region to it with predefined bytes per row. It is quite interesting that Metal doesn’t allow you to get the pointer to the raw pixels of the texture; instead, it allows you to export them via `getBytes` and import them with the help of [`replace(region:)`](https://developer.apple.com/documentation/metal/mtltexture/1515464-replace) function. The explanation is that Metal can adjust the private layout of the texture in memory to improve pixel access on GPU while sampling. This can be done with texture descriptor’s `allowGPUOptimizedContents` flag set `true`. There is no documentation on that, the texture memory layout may differ from GPU to GPU, but here is an example of how the memory reordering could look like this:
 
 <p style="text-align:center;">
 <img 
@@ -332,9 +336,15 @@ private let adjustments: Adjustments
 private var texturePair: (source: MTLTexture, destination: MTLTexture)?
 {% endhighlight %}
 
-Now, replace the constructor of this ViewController with the following:
+Now, declare `Error` enum and replace the constructor of this ViewController with the following:
 
 {% highlight swift %}
+enum Error: Swift.Error {
+    case commandQueueCreationFailed
+}
+
+// ...
+
 init(device: MTLDevice) throws {
     let library = try device.makeDefaultLibrary(bundle: .main)
     guard let commandQueue = device.makeCommandQueue()
@@ -364,7 +374,7 @@ private func redraw() {
                             destination: destination,
                             in: commandBuffer)
 
-    commandBuffer.addScheduledHandler { _ in
+    commandBuffer.addCompletedHandler { _ in
         guard let cgImage = try? self.textureManager.cgImage(from: destination)
         else { return }
 
@@ -377,7 +387,7 @@ private func redraw() {
 }
 {% endhighlight %}
 
-Inside the `redraw` the command queue creates a command buffer. The `Adjustments` object encodes everything in the command buffer and at the end we commit it. After the command buffer is committed, Metal sends it to the GPU for execution.
+Inside the `redraw`, the command queue creates a command buffer. The `Adjustments` object encodes everything in the command buffer, and at the end, we commit it. After the command buffer is committed, Metal sends it to the GPU for execution.
 
 <p style="text-align:center;">
 <img 
