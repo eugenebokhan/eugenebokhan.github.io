@@ -6,7 +6,7 @@ image:  '/images/introduction-to-metal-compute-part-one/icon.png'
 tags:   iOS Metal
 ---
 
-For a couple of years I've been working as iOS software engineer with a focus on GPGPU using Metal.  It is an interesting sphere of iOS development which still lacks of spread. In a series of articles I'm going to describe how to build a simple image processing metal app.
+For a couple of years I've been working as iOS software engineer with a focus on GPGPU using Metal.  It is an interesting sphere of iOS development which still lacks of spread. In a series of articles I'm going to describe how to build a simple image processing Metal app.
 
 ## Importance of visual data processing
 
@@ -60,7 +60,7 @@ Apple decided to solve all GPU related demands by announcing a powerful new unif
 
 ## Example App
 
-In order to learn how to work with metal one needs practice. In this series of articles following step by step instructions, we are going to write a small image editor app that is able to make basic image adjustments.
+In order to learn how to work with Metal one needs practice. In this series of articles following step by step instructions, we are going to write a small image editor app that is able to make basic image adjustments.
 
 <p style="text-align:center;">
 <img 
@@ -76,7 +76,7 @@ Here is our plan:
 - GPU side: write our image editing kernel.
 - CPU side: write encoder for the kernel.
 - CPU side: image to texture conversion and kernel dispatching.
-- Replace UIKit image drawing with metal.
+- Replace UIKit image drawing with Metal.
 
 See you in the next part!
 
