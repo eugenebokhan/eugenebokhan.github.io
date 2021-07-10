@@ -309,7 +309,7 @@ private func redraw() {
 }
 {% endhighlight %}
 
-That's it! Now you can compile and run the project. From this point, each time you modify the shaders, you don't need to worry about the encoders at all. By alling MTLSwift, you automatically get 50% of the shaders-related job done, which means less code to maintain with fewer bugs to show up. 
+That's it! Now you can compile and run the project. From this point, each time you modify the shaders, you don't need to worry about the encoders at all. By calling MTLSwift, you automatically get 50% of the shaders-related job done, which means less code to maintain with fewer bugs to show up. 
 
 The final code can be found [here](https://github.com/eugenebokhan/introduction-to-metal-compute/tree/main/part-6).
 
