@@ -14,11 +14,11 @@ Quite often, iOS Software Engineers need to encapsulate some logic to Swift pack
 
 Even though this convention is very simple to understand, there might be situations when a developer forgets about some modified parts of public code that affect the API of the framework and sets a new version of the package that doesn't represent the real changes in the framework.
 
-What if the might be a solution that helps to automate this routine? 🤔 In this article, I will introduce you to a little tool capable of determining if changes in the Swift package are API-breaking.
+What if there might be a solution that helps to automate this routine? 🤔 In this article, I will introduce you to a little tool capable of determining if changes in the Swift package are API-breaking.
 
 ## API Digester
 
-Luckily Swift toolchain already [contains](https://github.com/apple/swift/tree/main/lib/APIDigester) such an experimental tool that can do exactly what we need. It is called **API Digester**. API Digester can work in two regimes. In the first regime, it builds and dumps the package module in a JSON file. In another, it compares two dumps and outputs the difference between them. Let's try it out!
+Luckily Swift toolchain already [contains](https://github.com/apple/swift/tree/main/lib/APIDigester) such an experimental tool that can do exactly what we need. It is called **API Digester**. API Digester can work in two regimes. In the first regime, it builds and dumps the package module into a JSON file. In another, it compares two dumps and outputs the difference between them. Let's try it out!
 
 First of all, you need to download and install Xcode 13 (beta). At the moment of writing of this article, the stable version of Xcode 12 doesn't contain this tool, but it was available before though.
 
