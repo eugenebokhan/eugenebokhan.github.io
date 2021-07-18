@@ -1,6 +1,15 @@
 [
   
     {
+      "title"    : "Swift Package Auto-Versioning",
+      "article"  : "<div class='article col col-4 col-d-6 col-t-12 animate'> <div class='article__inner'>  <div class='image-wrap'> <a class='article__image' href='/swift-package-api-diff'> <img src='/images/swift-package-api-diff/icon.png' alt='Swift Package Auto-Versioning'> </a> </div>  <div class='article__content'> <h2 class='article__title'> <a href='/swift-package-api-diff'>Swift Package Auto-Versioning</a> </h2> <p class='article__excerpt'> Quite often, iOS Software Engineers need to encapsulate some logic to Swift packages and share it between different apps. ... </p> <div class='article__meta'> <a href='/about/' class='article__author-link'>Eugene Bokhan</a> <span class='article__date'><time datetime='2021-07-18T15:01:35+03:00'>18 Jul 2021</time></span>  <div class='article-tags__box'>  <a href='/tag/iOS' class='article__tag'>iOS</a>  <a href='/tag/Swift' class='article__tag'>Swift</a>  </div>  </div> </div> </div> </div>",
+      "category" : "",
+      "tags"     : "iOS and Swift",
+      "url"      : "/swift-package-api-diff",
+      "date"     : "2021-07-18 15:01:35 +0300"
+    } ,
+  
+    {
       "title"    : "Introduction to Metal Compute: MTLSwift",
       "article"  : "<div class='article col col-4 col-d-6 col-t-12 animate'> <div class='article__inner'>  <div class='image-wrap'> <a class='article__image' href='/introduction-to-metal-compute-part-six-mtlswift'> <img src='/images/introduction-to-metal-compute-mtlswift/icon.png' alt='Introduction to Metal Compute: MTLSwift'> </a> </div>  <div class='article__content'> <h2 class='article__title'> <a href='/introduction-to-metal-compute-part-six-mtlswift'>Introduction to Metal Compute: MTLSwift</a> </h2> <p class='article__excerpt'> In this chapter, I will introduce you to another cool tool I use every day called MTLSwift. What is MTLSwift? You might th... </p> <div class='article__meta'> <a href='/about/' class='article__author-link'>Eugene Bokhan</a> <span class='article__date'><time datetime='2021-07-10T15:01:35+03:00'>10 Jul 2021</time></span>  <div class='article-tags__box'>  <a href='/tag/iOS' class='article__tag'>iOS</a>  <a href='/tag/Metal' class='article__tag'>Metal</a>  </div>  </div> </div> </div> </div>",
       "category" : "",

@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Swift Package Auto-Versioning</title>
+  <meta name='description' content='iOS Development, Metal'>
+
+  <link rel="canonical" href="https://eugenebokhan.io/swift-package-api-diff">
+  <link rel="alternate" type="application/rss+xml" title="Eugene&#39;s Blog" href="/feed.xml">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Ionicons -->
+  <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
+
+
+  
+
+    
+      <link rel="stylesheet" type="text/css" title="light" id="light" href="/css/light.css">
+      <link rel="stylesheet" type="text/css" title="dark" id="dark" href="/css/dark.css" disabled="true">
+    
+
+  
+
+</head>
+
+<body class="light">
+
+  
+
+    <!-- begin header -->
+<header class="header">
+  <div class="container">
+    <div class="row">
+      <div class="header__inner col col-12">
+
+        <div class="logo">
+          <a class="logo__link" href="/">
+          
+            Eugene's Blog
+          
+          </a>
+        </div>
+
+        <nav class="main-nav">
+          <div class="main-nav__box">
+            <div class="nav__icon-close">
+              <i class="ion ion-md-close"></i>
+            </div>
+            <div class="nav__title">Menu</div>
+            <ul class="nav__list list-reset">
+              <li class="nav__item">
+                <a href="/" class="nav__link">Home</a>
+              </li>
+              
+                
+              
+                
+                  
+                  <li class="nav__item">
+                    <a href="/about/" class="nav__link">About</a>
+                  </li>
+                  
+                
+              
+                
+                  
+                  <li class="nav__item">
+                    <a href="/contact/" class="nav__link">Contact</a>
+                  </li>
+                  
+                
+              
+                
+                  
+                
+              
+                
+                  
+                  <li class="nav__item">
+                    <a href="/resume/" class="nav__link">Resume</a>
+                  </li>
+                  
+                
+              
+                
+                  
+                
+              
+                
+                  
+                
+              
+                
+                  
+                
+              
+                
+                  
+                
+              
+                
+                  
+                
+              
+                
+                  
+                
+              
+                
+                  
+                
+              
+                
+                  
+                
+              
+              
+              <li class="nav__item">
+                <a id="toggleTheme" title="Click to change theme" href="#" class="nav__link" onclick="toggle(); return false;">Toggle Theme</a>
+              </li>
+              
+            </ul>
+          </div>
+        </nav>
+
+        <div class="nav-buttons">
+          <i class="nav__icon nav__icon-menu ion ion-md-menu"></i>
+          <i class="nav__icon nav__icon-search ion ion-md-search"></i>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="header__overlay"></div>
+</header>
+<!-- end header -->
+
+<!-- begin search -->
+<div class="search">
+  <div class="container">
+    <div class="row">
+      <div class="col col-12">
+        <div class="search__box">
+          <div class="search__group">
+            <div class="search__close">
+              <i class="ion ion-md-close"></i>
+            </div>
+            <label for="js-search-input" class="screen-reader-text">Search for Blog</label>
+            <input type="text" id="js-search-input" class="search__text" autocomplete="off" placeholder="Type to search...">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col col-12">
+        <div class="container__inner">
+          <div class="row search-results-list" id="js-results-container"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- end search -->
+    <!-- begin content -->
+    <main class="content" aria-label="Content">
+      <!-- begin wrapper-page -->
+      <div class="wrapper-page">
+        <!-- begin hero -->
+
+<section class="hero hero--post">
+  <div class="container">
+    <div class="row">
+      <div class="col col-12">
+        <div class="hero__inner">
+          <div class="hero__left">
+            
+
+            <div class="article__meta">
+              <span class="article__date"><time datetime="2021-07-18T15:01:35+03:00">18 Jul 2021</time></span>
+              
+              <div class="article-tags__box">
+                
+                  <a href="/tag/iOS" class="article__tag">iOS</a>
+                
+                  <a href="/tag/Swift" class="article__tag">Swift</a>
+                
+              </div>
+              
+            </div>
+
+            <h1 class="hero__title">Swift Package Auto-Versioning</h1>
+            <a href="/about/" class="article__author-link"><span>By</span> Eugene Bokhan</a>
+
+            
+          </div>
+
+          <div class="hero__right">
+
+            
+            <div class="hero__image">
+              <img class="lazy" data-src="/images/swift-package-api-diff/icon.png" alt="Swift Package Auto-Versioning">
+            </div>
+
+            
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end hero -->
+
+<!-- begin post -->
+<div class="container">
+  <article class="post animate">
+
+    <div class="post__content">
+      <p>Quite often, iOS Software Engineers need to encapsulate some logic to Swift packages and share it between different apps. To control the version of the code, Swift packages follow <a href="http://semver.org">Semantic Versioning</a> conventions. Here is a version number format of this convention: <code class="language-plaintext highlighter-rouge">MAJOR.MINOR.PATCH</code>:</p>
+
+<ul>
+  <li>Increase <code class="language-plaintext highlighter-rouge">MAJOR</code> version when you make incompatible API changes;</li>
+  <li>Increase <code class="language-plaintext highlighter-rouge">MINOR</code> version when you add functionality in a backwards-compatible manner;</li>
+  <li>Increase <code class="language-plaintext highlighter-rouge">PATCH</code> version when you make backwards compatible bug fixes.</li>
+</ul>
+
+<p>Even though this convention is very simple to understand, there might be situations when a developer forgets about some modified parts of public code that affect the API of the framework and sets a new version of the package that doesn’t represent the real changes in the framework.</p>
+
+<p>What if the might be a solution that helps to automate this routine? 🤔 In this article, I will introduce you to a little tool capable of determining if changes in the Swift package are API-breaking.</p>
+
+<h2 id="api-digester">API Digester</h2>
+
+<p>Luckily Swift toolchain already <a href="https://github.com/apple/swift/tree/main/lib/APIDigester">contains</a> such an experimental tool that can do exactly what we need. It is called <strong>API Digester</strong>. API Digester can work in two regimes. In the first regime, it builds and dumps the package module in a JSON file. In another, it compares two dumps and outputs the difference between them. Let’s try it out!</p>
+
+<p>First of all, you need to download and install Xcode 13 (beta). At the moment of writing of this article, the stable version of Xcode 12 doesn’t contain this tool, but it was available before though.</p>
+
+<p>Create two identical Swift packages in two directories: <code class="language-plaintext highlighter-rouge">old_package</code> and <code class="language-plaintext highlighter-rouge">new_package</code>:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">mkdir </span>old_package<span class="p">;</span> <span class="se">\</span>
+<span class="nb">cd </span>old_package<span class="p">;</span> <span class="se">\</span>
+swift package init <span class="nt">--name</span> Package<span class="p">;</span> <span class="se">\</span>
+<span class="nb">cd</span> ../<span class="p">;</span> <span class="se">\</span>
+<span class="nb">mkdir </span>new_package<span class="p">;</span> <span class="se">\</span>
+<span class="nb">cd </span>new_package<span class="p">;</span> <span class="se">\</span>
+swift package init <span class="nt">--name</span> Package<span class="p">;</span> <span class="se">\</span>
+<span class="nb">cd</span> ../</code></pre></figure>
+
+<p>Remove the code from Package.swift file in the new package:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">rm </span>new_package/Sources/Package/Package.swift<span class="p">;</span> <span class="se">\</span>
+<span class="nb">touch </span>new_package/Sources/Package/Package.swift</code></pre></figure>
+
+<p>Compile the packages with the Swift compiler shipped with Xcode 13:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">SWIFT_EXEC</span><span class="o">=</span>/Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc <span class="se">\</span>
+swift build <span class="se">\</span>
+<span class="nt">--package-path</span> old_package <span class="se">\</span>
+<span class="nt">--build-path</span> old_build<span class="p">;</span> <span class="se">\</span>
+<span class="nv">SWIFT_EXEC</span><span class="o">=</span>/Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc <span class="se">\</span>
+swift build <span class="se">\</span>
+<span class="nt">--package-path</span> new_package <span class="se">\</span>
+<span class="nt">--build-path</span> new_build</code></pre></figure>
+
+<p>Dump the packages’ modules:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">/Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-api-digester <span class="se">\</span>
+<span class="nt">--dump-sdk</span> <span class="se">\</span>
+<span class="nt">-sdk</span> /Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/ <span class="se">\</span>
+<span class="nt">-module</span> Package <span class="se">\</span>
+<span class="nt">-I</span> old_build/debug <span class="se">\</span>
+<span class="nt">-o</span> old_dump.json<span class="p">;</span> <span class="se">\</span>
+/Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-api-digester <span class="se">\</span>
+<span class="nt">--dump-sdk</span> <span class="se">\</span>
+<span class="nt">-sdk</span> /Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/ <span class="se">\</span>
+<span class="nt">-module</span> Package <span class="se">\</span>
+<span class="nt">-I</span> new_build/debug <span class="se">\</span>
+<span class="nt">-o</span> new_dump.json</code></pre></figure>
+
+<p>Compare the dumps:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">/Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-api-digester <span class="se">\</span>
+<span class="nt">-diagnose-sdk</span> <span class="se">\</span>
+<span class="nt">-sdk</span> /Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/ <span class="se">\</span>
+<span class="nt">--input-paths</span> old_dump.json <span class="se">\</span>
+<span class="nt">-input-paths</span> new_dump.json</code></pre></figure>
+
+<p>You will get such output:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">/<span class="k">*</span> Generic Signature Changes <span class="k">*</span>/
+
+/<span class="k">*</span> RawRepresentable Changes <span class="k">*</span>/
+
+/<span class="k">*</span> Removed Decls <span class="k">*</span>/
+Struct Package has been removed
+
+/<span class="k">*</span> Moved Decls <span class="k">*</span>/
+
+/<span class="k">*</span> Renamed Decls <span class="k">*</span>/
+
+/<span class="k">*</span> Type Changes <span class="k">*</span>/
+
+/<span class="k">*</span> Decl Attribute changes <span class="k">*</span>/
+
+/<span class="k">*</span> Fixed-layout Type Changes <span class="k">*</span>/
+
+/<span class="k">*</span> Protocol Conformance Change <span class="k">*</span>/
+
+/<span class="k">*</span> Protocol Requirement Change <span class="k">*</span>/
+
+/<span class="k">*</span> Class Inheritance Change <span class="k">*</span>/
+
+/<span class="k">*</span> Others <span class="k">*</span>/</code></pre></figure>
+
+<p>You see that the tool has detected that we deleted a public declaration of the <code class="language-plaintext highlighter-rouge">Package</code> struct in the new package.</p>
+
+<h2 id="swift-package-api-diff">Swift Package API Diff</h2>
+
+<p>In order to simplify the work with the API digester, I created a small wrapper around it called <a href="https://github.com/eugenebokhan/swift-package-api-diff">swift-package-api-diff</a>. The wrapper also has two commands:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">api-changes-type</code> (default): get majority of api changes: breaking or non-breaking;</li>
+  <li><code class="language-plaintext highlighter-rouge">api-changes-description</code>: get api changes description.</li>
+</ul>
+
+<p>Let’s download and install it:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">git clone https://github.com/eugenebokhan/swift-package-api-diff<span class="p">;</span> <span class="se">\</span>
+<span class="nb">cd </span>swift-package-api-diff<span class="p">;</span> <span class="se">\</span>
+<span class="nb">sudo </span>make <span class="nb">install</span><span class="p">;</span> <span class="se">\</span>
+<span class="nb">cd</span> ../</code></pre></figure>
+
+<p>To check if the changes are breaking you can call the following command:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">swift-package-api-diff <span class="nt">-o</span> old_package <span class="nt">-n</span> new_package <span class="nt">-m</span> Package</code></pre></figure>
+
+<p>and the result will be <code class="language-plaintext highlighter-rouge">breaking</code>.</p>
+
+<p>If you want to know what exactly has changed, you can call:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">swift-package-api-diff api-changes-description <span class="nt">-o</span> old_package <span class="nt">-n</span> new_package <span class="nt">-m</span> Package</code></pre></figure>
+
+<p>As a result, you will see:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">/<span class="k">*</span> Removed Decls <span class="k">*</span>/
+ - Struct Package has been removed</code></pre></figure>
+
+<p>The wrapper sanitizes the API Digester’s output and shows only non-empty types changes.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The current Xcode 13’s API digester is experimental and doesn’t detect some changes in the packages. Another limitation of the tool is that it can work only with packages with macOS targets. But I think it’s good to be familiar with such a tool and keep your eye on the ball. Someday, Apple will release Xcode with a fully working and stable API digester. Until then you can experiment with <code class="language-plaintext highlighter-rouge">swift-package-api-diff</code> and contribute to the Swift compiler to improve the tool. Thank you for reading 🙂.</p>
+
+    </div>
+
+    <div class="post__share">
+  <ul class="share__list list-reset">
+    <li class="share__item">
+      <a class="share__link share__facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://eugenebokhan.io/swift-package-api-diff"
+        onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
+        title="Share on Facebook" rel="nofollow"><i class="ion ion-logo-facebook"></i></a>
+    </li>
+
+    <li class="share__item">
+      <a class="share__link share__twitter" href="https://twitter.com/intent/tweet?text=Swift%20Package%20Auto-Versioning&url=https://eugenebokhan.io/swift-package-api-diff"
+        onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
+        title="Share on Twitter" rel="nofollow"><i class="ion ion-logo-twitter"></i></a>
+    </li>
+
+    <li class="share__item">
+      <a class="share__link share__linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https://eugenebokhan.io/swift-package-api-diff&title=Swift%20Package%20Auto-Versioning&summary=&source=Eugene's%20Blog"
+      onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn" rel="nofollow"><i class="ion ion-logo-linkedin"></i></a>
+    </li>
+
+    <li class="share__item">
+      <a class="share__link share__pinterest" href="http://pinterest.com/pin/create/button/?url=https://eugenebokhan.io/swift-package-api-diff&amp;media=https://eugenebokhan.io/images/swift-package-api-diff/icon.png&amp;description=Swift%20Package%20Auto-Versioning"
+      onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=900,height=500,toolbar=1,resizable=0'); return false;" title="Share on Pinterest"
+      rel="nofollow"><i class="ion ion-logo-pinterest"></i></a>
+    </li>
+  </ul>
+</div>
+
+    <div class="post__navigation">
+  
+  <a class="post__prev" href="/introduction-to-metal-compute-part-six-mtlswift">
+    <div class="prev__image">
+      <img class="lazy" data-src="/images/introduction-to-metal-compute-mtlswift/icon.png" alt="Swift Package Auto-Versioning">
+    </div>
+    <div class="prev__box">
+      <span class="post__nav post__nav__prev">Older post</span>
+      <h2 class="post__nav__title">Introduction to Metal Compute: MTLSwift</h2>
+    </div>
+  </a>
+  
+
+  
+</div>
+
+    
+
+  </article>
+</div>
+<!-- end post -->
+      </div>
+      <!-- end wrapper-page -->
+    </main>
+    <!-- end content -->
+    <div class="top" title="Top"><i class="ion ion-ios-arrow-round-up"></i></div>
+    <!-- begin footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col col-12 col-m-12">
+        <div class="footer__inner">
+
+          <div class="footer__head">
+            <div class="row">
+              <div class="col col-4 col-d-6 col-t-12">
+  <div class="widget widget-recent">
+    <div class="widget__head">
+      <h3 class="widget__title">Recent Posts</h3>
+    </div>
+    
+    <div class="recent-posts">
+      
+      <a class="recent-posts__image" href="/swift-package-api-diff">
+        <img class="lazy" data-src="/images/swift-package-api-diff/icon.png" alt="Swift Package Auto-Versioning">
+      </a>
+      
+      <div class="recent-posts__content">
+        <div class="recent-posts__date">
+          <time class="timeago" datetime="2021-07-18T15:01:35+03:00">Jul 18, 2021</time>
+        </div>
+        <h4 class="recent-posts__title"><a href="/swift-package-api-diff">Swift Package Auto-Versioning</a></h4>
+      </div>
+    </div>
+    
+    <div class="recent-posts">
+      
+      <a class="recent-posts__image" href="/introduction-to-metal-compute-part-six-mtlswift">
+        <img class="lazy" data-src="/images/introduction-to-metal-compute-mtlswift/icon.png" alt="Introduction to Metal Compute: MTLSwift">
+      </a>
+      
+      <div class="recent-posts__content">
+        <div class="recent-posts__date">
+          <time class="timeago" datetime="2021-07-10T15:01:35+03:00">Jul 10, 2021</time>
+        </div>
+        <h4 class="recent-posts__title"><a href="/introduction-to-metal-compute-part-six-mtlswift">Introduction to Metal Compute: MTLSwift</a></h4>
+      </div>
+    </div>
+    
+  </div>
+</div>
+              <!-- <div class="col col-4 col-d-6 col-t-12">
+  <div class="widget widget-gallery">
+    <div class="widget__head">
+      <h3 class="widget__title">Gallery</h3>
+    </div>
+    
+    <div class="gallery-box gallery-footer">
+      <div class="gallery">
+        
+        <div class="gallery__image">
+          <img class="lazy" data-src="/images/06.jpg" alt="Minimalism">
+        </div>
+        
+        <div class="gallery__image">
+          <img class="lazy" data-src="/images/05.jpg" alt="Minimalism">
+        </div>
+        
+        <div class="gallery__image">
+          <img class="lazy" data-src="/images/08.jpg" alt="Minimalism">
+        </div>
+        
+        <div class="gallery__image">
+          <img class="lazy" data-src="/images/03.jpg" alt="Minimalism">
+        </div>
+        
+        <div class="gallery__image">
+          <img class="lazy" data-src="/images/09.jpg" alt="Minimalism">
+        </div>
+        
+        <div class="gallery__image">
+          <img class="lazy" data-src="/images/04.jpg" alt="Minimalism">
+        </div>
+        
+      </div>
+    </div>
+    
+  </div>
+</div> -->
+              <!-- <div class="col col-4 col-d-6 col-t-12">
+  <div class="widget widget-subscribe">
+    <div class="widget__head">
+      <h3 class="widget__title">Subscribe to new posts</h3>
+    </div>
+    <div class="subscribe__inner">
+      <div class="subscribe__group">
+        <div class="subscribe__description">Subscribe to our newsletter and we’ll send you the emails of latest posts.</div>
+      </div>
+      <form class="subscribe-form validate"
+        action="#" method="POST" id="membedded-subscribe-form" name="membedded-subscribe-form" target="_blank" novalidate>
+        <label class="screen-reader-text" for="mce-EMAIL">Email address</label>
+        <input class="subscribe-email required email" id="mce-EMAIL" type="text" name="EMAIL"
+          placeholder="Your email address">
+        <button class="button subscribe-button" id="membedded-subscribe" type="submit" name="subscribe">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</div> -->
+            </div>
+          </div>
+        </div>
+
+        
+  <div class="social">
+    <ul class="social__list list-reset">
+      
+      <li class="social__item">
+        <a class="social__link" href="https://twitter.com/eugenebokhan" target="_blank" rel="noopener" aria-label="social icon"><i class="ion ion-logo-twitter"></i></a>
+      </li>
+      
+      <li class="social__item">
+        <a class="social__link" href="https://github.com/eugenebokhan" target="_blank" rel="noopener" aria-label="social icon"><i class="ion ion-logo-github"></i></a>
+      </li>
+      
+    </ul>
+  </div>
+
+        <div class="copyright">2021 &copy; <a href="/">Eugene's Blog</a></div>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- end footer -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="/js/scripts.js"></script>
+</body>
+
+</html>
