@@ -117,8 +117,8 @@ You see that the tool has detected that we deleted a public declaration of the `
 
 In order to simplify the work with the API digester, I created a small wrapper around it called [swift-package-api-diff](https://github.com/eugenebokhan/swift-package-api-diff). The wrapper also has two commands:
 
-- `api-changes-type` (default): get majority of api changes: breaking or non-breaking;
-- `api-changes-description`: get api changes description.
+- `api-changes-type` (default): get majority of API changes: breaking or non-breaking;
+- `api-changes-description`: get API changes description.
 
 Let's download and install it:
 
@@ -152,7 +152,7 @@ As a result, you will see:
 
 The wrapper sanitizes the API Digester's output and shows only non-empty types changes.
 
-If you modify new_package in another way, for example, by adding a new declaration:
+If you modify `new_package` in another way, for example, by adding a new declaration:
 
 {% highlight swift %}
 public let newPublicValue = Float.zero

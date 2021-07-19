@@ -329,8 +329,8 @@ Struct Package has been removed
 <p>In order to simplify the work with the API digester, I created a small wrapper around it called <a href="https://github.com/eugenebokhan/swift-package-api-diff">swift-package-api-diff</a>. The wrapper also has two commands:</p>
 
 <ul>
-  <li><code class="language-plaintext highlighter-rouge">api-changes-type</code> (default): get majority of api changes: breaking or non-breaking;</li>
-  <li><code class="language-plaintext highlighter-rouge">api-changes-description</code>: get api changes description.</li>
+  <li><code class="language-plaintext highlighter-rouge">api-changes-type</code> (default): get majority of API changes: breaking or non-breaking;</li>
+  <li><code class="language-plaintext highlighter-rouge">api-changes-description</code>: get API changes description.</li>
 </ul>
 
 <p>Let’s download and install it:</p>
@@ -357,7 +357,7 @@ Struct Package has been removed
 
 <p>The wrapper sanitizes the API Digester’s output and shows only non-empty types changes.</p>
 
-<p>If you modify new_package in another way, for example, by adding a new declaration:</p>
+<p>If you modify <code class="language-plaintext highlighter-rouge">new_package</code> in another way, for example, by adding a new declaration:</p>
 
 <figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">public</span> <span class="k">let</span> <span class="nv">newPublicValue</span> <span class="o">=</span> <span class="kt">Float</span><span class="o">.</span><span class="n">zero</span></code></pre></figure>
 
