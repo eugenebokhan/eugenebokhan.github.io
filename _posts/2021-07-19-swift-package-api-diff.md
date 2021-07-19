@@ -150,8 +150,56 @@ As a result, you will see:
  - Struct Package has been removed
 {% endhighlight %}
 
-The wrapper sanitizes the API Digester's output and shows only non-empty types changes. 
+The wrapper sanitizes the API Digester's output and shows only non-empty types changes.
+
+If you modify new_package in another way, for example, by adding a new declaration:
+
+{% highlight swift %}
+public let newPublicValue = Float.zero
+{% endhighlight %}
+
+you will get the following result:
+
+{% highlight bash %}
+/* Added Decls */
+ - Var newPublicValue has been added
+{% endhighlight %}
+
+Let's continue and replace the `struct` keyword with `class`
+
+{% highlight swift %}
+public class Package {
+{% endhighlight %}
+
+In this case you will get:
+
+{% highlight bash %}
+/* Moved Decls */
+ - Struct Package has been changed to a Class
+/* Added Decls */
+ - Var newPublicValue has been added
+{% endhighlight %}
+
+And, finally, if you replace the value of `text` with a number literal:
+
+{% highlight swift %}
+public private(set) var text = 1
+{% endhighlight %}
+
+the tool will output:
+
+{% highlight bash %}
+/* Type Changes */
+ - Accessor Package.text.Get() has return type change from Swift.String to Swift.Int
+ - Var Package.text has declared type change from Swift.String to Swift.Int
+/* Moved Decls */
+ - Struct Package has been changed to a Class
+/* Added Decls */
+ - Var newPublicValue has been added
+{% endhighlight %}
+
+You can continue playing with **swift-package-api-diff** with your own packages. But you need to keep in mind that the current Xcode 13's API digester is still experimental and might not detect some changes in the packages. Another limitation of the tool is that it can work only with packages with macOS targets.
 
 ## Conclusion
 
-The current Xcode 13's API digester is experimental and doesn't detect some changes in the packages. Another limitation of the tool is that it can work only with packages with macOS targets. But I think it's good to be familiar with such a tool and keep your eye on the ball. Someday, Apple will release Xcode with a fully working and stable API digester. Until then you can experiment with `swift-package-api-diff` and contribute to the Swift compiler to improve the tool. Thank you for reading 🙂.
+I think it's good to be familiar with such a tool and keep your eye on the ball. Someday, Apple will release Xcode with a fully working and stable API digester. Until then, you can experiment with `swift-package-api-diff` and contribute to the Swift compiler to improve the tool. Thank you for reading 🙂.

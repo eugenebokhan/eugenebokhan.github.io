@@ -357,9 +357,45 @@ Struct Package has been removed
 
 <p>The wrapper sanitizes the API Digester’s output and shows only non-empty types changes.</p>
 
+<p>If you modify new_package in another way, for example, by adding a new declaration:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">public</span> <span class="k">let</span> <span class="nv">newPublicValue</span> <span class="o">=</span> <span class="kt">Float</span><span class="o">.</span><span class="n">zero</span></code></pre></figure>
+
+<p>you will get the following result:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">/<span class="k">*</span> Added Decls <span class="k">*</span>/
+ - Var newPublicValue has been added</code></pre></figure>
+
+<p>Let’s continue and replace the <code class="language-plaintext highlighter-rouge">struct</code> keyword with <code class="language-plaintext highlighter-rouge">class</code></p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">public</span> <span class="kd">class</span> <span class="kt">Package</span> <span class="p">{</span></code></pre></figure>
+
+<p>In this case you will get:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">/<span class="k">*</span> Moved Decls <span class="k">*</span>/
+ - Struct Package has been changed to a Class
+/<span class="k">*</span> Added Decls <span class="k">*</span>/
+ - Var newPublicValue has been added</code></pre></figure>
+
+<p>And, finally, if you replace the value of <code class="language-plaintext highlighter-rouge">text</code> with a number literal:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">text</span> <span class="o">=</span> <span class="mi">1</span></code></pre></figure>
+
+<p>the tool will output:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">/<span class="k">*</span> Type Changes <span class="k">*</span>/
+ - Accessor Package.text.Get<span class="o">()</span> has <span class="k">return </span><span class="nb">type </span>change from Swift.String to Swift.Int
+ - Var Package.text has declared <span class="nb">type </span>change from Swift.String to Swift.Int
+/<span class="k">*</span> Moved Decls <span class="k">*</span>/
+ - Struct Package has been changed to a Class
+/<span class="k">*</span> Added Decls <span class="k">*</span>/
+ - Var newPublicValue has been added</code></pre></figure>
+
+<p>You can continue playing with <strong>swift-package-api-diff</strong> with your own packages. But you need to keep in mind that the current Xcode 13’s API digester is still experimental and might not detect some changes in the packages. Another limitation of the tool is that it can work only with packages with macOS targets.</p>
+
 <h2 id="conclusion">Conclusion</h2>
 
-<p>The current Xcode 13’s API digester is experimental and doesn’t detect some changes in the packages. Another limitation of the tool is that it can work only with packages with macOS targets. But I think it’s good to be familiar with such a tool and keep your eye on the ball. Someday, Apple will release Xcode with a fully working and stable API digester. Until then you can experiment with <code class="language-plaintext highlighter-rouge">swift-package-api-diff</code> and contribute to the Swift compiler to improve the tool. Thank you for reading 🙂.</p>
+<p>I think it’s good to be familiar with such a tool and keep your eye on the ball. Someday, Apple will release Xcode with a fully working and stable API digester. Until then, you can experiment with <code class="language-plaintext highlighter-rouge">swift-package-api-diff</code> and contribute to the Swift compiler to improve the tool. Thank you for reading 🙂.</p>
 
     </div>
 
