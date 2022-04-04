@@ -17,9 +17,26 @@ I got BS in power engineering at Belarusian National Technical University and fi
 
 ## Experience
 
+### Principal Software Engineer, ZERO10
+
+[https://zero10.app](https://zero10.app)
+
+August 2021 to present
+
+In ZER010 I use my experience in high performance computing to make the core of the app working as fast as possible. Also:
+
+* Oversee all the processes around rendering, cloth physics simulation, ML integration, and
+high-performance computing;
+* Integrate neural networks into the app, profiling, debugging, testing the performance, and
+adapting the infrastructure to changes;
+* Work towards the development of a custom 3D engine;
+* Lead the optimisation efforts for the AR fashion platform.
+
 ### Software Engineer, Prisma AI
 
-[https://prisma-ai.com](https://prisma-ai.com), May 2018 to present
+[https://prisma-ai.com](https://prisma-ai.com)
+
+May 2018 to August 2021
 
 Working mainly on [Lensa](https://itunes.apple.com/us/app/lensa-photo-editor/id1436732536) app.
 
@@ -34,7 +51,8 @@ In Prisma, being a lead hpc engineer, my role is to make a synergistic collabora
 
 ### Software Engineer, Taqtile
 
-[https://taqtile.com](https://taqtile.com), Taqtile
+[https://taqtile.com](https://taqtile.com)
+
 Feb 2017 – May 2018
 
 Design and implementation of iOS version of Taqtile's main product, [Manifest](https://taqtile.com/manifest/#Create).
