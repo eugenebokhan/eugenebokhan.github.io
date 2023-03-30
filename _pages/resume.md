@@ -7,7 +7,7 @@ image: '/images/resume.png'
 
 ## Overview
 
-I'm a software engineer with over 5 years of production experience of software development for the iOS, and macOS.
+I'm a software engineer with over 7 years of production experience of software development for the iOS, and macOS.
 
 My experience has both breadth and depth as I've worked with different parts of modern native app development: UI, Network, AR, Rendering, CV, GPGPU and more.
 
