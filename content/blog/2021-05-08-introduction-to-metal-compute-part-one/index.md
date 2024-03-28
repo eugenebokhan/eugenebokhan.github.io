@@ -5,19 +5,6 @@ date = 2021-05-08
 [taxonomies]
 categories = ["Tech"]
 tags = ["iOS", "Metal"]
-
-[extra]
-lang = "en"
-toc = true
-comment = false
-copy = true
-math = false
-mermaid = false
-outdate_alert = false
-outdate_alert_days = 120
-display_tags = true
-truncate_summary = false
-featured = false
 +++
 
 For a couple of years, I've been working as an iOS software engineer with a focus on GPGPU using Metal. It is an interesting sphere of iOS development that still lacks spread. In a series of articles, I'm going to describe how to build a simple image-processing Metal app.
