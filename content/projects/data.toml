@@ -1,0 +1,47 @@
+[[project]]
+name = "MetalTools"
+desc = "MetalTools provides a convenient, Swifty way of working with Metal. This library contains a lot of [read-to-use compute kernels](https://github.com/computer-graphics-tools/metal-tools/tree/main/Sources/MetalComputeTools/Kernels) and is heavily used in computer vision startups like [Prisma](https://prisma-ai.com) and [ZERO10](https://zero10.ar)."
+tags = ["iOS", "Metal"]
+img = "https://github.com/computer-graphics-tools/metal-tools/raw/main/Sources/MetalTools/MetalTools.docc/Resources/table-of-contents-art/metal-tools@2x.png"
+links = [
+  { name = "GitHub", url = "https://github.com/computer-graphics-tools/metal-tools" },
+  { name = "Documentation", url = "https://swiftpackageindex.com/computer-graphics-tools/metal-tools/documentation/metaltools" },
+]
+
+[[project]]
+name = "SharedGraphicsTools"
+desc = "A set of tools and extensions that allow sharing page-aligned memory allocation between different graphics APIs and provide view interop for them."
+tags = ["iOS", "Metal", "CoreGraphics", "Accelerate"]
+img = "https://github.com/computer-graphics-tools/shared-graphics-tools/raw/main/Sources/SharedGraphicsTools/SharedGraphicsTools.docc/Resources/documentation-art/shared-graphics-tools@2x.png"
+links = [
+  { name = "GitHub", url = "https://github.com/computer-graphics-tools/shared-graphics-tools" },
+]
+
+[[project]]
+name = "CoreVideoTools"
+desc = "CoreVideoTools offers a more idiomatic Swift interface to CoreVideo functionality, making it easier and safer to work with [CVPixelBuffers](https://developer.apple.com/documentation/corevideo/cvpixelbuffer-q2e), [IOSurfaces](https://developer.apple.com/documentation/iosurface), and related CoreVideo concepts in Swift code."
+tags = ["iOS", "CoreVideo"]
+img = "https://github.com/computer-graphics-tools/core-video-tools/raw/main/Sources/CoreVideoTools/CoreVideoTools.docc/Resources/table-of-contents-art/core-video-tools@2x.png"
+links = [
+  { name = "GitHub", url = "https://github.com/computer-graphics-tools/core-video-tools" },
+  { name = "Documentation", url = "https://swiftpackageindex.com/computer-graphics-tools/core-video-tools/documentation/corevideotools" },
+]
+
+[[project]]
+name = "SIMDTools"
+desc = "SIMDTools provides utility functions and extensions for working with SIMD matrices and vectors in Swift."
+tags = ["iOS", "SIMD"]
+img = "https://github.com/computer-graphics-tools/simd-tools/raw/main/Sources/SIMDTools/SIMDTools.docc/Resources/documentation-art/simd-tools@2x.png"
+links = [
+  { name = "GitHub", url = "https://github.com/computer-graphics-tools/simd-tools" },
+  { name = "Documentation", url = "https://swiftpackageindex.com/computer-graphics-tools/simd-tools/documentation/simdtools" },
+]
+
+[[project]]
+name = "WGPUTools"
+desc = "A Rust library providing utility functions and abstractions for working with [WGPU](wgpu.rs), similar to [MetalTools](https://github.com/computer-graphics-tools/metal-tools)."
+tags = ["Rust", "WGPU"]
+img = "https://github.com/computer-graphics-tools/wgpu-tools/raw/main/media/WGPUTools.png"
+links = [
+  { name = "GitHub", url = "https://github.com/computer-graphics-tools/wgpu-tools" },
+]
