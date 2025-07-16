@@ -38,11 +38,19 @@ Bachelor's degree, Professional Communication (English), 2015 - 2017
 
 ## Experience
 
+### Principal Software Engineer, Mirai
+
+[https://trymirai.com](https://trymirai.com)
+
+December 2024 to present
+
+At [Mirai](https://trymirai.com) I'm building the fastest on-device LLM inference engine for Apple platforms.
+
 ### Principal Software Engineer, ZERO10
 
 [https://zero10.ar](https://zero10.ar)
 
-August 2021 to present
+August 2021 to December 2024
 
 At [ZER010](https://zero10.ar), I used my experience in [Swift](https://developer.apple.com/swift) and [Metal](https://developer.apple.com/metal) programming to work on the core of the real-time digital try-on [technology](https://zero10.ar/tech) of the [ZERO10 app](https://apps.apple.com/us/app/zero10-ar-fashion-platform/id1580413828).
 
@@ -91,6 +99,10 @@ At [Taqtile](https://taqtile.com), I was responsible for the design and implemen
 #### [Metal Tools](https://github.com/computer-graphics-tools/metal-tools)
 
 MetalTools provides a convenient, Swifty way of working with [Metal](https://developer.apple.com/metal). This library contains a lot of [read-to-use compute kernels](https://github.com/computer-graphics-tools/metal-tools/tree/main/Sources/MetalComputeTools/Kernels) and is heavily used in computer vision startups like [Prisma](https://prisma-ai.com) and [ZERO10](https://zero10.ar).
+
+#### [SwiftSensors](https://github.com/trymirai/swift-sensors)
+
+A Swift package for accessing real device sensor readings, including thermal, voltage, current, memory, CPU, and disk statistics.
 
 #### [Shared Graphics Tools](https://github.com/computer-graphics-tools/shared-graphics-tools)
 
