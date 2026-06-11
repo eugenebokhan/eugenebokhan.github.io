@@ -1,0 +1,86 @@
+[[project]]
+name = "uzu"
+desc = "A high-performance on-device [LLM](https://en.wikipedia.org/wiki/Large_language_model) inference engine written in [Rust](https://www.rust-lang.org) and [Metal](https://developer.apple.com/metal), built at [Mirai](https://trymirai.com) to run models locally on [Apple silicon](https://en.wikipedia.org/wiki/Apple_silicon) with zero latency and full data privacy."
+tags = ["Rust", "Metal", "LLM"]
+links = [
+  { name = "GitHub", url = "https://github.com/trymirai/uzu" },
+]
+
+[[project]]
+name = "Metal Analyzer"
+desc = "A [Metal Shading Language](https://developer.apple.com/metal) language server (LSP) for VS Code, Cursor, Zed, and IntelliJ, offering real-time diagnostics via `xcrun metal`, auto-completion, hover documentation, and [clang-format](https://clang.llvm.org/docs/ClangFormat.html)-based formatting."
+tags = ["Metal", "LSP", "Rust"]
+links = [
+  { name = "GitHub", url = "https://github.com/computer-graphics-tools/metal-analyzer" },
+]
+
+[[project]]
+name = "ANE"
+desc = "Rust bindings for the [Apple Neural Engine](https://en.wikipedia.org/wiki/Neural_Engine) via the private `AppleNeuralEngine.framework`, providing a graph builder and compilation pipeline with zero-copy [IOSurface](https://developer.apple.com/documentation/iosurface)-backed I/O."
+tags = ["Rust", "Apple Neural Engine"]
+links = [
+  { name = "GitHub", url = "https://github.com/computer-graphics-tools/ane" },
+]
+
+[[project]]
+name = "mtl-rs"
+desc = "Rust bindings for Apple's [Metal](https://developer.apple.com/metal) API, built on the modern [objc2](https://github.com/madsmtm/objc2) ecosystem with coverage of the latest [Metal 4](https://developer.apple.com/metal) API."
+tags = ["Rust", "Metal"]
+links = [
+  { name = "GitHub", url = "https://github.com/computer-graphics-tools/mtl-rs" },
+]
+
+[[project]]
+name = "mpsgraph-rs"
+desc = "Modern Rust bindings for Apple's [Metal Performance Shaders Graph](https://developer.apple.com/documentation/metalperformanceshadersgraph) framework, exposing a high-level, type-safe graph API for defining and running neural networks on the GPU."
+tags = ["Rust", "MPS Graph"]
+links = [
+  { name = "GitHub", url = "https://github.com/computer-graphics-tools/mpsgraph-rs" },
+]
+
+[[project]]
+name = "MetalTools"
+desc = "MetalTools provides a convenient, Swifty way of working with Metal. This library contains a lot of [read-to-use compute kernels](https://github.com/computer-graphics-tools/metal-tools/tree/main/Sources/MetalComputeTools/Kernels) and is heavily used in computer vision startups like [Prisma](https://prisma-ai.com) and [ZERO10](https://zero10.ar)."
+tags = ["iOS", "Metal"]
+img = "https://github.com/computer-graphics-tools/metal-tools/raw/main/Sources/MetalTools/MetalTools.docc/Resources/table-of-contents-art/metal-tools@2x.png"
+links = [
+  { name = "GitHub", url = "https://github.com/computer-graphics-tools/metal-tools" },
+  { name = "Documentation", url = "https://swiftpackageindex.com/computer-graphics-tools/metal-tools/documentation/metaltools" },
+]
+
+[[project]]
+name = "SharedGraphicsTools"
+desc = "A set of tools and extensions that allow sharing page-aligned memory allocation between different graphics APIs and provide view interop for them."
+tags = ["iOS", "Metal", "CoreGraphics", "Accelerate"]
+img = "https://github.com/computer-graphics-tools/shared-graphics-tools/raw/main/Sources/SharedGraphicsTools/SharedGraphicsTools.docc/Resources/documentation-art/shared-graphics-tools@2x.png"
+links = [
+  { name = "GitHub", url = "https://github.com/computer-graphics-tools/shared-graphics-tools" },
+  { name = "Documentation", url = "https://swiftpackageindex.com/computer-graphics-tools/shared-graphics-tools/documentation/sharedgraphicstools" },
+]
+
+[[project]]
+name = "CoreVideoTools"
+desc = "CoreVideoTools offers a more idiomatic Swift interface to CoreVideo functionality, making it easier and safer to work with [CVPixelBuffers](https://developer.apple.com/documentation/corevideo/cvpixelbuffer-q2e), [IOSurfaces](https://developer.apple.com/documentation/iosurface), and related CoreVideo concepts in Swift code."
+tags = ["iOS", "CoreVideo"]
+img = "https://github.com/computer-graphics-tools/core-video-tools/raw/main/Sources/CoreVideoTools/CoreVideoTools.docc/Resources/table-of-contents-art/core-video-tools@2x.png"
+links = [
+  { name = "GitHub", url = "https://github.com/computer-graphics-tools/core-video-tools" },
+  { name = "Documentation", url = "https://swiftpackageindex.com/computer-graphics-tools/core-video-tools/documentation/corevideotools" },
+]
+
+[[project]]
+name = "Smelter"
+desc = "Overhead-free [ONNX](https://onnx.ai) graph inference engine with [Metal Performance Shaders](https://developer.apple.com/documentation/metalperformanceshaders) under the hood."
+tags = ["iOS", "Metal", "ONNX"]
+links = [
+  { name = "GitHub", url = "https://github.com/prisma-ai/Smelter" },
+]
+
+[[project]]
+name = "WGPUTools"
+desc = "A Rust library providing utility functions and abstractions for working with [WGPU](https://wgpu.rs)."
+tags = ["Rust", "WGPU"]
+img = "https://github.com/computer-graphics-tools/wgpu-tools/raw/main/media/WGPUTools.png"
+links = [
+  { name = "GitHub", url = "https://github.com/computer-graphics-tools/wgpu-tools" },
+]
