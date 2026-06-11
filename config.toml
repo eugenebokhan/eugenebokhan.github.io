@@ -1,7 +1,7 @@
 # The URL the site will be built for
 base_url = "https://eugenebokhan.github.io"
 title = "Eugene's Blog"
-description = "iOS | Metal"
+description = "Rust | Metal | iOS"
 default_language = "en"
 theme = "serene"
 output_dir = "public"
@@ -37,7 +37,7 @@ anchors = "on"
 
 name = "Eugene Bokhan"
 id = "eugenebokhan"
-bio = "iOS | Metal"
+bio = "Rust | Metal | iOS"
 avatar = "img/avatar.webp"
 links = [
     { name = "LinkedIn", icon = "linkedin", url = "https://linkedin.com/in/eugenebokhan" },

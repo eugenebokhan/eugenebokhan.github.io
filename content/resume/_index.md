@@ -18,9 +18,8 @@ I'm a software engineer with experience in working with iOS, Computer Graphics a
 
 ## Skills
 
-- iOS, Swift, Metal, Metal Performance Shaders, Accelerate, CoreML, Rust, WGPU
+- Rust, Metal, Vulkan, Swift, iOS
 - Teamwork, communication, collaboration, project ownership, responsibility
-- Attention to detail, analytical thinking, problem-solving, passion for quality, adaptability
 
 ## Professional Status
 
@@ -28,13 +27,17 @@ Holder of a UK Global Talent Visa, authorizing work in the United Kingdom.
 
 ## Education
 
-### Belarusian National Technical University
+### Belarusian National Technical University | Minsk, Belarus
 
-Bachelor's degree, Relay Protection and Automation of Electrical Power Systems, 2012 - 2017
+2012 – 2017
 
-### Academy of Postgraduate Education
+- Relay Protection and Automation of Electrical Power Systems.
 
-Bachelor's degree, Professional Communication (English), 2015 - 2017
+### Academy of Postgraduate Education | Minsk, Belarus
+
+2015 – 2017
+
+- Professional Communication (English).
 
 ## Experience
 
@@ -42,15 +45,23 @@ Bachelor's degree, Professional Communication (English), 2015 - 2017
 
 [https://trymirai.com](https://trymirai.com)
 
-December 2024 to present
+Dec 2024 – Present · London, England
 
-At [Mirai](https://trymirai.com) I'm building the fastest on-device LLM inference engine for Apple platforms.
+At [Mirai](https://trymirai.com), I'm responsible for the design and development of [uzu](https://github.com/trymirai/uzu) — our open-source, high-performance on-device [LLM](https://en.wikipedia.org/wiki/Large_language_model) inference engine written in [Rust](https://www.rust-lang.org) and [Metal](https://developer.apple.com/metal) — leveraging my experience with low-level optimization, GPU programming, and ML.
+
+- **GPU Compute & Matmul Engine**: designed and built the [Metal](https://developer.apple.com/metal) compute backend at the core of the engine, including [GEMM](https://en.wikipedia.org/wiki/Matrix_multiplication) / GEMV [matrix-multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication) kernels with split-K reduction, [simdgroup-matrix](https://developer.apple.com/metal/Metal-Shading-Language-Specification.pdf) (MXU) acceleration, and tuned tiling and vectorized-loading heuristics for both prefill and decode.
+
+- **Low-Bit Quantization**: implemented quantized matmul (QMM) supporting 4- and 8-bit weights with scale-bias, scale-zero-point, and symmetric [quantization](https://en.wikipedia.org/wiki/Quantization_(signal_processing)) schemes, and integrated the [Random Hadamard Transform](https://en.wikipedia.org/wiki/Hadamard_transform) (RHT) for accuracy-preserving low-bit inference.
+
+- **Kernel DSL & Compute-Graph Generalization**: co-designed a build-time DSL a successor of [mtlswift](https://github.com/eugenebokhan/mtlswift) that code-generates and specializes [Metal](https://developer.apple.com/metal) kernels and generalized the engine's encodable compute blocks.
+
+- **Profiling & Benchmarking**: built GPU tracing and Metal-analysis tooling along with a cross-device benchmarking harness, profiling and tuning token throughput (prefill / decode) across [Apple silicon](https://en.wikipedia.org/wiki/Apple_silicon) (M1–M4, A18 Pro) and iOS.
 
 ### Principal Software Engineer, ZERO10
 
 [https://zero10.ar](https://zero10.ar)
 
-August 2021 to December 2024
+Aug 2021 – Dec 2024 · London, England
 
 At [ZER010](https://zero10.ar), I used my experience in [Swift](https://developer.apple.com/swift) and [Metal](https://developer.apple.com/metal) programming to work on the core of the real-time digital try-on [technology](https://zero10.ar/tech) of the [ZERO10 app](https://apps.apple.com/us/app/zero10-ar-fashion-platform/id1580413828).
 
@@ -64,11 +75,11 @@ At [ZER010](https://zero10.ar), I used my experience in [Swift](https://develope
 
 - **Tooling**: developed and maintained a set of internal tools for the ML team, 3D designers as well as marketing team, which led to an increase in the speed of delivering new garments, app improvements, and testing: Internal Garments Design Tool, Photo Try-On & Video Try-On Tools, CLI Tools.
 
-### Software Engineer, Prisma AI
+### Software Engineer, Prisma Labs
 
 [https://prisma-ai.com](https://prisma-ai.com)
 
-May 2018 – Sep 2021
+May 2018 – Aug 2021 · Moscow, Russia
 
 At [Prisma](https://prisma-ai.com), my role was to make a synergistic collaboration with both UI and RnD teams to solve lots of image processing-related tasks while working on [Lensa](https://apps.apple.com/us/app/lensa-photo-picture-editor/id1436732536) and [Prisma](https://apps.apple.com/us/app/prisma-photo-editor/id1122649984) apps.
 
@@ -84,7 +95,7 @@ At [Prisma](https://prisma-ai.com), my role was to make a synergistic collaborat
 
 [https://taqtile.com](https://taqtile.com)
 
-Feb 2017 – May 2018
+Feb 2017 – May 2018 · Minsk, Belarus
 
 At [Taqtile](https://taqtile.com), I was responsible for the design and implementation of the [iOS version](https://taqtile.com/ipad) of the company's main product, Manifest.
 
@@ -96,13 +107,29 @@ At [Taqtile](https://taqtile.com), I was responsible for the design and implemen
 
 [https://github.com/eugenebokhan](https://github.com/eugenebokhan)
 
+#### [uzu](https://github.com/trymirai/uzu)
+
+A high-performance on-device [LLM](https://en.wikipedia.org/wiki/Large_language_model) inference engine written in [Rust](https://www.rust-lang.org) and [Metal](https://developer.apple.com/metal), built at [Mirai](https://trymirai.com) to run models locally on [Apple silicon](https://en.wikipedia.org/wiki/Apple_silicon) with zero latency and full data privacy. I built its [Metal](https://developer.apple.com/metal) compute backend — quantized matmul kernels, the kernel DSL, and the benchmarking tooling.
+
+#### [Metal Analyzer](https://github.com/computer-graphics-tools/metal-analyzer)
+
+A [Metal Shading Language](https://developer.apple.com/metal) language server (LSP) for VS Code, Cursor, Zed, and IntelliJ, offering real-time diagnostics via `xcrun metal`, auto-completion, hover documentation, and [clang-format](https://clang.llvm.org/docs/ClangFormat.html)-based formatting.
+
+#### [ANE](https://github.com/computer-graphics-tools/ane)
+
+Rust bindings for the [Apple Neural Engine](https://en.wikipedia.org/wiki/Neural_Engine) via the private `AppleNeuralEngine.framework`, providing a graph builder and compilation pipeline with zero-copy [IOSurface](https://developer.apple.com/documentation/iosurface)-backed I/O.
+
+#### [mtl-rs](https://github.com/computer-graphics-tools/mtl-rs)
+
+Rust bindings for Apple's [Metal](https://developer.apple.com/metal) API, built on the modern [objc2](https://github.com/madsmtm/objc2) ecosystem with coverage of the latest [Metal 4](https://developer.apple.com/metal) API.
+
+#### [mpsgraph-rs](https://github.com/computer-graphics-tools/mpsgraph-rs)
+
+Modern Rust bindings for Apple's [Metal Performance Shaders Graph](https://developer.apple.com/documentation/metalperformanceshadersgraph) framework, exposing a high-level, type-safe graph API for defining and running neural networks on the GPU.
+
 #### [Metal Tools](https://github.com/computer-graphics-tools/metal-tools)
 
 MetalTools provides a convenient, Swifty way of working with [Metal](https://developer.apple.com/metal). This library contains a lot of [read-to-use compute kernels](https://github.com/computer-graphics-tools/metal-tools/tree/main/Sources/MetalComputeTools/Kernels) and is heavily used in computer vision startups like [Prisma](https://prisma-ai.com) and [ZERO10](https://zero10.ar).
-
-#### [SwiftSensors](https://github.com/trymirai/swift-sensors)
-
-A Swift package for accessing real device sensor readings, including thermal, voltage, current, memory, CPU, and disk statistics.
 
 #### [Shared Graphics Tools](https://github.com/computer-graphics-tools/shared-graphics-tools)
 
@@ -119,3 +146,9 @@ Overhead-free [ONNX](https://onnx.ai) graph inference engine with [Metal Perform
 #### [WGPUTools](https://github.com/computer-graphics-tools/wgpu-tools)
 
 A Rust library providing utility functions and abstractions for working with [WGPU](https://wgpu.rs).
+
+## Community Contribution
+
+#### [Introduction To Metal Compute](https://eugenebokhan.github.io/blog)
+
+A [set of tutorials](https://eugenebokhan.github.io/blog) describing how to build an [image-processing Metal iOS app](https://github.com/eugenebokhan/introduction-to-metal-compute) from scratch.
